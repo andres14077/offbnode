@@ -5,15 +5,20 @@
     <!-- vehicle pose -->
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
-    <arg name="z" default="0"/>
+    <arg name="z" default="114"/>
     <arg name="R" default="0"/>
     <arg name="P" default="0"/>
     <arg name="Y" default="0"/>
     <!-- vehicle model and world -->
     <arg name="vehicle" default="iris"/>
     <arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/moun1.world"/>
+    <!-- MAVROS configs -->
+    <arg name="gcs_url" default="udp://:18570@192.168.2.1:14550"/>
 
-    <include file="$(find px4)/launch/mavros_posix_sitl.launch">
+    <env name="PX4_HOME_LAT" value="4.722919" />
+    <env name="PX4_HOME_LON" value="-73.9901342" />
+
+    <include file="$(find offbnode)/launch/mavros_posix_sitl.launch">
         <arg name="x" value="$(arg x)"/>
         <arg name="y" value="$(arg y)"/>
         <arg name="z" value="$(arg z)"/>
@@ -22,5 +27,6 @@
         <arg name="Y" value="$(arg Y)"/>
         <arg name="world" value="$(arg world)"/>
         <arg name="vehicle" value="$(arg vehicle)"/>
+        <arg name="gcs_url" value="$(arg gcs_url)"/>
     </include>
 </launch>
