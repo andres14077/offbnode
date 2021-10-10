@@ -37,7 +37,7 @@ void Cap_imag::Image_Calback(const sensor_msgs::Image::ConstPtr &image){
         this->capture_image=0;
         cv_bridge::CvImagePtr cv_ptr;
         cv_ptr = cv_bridge::toCvCopy(image,sensor_msgs::image_encodings::BGR8);
-        std::string name="Captura_No_"+std::to_string(this->last_id)+".png";
+        std::string name="/home/andres1407/Capture_px4/Captura_No_"+std::to_string(this->last_id)+".png";
 
         cv:: imwrite(name, cv_ptr->image);
         ROS_INFO("captura de imagen %d",this->last_id);
