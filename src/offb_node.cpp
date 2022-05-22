@@ -4,6 +4,8 @@
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/State.h>
+#include <tf/transform_listener.h>
+#include <tf/transform_datatypes.h>
 #include <string.h>
 
 mavros_msgs::State current_state;
@@ -40,6 +42,7 @@ int main(int argc, char **argv)
     pose.pose.position.x = x;
     pose.pose.position.y = y;
     pose.pose.position.z = z;
+    pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(y,x));
     ROS_INFO("x=[%f],y=[%f],z=[%f]",x,y,z);
 
     //send a few setpoints before starting

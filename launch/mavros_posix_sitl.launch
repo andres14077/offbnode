@@ -23,7 +23,7 @@
     <arg name="respawn_gazebo" default="false"/>
     <!-- MAVROS configs -->
     <arg name="fcu_url" default="udp://:14540@localhost:14557"/>
-    <arg name="gcs_url" default="udp://:18570@192.168.2.1:14550"/>
+    <arg name="gcs_url" default="udp://:18570@localhost:14550"/>
     <arg name="respawn_mavros" default="false"/>
     <!-- PX4 configs -->
     <arg name="interactive" default="true"/>

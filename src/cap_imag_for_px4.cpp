@@ -25,7 +25,7 @@ private: bool capture_image;
 Cap_imag::Cap_imag(const std::string &_name){
     ROS_INFO("init node");
 //init subscriptor
-    this->Image_subscriptor=this->nodo.subscribe<sensor_msgs::Image>("/iris/usb_cam/image_raw",5,&Cap_imag::Image_Calback,this);
+    this->Image_subscriptor=this->nodo.subscribe<sensor_msgs::Image>("/iris_gimbal/usb_cam/image_raw",5,&Cap_imag::Image_Calback,this);
     this->Waypoint_subscriptor=this->nodo.subscribe<mavros_msgs::WaypointReached>("/mavros/mission/reached",2,&Cap_imag::Waypoint_Reached_Calback,this);
 
 // init envioremnt variable

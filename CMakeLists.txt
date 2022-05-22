@@ -17,6 +17,7 @@ find_package(catkin REQUIRED
       mavros_msgs
       cv_bridge
       OpenCV
+      tf
       )
   include_directories(${OpenCV_INCLUDE_DIRS})
 ## System dependencies are found with CMake's conventions
@@ -149,6 +150,11 @@ include_directories(
 add_executable(cap_imag_for_px4 src/cap_imag_for_px4.cpp)
 
 target_link_libraries(cap_imag_for_px4
+  ${catkin_LIBRARIES}
+)
+add_executable(cap_imag_for_user src/cap_imag_for_user.cpp)
+
+target_link_libraries(cap_imag_for_user
   ${catkin_LIBRARIES}
 )
 #############

@@ -2,6 +2,7 @@
 cd
 sudo rm -r ~/Firmware
 git clone https://github.com/PX4/Firmware.git
+
 cd ~/Firmware
 git checkout v1.9.0
 DONT_RUN=1 make px4_sitl_default gazebo 

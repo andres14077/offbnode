@@ -347,7 +347,7 @@
       </axis>
     </joint>
 <link name="cgo3_mount_link">
-    <pose frame=''>0 0 0.026 0 0 0</pose>
+    <pose frame=''>0 0 0.026 0 0 3.14159</pose>
     <inertial>
     <!-- place holder -->
     <pose>-0.041 0 -0.162 0 0 0</pose>
@@ -402,7 +402,7 @@
 </joint>
 
 <link name="cgo3_vertical_arm_link">
-<pose frame=''>0 0 0.026 0  0 0</pose>
+<pose frame=''>0 0 0.026 0  0 3.14159</pose>
   <inertial>
     <!-- place holder -->
     <pose>-0.041 0 -0.162 0 0 0</pose>
@@ -465,7 +465,7 @@
 </joint>
 
 <link name="cgo3_horizontal_arm_link">
-<pose frame=''>0 0 0.026 0 0 0</pose>
+<pose frame=''>0 0 0.026 0 0 3.14159</pose>
   <inertial>
     <!-- place holder -->
     <pose>-0.041 0 -0.081 0 0 0</pose>
@@ -505,8 +505,8 @@
   <axis>
     <xyz>-1 0 0</xyz>
     <limit>
-      <lower>-0.785398</lower>
-      <upper>0.785398</upper>
+      <lower>-785398</lower>
+      <upper>785398</upper>
       <effort>100</effort>
       <velocity>-1</velocity>
     </limit>
@@ -528,7 +528,7 @@
 </joint>
 
 <link name="cgo3_camera_link">
-<pose frame=''>0 0 0.026 0 0 0</pose>
+<pose frame=''>0 0 0.026 0 0 3.14159</pose>
   <inertial>
     <!-- place holder -->
     <pose>-0.041 0 -0.162 0 0 0</pose>
@@ -582,6 +582,7 @@
     </material>
   </visual>
   <sensor name="camera_imu" type="imu">
+    <pose>-0.051 0 -0.162 0 0 3.14159</pose>
     <always_on>1</always_on>
   </sensor>
   <sensor name="camera" type="camera">
@@ -638,14 +639,13 @@
          camera image size) -->
     <!--<plugin name="GstCameraPlugin" filename="libgazebo_gst_camera_plugin.so">
         <robotNamespace></robotNamespace>
-        <udpHost>127.0.0.1</udpHost>
-        <udpPort>5605</udpPort>
+        <udpPort>5600</udpPort>
     </plugin>
     <plugin name="GeotaggedImagesPlugin" filename="libgazebo_geotagged_images_plugin.so">
-        <robotNamespace>typhoon_h480</robotNamespace>
+        <robotNamespace></robotNamespace>
         <interval>1</interval>
-        <width>3840</width>
-        <height>2160</height>
+        <width>4608</width>
+        <height>3456</height>
     </plugin>-->
   </sensor>
 </link>
@@ -656,8 +656,8 @@
   <axis>
     <xyz>0 -1 0</xyz>
     <limit>
-      <lower>-1.05</lower>
-      <upper>2.09</upper>
+      <lower>-315</lower>
+      <upper>315</upper>
       <effort>100</effort>
       <velocity>-1</velocity>
     </limit>
@@ -696,10 +696,13 @@
   <collision name='collision'>
     <pose>-0.005 -0.14314 -0.207252 0 1.56893 0</pose>
     <geometry>
-      <cylinder>
+    <box>
+      <size>0.024418 0.024418 0.3</size>
+    </box>
+      <!--<cylinder>
         <radius>0.012209</radius>
         <length>0.3</length>
-      </cylinder>
+      </cylinder>-->
     </geometry>
     <surface>
       <friction>
@@ -803,10 +806,13 @@
   <collision name='collision'>
     <pose>-0.005 0.14314 -0.207252 0 1.56893 0</pose>
     <geometry>
-      <cylinder>
+    <box>
+      <size>0.024418 0.024418 0.3</size>
+    </box>
+      <!--<cylinder>
         <radius>0.012209</radius>
         <length>0.3</length>
-      </cylinder>
+      </cylinder>-->
     </geometry>
     <surface>
       <friction>
@@ -968,14 +974,11 @@
     </plugin>
     <plugin name='gps_plugin' filename='libgazebo_gps_plugin.so'>
       <robotNamespace/>
-      <gpsNoise>1</gpsNoise>
+      <gpsNoise>0</gpsNoise>
     </plugin>
     <plugin name='magnetometer_plugin' filename='libgazebo_magnetometer_plugin.so'>
       <robotNamespace/>
       <pubRate>20</pubRate>
-      <noiseDensity>0.0004</noiseDensity>
-      <randomWalk>6.4e-06</randomWalk>
-      <biasCorrelationTime>600</biasCorrelationTime>
       <magTopic>/mag</magTopic>
     </plugin>
     <plugin name='barometer_plugin' filename='libgazebo_barometer_plugin.so'>
@@ -1001,9 +1004,9 @@
       <sdk_udp_port>14540</sdk_udp_port>
       <hil_mode>0</hil_mode>
       <hil_state_level>0</hil_state_level>
-      <!--<vehicle_is_tailsitter>0</vehicle_is_tailsitter>
+      <vehicle_is_tailsitter>0</vehicle_is_tailsitter>
       <send_vision_estimation>1</send_vision_estimation>
-      <send_odometry>1</send_odometry>-->
+      <send_odometry>1</send_odometry>
       <enable_lockstep>1</enable_lockstep>
       <use_tcp>1</use_tcp>
       <motorSpeedCommandPubTopic>/gazebo/command/motor_speed</motorSpeedCommandPubTopic>
@@ -1053,7 +1056,7 @@
         <channel name="gimbal_pitch">
           <input_index>7</input_index>
           <input_offset>0</input_offset>
-          <input_scaling>3.1415</input_scaling>
+          <input_scaling>-3.1415</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position_gztopic</joint_control_type>
@@ -1062,9 +1065,9 @@
         </channel>
         <channel name="gimbal_yaw">
           <input_index>8</input_index>
-          <input_offset>0</input_offset>
+          <input_offset>1</input_offset>
           <input_scaling>-3.1415</input_scaling>
-          <zero_position_disarmed>0</zero_position_disarmed>
+          <zero_position_disarmed>3.1415</zero_position_disarmed>
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position_gztopic</joint_control_type>
           <gztopic>/gimbal_yaw_cmd</gztopic>
@@ -1113,14 +1116,6 @@
       <robotNamespace/>
       <linkName>/imu_link</linkName>
       <imuTopic>/imu</imuTopic>
-      <gyroscopeNoiseDensity>0.0003394</gyroscopeNoiseDensity>
-      <gyroscopeRandomWalk>3.8785e-05</gyroscopeRandomWalk>
-      <gyroscopeBiasCorrelationTime>1000.0</gyroscopeBiasCorrelationTime>
-      <gyroscopeTurnOnBiasSigma>0.0087</gyroscopeTurnOnBiasSigma>
-      <accelerometerNoiseDensity>0.004</accelerometerNoiseDensity>
-      <accelerometerRandomWalk>0.006</accelerometerRandomWalk>
-      <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
-      <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
     </plugin>
     <plugin name='gimbal_controller' filename='libgazebo_gimbal_controller_plugin.so'>
       <joint_yaw>iris_gimbal::cgo3_vertical_arm_joint</joint_yaw>
@@ -1129,9 +1124,9 @@
       <control_gimbal_channels>
         <channel>
           <joint_control_pid>
-            <p>1.0</p>
-            <i>0.1</i>
-            <d>0.0005</d>
+            <p>-0.01</p>
+            <i>-0.00</i>
+            <d>-0.00000</d>
             <iMax>0</iMax>
             <iMin>0</iMin>
             <cmdMax>1.0</cmdMax>

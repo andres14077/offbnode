@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <model name="p3">
+	<static>true</static>
+	<link name="link">
+	  <pose>0 0 0 0 0 0</pose>
+	    <collision name="my_collision">
+		<geometry>
+                   <mesh><uri>file://models/p3/untitled.dae</uri></mesh>
+		 </geometry>
+	    </collision>
+
+	    <visual name="my_visual">
+		<geometry>
+                   <mesh><uri>file://models/p3/untitled.dae</uri></mesh>
+		 </geometry>
+	    </visual>
+	</link>
+</model>
+</sdf>

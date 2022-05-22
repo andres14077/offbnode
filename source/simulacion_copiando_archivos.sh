@@ -3,13 +3,6 @@
 cp -r ~/catkin_ws/src/offbnode/models/* ~/Firmware/Tools/sitl_gazebo/models
 cp -r ~/catkin_ws/src/offbnode/worlds ~/Firmware/Tools/sitl_gazebo
 cp -r ~/catkin_ws/src/offbnode/init.d/* ~/Firmware/ROMFS/px4fmu_common/init.d-posix
-cd
-cd .ros/
-rm *.log
-rm dataman
-rosclean purge
-cd eeprom/
-rm parameters
 cd ~/Firmware
 DONT_RUN=1 make px4_sitl_default gazebo_iris
 #////////
