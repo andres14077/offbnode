@@ -29,4 +29,8 @@
         <arg name="vehicle" value="$(arg vehicle)"/>
         <arg name="gcs_url" value="$(arg gcs_url)"/>
     </include>
+
+    <node name="capture_px4_image" pkg="offbnode" type="capture_for_px4.py" output="screen" launch-prefix="gnome-terminal">
+    </node>
+
 </launch>
