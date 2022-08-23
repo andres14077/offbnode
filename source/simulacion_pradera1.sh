@@ -7,9 +7,6 @@ cd
 cd .ros/
 cd eeprom/
 rm parameters
-#rm *.log
-#rm dataman
-#rosclean purge
 
 
 cd ~/Firmware
