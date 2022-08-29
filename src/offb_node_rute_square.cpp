@@ -17,7 +17,7 @@ double Image_pix_Height=3456;
 double Focal_length=4.9;                // en mm
 
 
-double mavros_msgs::State current_state;
+mavros_msgs::State current_state;
 void state_cb(const mavros_msgs::State::ConstPtr& msg){
     current_state = *msg;
 }
