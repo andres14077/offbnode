@@ -142,21 +142,27 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
- add_executable(offb_node src/offb_node.cpp)
+add_executable(offb_node src/offb_node.cpp)
+target_link_libraries(offb_node
+  ${catkin_LIBRARIES}
+)
 
- target_link_libraries(offb_node
-   ${catkin_LIBRARIES}
- )
 add_executable(cap_imag_for_px4 src/cap_imag_for_px4.cpp)
-
 target_link_libraries(cap_imag_for_px4
   ${catkin_LIBRARIES}
 )
-add_executable(cap_imag_for_user src/cap_imag_for_user.cpp)
 
+add_executable(cap_imag_for_user src/cap_imag_for_user.cpp)
 target_link_libraries(cap_imag_for_user
   ${catkin_LIBRARIES}
 )
+
+add_executable(offb_node_rute_square src/offb_node_rute_square.cpp)
+target_link_libraries(offb_node_rute_square
+  ${catkin_LIBRARIES}
+)
+
+
 #############
 ## Install ##
 #############
