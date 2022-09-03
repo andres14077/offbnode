@@ -59,13 +59,19 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "offb_node_rute_square");
     ros::NodeHandle nh;
 
+    //the setpoint publishing rate MUST be faster than 2Hz
+    ros::Rate rate(20.0);
+
+
     ros::Publisher nav_pos_pub = nh.advertise<nav_msgs::Path>
             ("iris/nav", 10);
     nav_msgs::Path path;
+    path.header.stamp = ros::Time::now();
+    path.header.frame_id= "map";
     for (int i = 0; i < 100; ++i)
     {
         geometry_msgs::PoseStamped pose;
-        pose.header.stamp = i;
+        pose.header.stamp = ros::Time::now();
         pose.header.frame_id = "map";
         pose.pose.position.x = 10*cos(62.8318e-3*i);
         pose.pose.position.y = 10*sin(62.8318e-3*i);
@@ -73,8 +79,11 @@ int main(int argc, char **argv)
         pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(pose.pose.position.y,pose.pose.position.x));
         path.poses.push_back(pose);
     }
-    nav_pos_pub.publish(path);
-
+    while(ros::ok()){
+        nav_pos_pub.publish(path);
+        ros::spinOnce();
+        rate.sleep();
+    }
     return 0;
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>
             ("mavros/state", 10, state_cb);
@@ -87,15 +96,14 @@ int main(int argc, char **argv)
     ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>
             ("mavros/set_mode");
 
-    //the setpoint publishing rate MUST be faster than 2Hz
-    ros::Rate rate(20.0);
+
 
     // wait for FCU connection
     while(ros::ok() && !current_state.connected){
         ros::spinOnce();
         rate.sleep();
     }
-    //geometry_msgs::PoseStamped pose;
+    geometry_msgs::PoseStamped pose;
     pose.pose.position.x = 0;
     pose.pose.position.y = 0;
     pose.pose.position.z = H;
