@@ -46,11 +46,14 @@ double distancia(double l_x,double l_y,double l_z,double s_x,double s_y,double s
 bool Dentro_de_Cerca(double x_max, double x_min, double y_max, double y_min,geometry_msgs::Point p){
     if(p.x<x_max && p.x>x_min){
         if(p.y<y_max && p.y>y_min){
+            ROS_INFO("dentro");
             return true;
         }else{
+            ROS_INFO("fuera");
             return false;
         }
     }else{
+        ROS_INFO("fuera");
         return false;
     }
 }
@@ -219,13 +222,13 @@ int main(int argc, char **argv)
 ////// calculo de lineas de vuelo planas
 
     angulo_entrada=angulo_en_rango(angulo_entrada);
-    ROS_INFO("angulo normalizado %f",angulo_entrada);
     geometry_msgs::Vector3 vector_avance=Normalizar_vector(cos(angulo_entrada*G_to_R),sin(angulo_entrada*G_to_R),0);
     vector_avance.x=vector_avance.x*base_en_aire;
     vector_avance.y=vector_avance.y*base_en_aire;
     geometry_msgs::Point punto_arranque,dis_entre_lineas;
     dis_entre_lineas.x=separacion_lineas_vuelo*sin(angulo_entrada*G_to_R);
     dis_entre_lineas.y=separacion_lineas_vuelo*cos(angulo_entrada*G_to_R);
+    ROS_INFO("distancia de rectas x=[%f],y=[%f],z=[%f]",dis_entre_lineas.x, dis_entre_lineas.y, dis_entre_lineas.z);
     //punto de arranque
     if(angulo_entrada<180 && angulo_entrada>90){
         punto_arranque.x=max_cerca_x;
