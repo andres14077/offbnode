@@ -237,10 +237,11 @@ int main(int argc, char **argv)
         for (int j = 0; j < 100; ++j){
             punto_arranque.x= punto_arranque.x+dis_entre_lineas.x;
             punto_arranque.y= punto_arranque.y-dis_entre_lineas.y;
-            punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
+            punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x);
             ROS_INFO("punto arranque en recta x x=[%f],y=[%f],z=[%f]",punto_arranque.x, punto_arranque.y, punto_arranque.z);
             if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
-                punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x);
+                
+                punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y);
                 ROS_INFO("punto arranque en recta y x=[%f],y=[%f],z=[%f]",punto_arranque.x, punto_arranque.y, punto_arranque.z);
             }
             for (int i = 0; i < 100; ++i){
