@@ -43,14 +43,38 @@ double distancia(double l_x,double l_y,double l_z,double s_x,double s_y,double s
     double dz=(l_z-s_z)*(l_z-s_z);
     return sqrt(dx+dy+dz);
 }
-double angulo_en_rango(double a){
-    if (a<180){
-        return a-360;
-    }else if (a<-180){
-        return a+360;
+bool Dentro_de_Cerca(double x_max, double x_min, double y_max, double y_min,geometry_msgs::Point p){
+    if(p.x<x_max && p.x>x_min){
+        if(p.y<y_max && p.y>y_min){
+            return true;
+        }else{
+            return false;
+        }
     }else{
-        return a;
+        return false;
     }
+}
+double angulo_en_rango(double a){
+    double aa;
+    if (a<180){
+        aa= a-360;
+    }else if (a<-180){
+        aa= a+360;
+    }else{
+        aa= a;
+    }
+    if(aa==180){
+        aa=179;
+    }else if(aa==90){
+        aa=89;
+    }else if(aa=0){
+        aa=1;
+    }else if(aa==-90){
+        aa=-89;
+    }else if(aa==-180){
+        aa=-179;
+    }
+    return aa;
 }
 geometry_msgs::Vector3 Normalizar_vector(double x,double y, double z){
     double d=sqrt(x*x+y*y+z*z);
@@ -65,9 +89,24 @@ geometry_msgs::Point Recta(geometry_msgs::Vector3 v,geometry_msgs::Point p,int i
     geometry_msgs::Point Punto_Recta;
     Punto_Recta.x=v.x*i+p.x;
     Punto_Recta.y=v.y*i+p.y;
-    Punto_Recta.z=0;
+    Punto_Recta.z=p.z;
     return Punto_Recta;
 }
+geometry_msgs::Point x_en_recta(geometry_msgs::Vector3 v,geometry_msgs::Point p,double y ){
+    geometry_msgs::Point Punto_Recta;
+    Punto_Recta.x=(y-p.y)*v.x/v.y+p.x;
+    Punto_Recta.y=y;
+    Punto_Recta.z=p.z;
+    return Punto_Recta;
+}
+geometry_msgs::Point y_en_ecta(geometry_msgs::Vector3 v,geometry_msgs::Point p,double x ){
+    geometry_msgs::Point Punto_Recta;
+    Punto_Recta.x=x;
+    Punto_Recta.y=(x-p.x)*v.y/v.x+p.y;
+    Punto_Recta.z=p.z;
+    return Punto_Recta;
+}
+
 
 geometry_msgs::Point Plano_Z(geometry_msgs::Vector3 v,geometry_msgs::Point p_plano,geometry_msgs::Point p_x_y ){
     geometry_msgs::Point Punto_Plano;
@@ -127,7 +166,7 @@ int main(int argc, char **argv)
     ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>
             ("mavros/set_mode");
     
-   ROS_INFO("Parametros de vuelo:\n-Configuracion de camara:\n  Ancho del sensor        = %f mm\n  Altura del sensor       = %f mm\n  Pixeles por ancho       = %f pix\n  Pixeles por alto        = %f pix\n  Longitud focal          = %f mm\n-Configuracion de vuelo:\n  Altura de vuelo         = %f m\n  GSD                     = %f cm/pix\n  Translape lateral       = %f \n  Translape longitudinal  = %f \n  Angulo entrada          = %f \n",
+   ROS_INFO("Parametros de vuelo:\n-Configuracion de camara:\n  Ancho del sensor        = %.3f mm\n  Altura del sensor       = %.3f mm\n  Pixeles por ancho       = %.0f pix\n  Pixeles por alto        = %.0f pix\n  Longitud focal          = %.2f mm\n-Configuracion de vuelo:\n  Altura de vuelo         = %.2f m\n  GSD                     = %.2f cm/pix\n  Translape lateral       = %.2f %%\n  Translape longitudinal  = %.2f %%\n  Angulo entrada          = %.2f \n",
             Width_sensor,Height_sensor,Image_pix_Width,Image_pix_Height,
             Focal_length,H,GSD,translape_lateral,translape_longitudinal,
             angulo_entrada);
@@ -184,31 +223,71 @@ int main(int argc, char **argv)
     geometry_msgs::Vector3 vector_avance=Normalizar_vector(cos(angulo_entrada*G_to_R),sin(angulo_entrada*G_to_R),0);
     vector_avance.x=vector_avance.x*base_en_aire;
     vector_avance.y=vector_avance.y*base_en_aire;
-
+    geometry_msgs::Point punto_arranque,dis_entre_lineas;
+    dis_entre_lineas.x=separacion_lineas_vuelo*sin(angulo_entrada*G_to_R);
+    dis_entre_lineas.y=separacion_lineas_vuelo*cos(angulo_entrada*G_to_R);
     //punto de arranque
     if(angulo_entrada<180 && angulo_entrada>90){
-
+        punto_arranque.x=max_cerca_x;
+        punto_arranque.y= max_cerca_y;
     }else if(angulo_entrada<90 && angulo_entrada>0){
-
+        punto_arranque.x= min_cerca_x;
+        punto_arranque.y= max_cerca_y;;
+        punto_arranque.z=H;
+        bool inicio=true;
+        while (inicio){
+            punto_arranque.x= punto_arranque.x+dis_entre_lineas.x;
+            punto_arranque.y= punto_arranque.y-dis_entre_lineas.y;
+            punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
+            if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
+                punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x);
+            }
+            int i=0;
+            while(1){
+                geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
+                if(Dentro_de_Cerca(max_x,min_x,max_y,min_y,px)){
+                    inicio=false;
+                    break;
+                }
+                if(Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)){
+                    break;
+                }else{
+                    i++;
+                }
+                
+            }
+        }
     }else if(angulo_entrada<0 && angulo_entrada>-90){
-
+        punto_arranque.x=max_cerca_x;
+        punto_arranque.y= max_cerca_y;
     }else if(angulo_entrada<-90 && angulo_entrada>-180){
-
+        punto_arranque.x=min_cerca_x;
+        punto_arranque.y= max_cerca_y;
     }
 
     nav_msgs::Path path;
     path.header.stamp = ros::Time::now();
     path.header.frame_id= "map";
 
+
+    int i=0;
+    while(1){
         geometry_msgs::PoseStamped pose;
         pose.header.stamp = ros::Time::now();
         pose.header.frame_id = "map";
-        pose.pose.position.x = 10*cos(62.8318e-3);
-        pose.pose.position.y = 10*sin(62.8318e-3);
-        pose.pose.position.z = H;
-        pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(pose.pose.position.y,pose.pose.position.x));
+        
+        geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
+        if(Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)){
+            break;
+        }else{
+            i++;
+        }
+        pose.pose.position.x = px.x;
+        pose.pose.position.y = px.y;
+        pose.pose.position.z = px.z;
+        pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(vector_avance.y,vector_avance.x));
         path.poses.push_back(pose);
-
+    }
     while(ros::ok()){
         nav_pos_pub.publish(path);
         cerca_pub.publish(cerca);
