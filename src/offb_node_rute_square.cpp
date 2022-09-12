@@ -127,19 +127,7 @@ int main(int argc, char **argv)
     ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>
             ("mavros/set_mode");
     
-   ROS_INFO("Parametros de vuelo:\n
-            -Configuracion de camara:\n
-              Ancho del sensor        = %f mm\n
-              Altura del sensor       = %f mm\n
-              Pixeles por ancho       = %f pix\n
-              Pixeles por alto        = %f pix\n
-              Longitud focal          = %f mm\n
-            -Configuracion de vuelo:\n
-              Altura de vuelo         = %f m\n
-              GSD                     = %f cm/pix\n
-              Translape lateral       = %f %\n
-              Translape longitudinal  = %f %\n
-              Angulo entrada          = %f %\n",
+   ROS_INFO("Parametros de vuelo:\n-Configuracion de camara:\n  Ancho del sensor        = %f mm\n  Altura del sensor       = %f mm\n  Pixeles por ancho       = %f pix\n  Pixeles por alto        = %f pix\n  Longitud focal          = %f mm\n-Configuracion de vuelo:\n  Altura de vuelo         = %f m\n  GSD                     = %f cm/pix\n  Translape lateral       = %f %\n  Translape longitudinal  = %f %\n  Angulo entrada          = %f %\n",
             Width_sensor,Height_sensor,Image_pix_Width,Image_pix_Height,
             Focal_length,H,GSD,translape_lateral,translape_longitudinal,
             angulo_entrada);
