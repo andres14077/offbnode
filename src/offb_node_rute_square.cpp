@@ -250,11 +250,11 @@ int main(int argc, char **argv)
                 ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z);
                 if(Dentro_de_Cerca(max_x,min_x,max_y,min_y,px)){
                     inicio=false;
-                    ROS_INFO("dentro de cerca")
+                    ROS_INFO("dentro de cerca");
                     break;
                 }
                 if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)){
-                    ROS_INFO("cambio de linea")
+                    ROS_INFO("cambio de linea");
                     break;
                 }else{
                     i++;
