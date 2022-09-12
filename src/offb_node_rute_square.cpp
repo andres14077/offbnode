@@ -338,12 +338,12 @@ int main(int argc, char **argv)
             // pose.pose.position.y = 0;
             // pose.pose.position.z = H;
             // pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(1,0));
-        ROS_INFO("set point x=[%f],y=[%f],z=[%f]",pose.pose.position.x,pose.pose.position.y,
-            pose.pose.position.z);
+        // ROS_INFO("set point x=[%f],y=[%f],z=[%f]",pose.pose.position.x,pose.pose.position.y,
+        //     pose.pose.position.z);
         ROS_INFO("local point x=[%f],y=[%f],z=[%f]",current_local_pose.pose.position.x,
             current_local_pose.pose.position.y,current_local_pose.pose.position.z);
     
-        local_pos_pub.publish(pose);
+        // local_pos_pub.publish(pose);
         ros::spinOnce();
         rate.sleep();
     }
