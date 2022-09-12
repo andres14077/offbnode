@@ -166,7 +166,7 @@ int main(int argc, char **argv)
     ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>
             ("mavros/set_mode");
     
-   ROS_INFO("Parametros de vuelo:\n-Configuracion de camara:\n  Ancho del sensor        = %.3f mm\n  Altura del sensor       = %.3f mm\n  Pixeles por ancho       = %.0f pix\n  Pixeles por alto        = %.0f pix\n  Longitud focal          = %.2f mm\n-Configuracion de vuelo:\n  Altura de vuelo         = %.2f m\n  GSD                     = %.2f cm/pix\n  Translape lateral       = %.2f %%\n  Translape longitudinal  = %.2f %%\n  Angulo entrada          = %.2f \n",
+    ROS_INFO("Parametros de vuelo:\n-Configuracion de camara:\n  Ancho del sensor        = %.3f mm\n  Altura del sensor       = %.3f mm\n  Pixeles por ancho       = %.0f pix\n  Pixeles por alto        = %.0f pix\n  Longitud focal          = %.2f mm\n-Configuracion de vuelo:\n  Altura de vuelo         = %.2f m\n  GSD                     = %.2f cm/pix\n  Translape lateral       = %.2f %%\n  Translape longitudinal  = %.2f %%\n  Angulo entrada          = %.2f \n",
             Width_sensor,Height_sensor,Image_pix_Width,Image_pix_Height,
             Focal_length,H,GSD,translape_lateral,translape_longitudinal,
             angulo_entrada);
@@ -239,12 +239,15 @@ int main(int argc, char **argv)
             punto_arranque.x= punto_arranque.x+dis_entre_lineas.x;
             punto_arranque.y= punto_arranque.y-dis_entre_lineas.y;
             punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
+            ROS_INFO("punto arranque en recta x x=[%f],y=[%f],z=[%f]",punto_arranque.x, punto_arranque.y, punto_arranque.z);
             if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
                 punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x);
+                ROS_INFO("punto arranque en recta y x=[%f],y=[%f],z=[%f]",punto_arranque.x, punto_arranque.y, punto_arranque.z);
             }
             int i=0;
             while(1){
                 geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
+                ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z);
                 if(Dentro_de_Cerca(max_x,min_x,max_y,min_y,px)){
                     inicio=false;
                     break;
@@ -269,7 +272,7 @@ int main(int argc, char **argv)
     path.header.stamp = ros::Time::now();
     path.header.frame_id= "map";
 
-
+    ROS_INFO("path");
     int i=0;
     while(1){
         geometry_msgs::PoseStamped pose;
@@ -282,6 +285,7 @@ int main(int argc, char **argv)
         }else{
             i++;
         }
+        ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z);
         pose.pose.position.x = px.x;
         pose.pose.position.y = px.y;
         pose.pose.position.z = px.z;
