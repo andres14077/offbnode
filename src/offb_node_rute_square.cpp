@@ -234,7 +234,6 @@ int main(int argc, char **argv)
         punto_arranque.x= min_cerca_x;
         punto_arranque.y= max_cerca_y;;
         punto_arranque.z=H;
-        ROS_INFO("xx");
         bool inicio=true;
         while (inicio){
             punto_arranque.x= punto_arranque.x+dis_entre_lineas.x;
@@ -260,6 +259,7 @@ int main(int argc, char **argv)
                 }
                 
             }
+            return 0;
         }
     }else if(angulo_entrada<0 && angulo_entrada>-90){
         punto_arranque.x=max_cerca_x;
