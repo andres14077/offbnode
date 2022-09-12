@@ -99,7 +99,7 @@ geometry_msgs::Point x_en_recta(geometry_msgs::Vector3 v,geometry_msgs::Point p,
     Punto_Recta.z=p.z;
     return Punto_Recta;
 }
-geometry_msgs::Point y_en_ecta(geometry_msgs::Vector3 v,geometry_msgs::Point p,double x ){
+geometry_msgs::Point y_en_recta(geometry_msgs::Vector3 v,geometry_msgs::Point p,double x ){
     geometry_msgs::Point Punto_Recta;
     Punto_Recta.x=x;
     Punto_Recta.y=(x-p.x)*v.y/v.x+p.y;
@@ -275,7 +275,7 @@ int main(int argc, char **argv)
         geometry_msgs::PoseStamped pose;
         pose.header.stamp = ros::Time::now();
         pose.header.frame_id = "map";
-        
+
         geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
         if(Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)){
             break;
