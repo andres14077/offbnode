@@ -4,6 +4,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PolygonStamped.h>
 #include <geometry_msgs/Point.h>
+#include <geometry_msgs/Point32.h>
 #include <geometry_msgs/Vector3.h>
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/SetMode.h>
@@ -73,7 +74,7 @@ geometry_msgs::Point Plano_Z(geometry_msgs::Vector3 v,geometry_msgs::Point p_pla
     Punto_Plano.x=p_x_y.x;
     Punto_Plano.y=p_x_y.y;
     Punto_Plano.z=p_plano.z-(v.x*(p_x_y.x-p_plano.x)+v.y*(p_x_y.y-p_plano.y))/v.z;
-    return Plano_Z;
+    return Punto_Plano;
 }
 
 mavros_msgs::State current_state;
@@ -126,22 +127,22 @@ int main(int argc, char **argv)
     ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>
             ("mavros/set_mode");
     
-    ROS_INFO("Parametros de vuelo:\n"+
-             "-Configuracion de camara:\n"+
-             "  Ancho del sensor        = %f mm\n"+
-             "  Altura del sensor       = %f mm\n"+
-             "  Pixeles por ancho       = %f pix\n"+
-             "  Pixeles por alto        = %f pix\n"+
-             "  Longitud focal          = %f mm\n"+
-             "-Configuracion de vuelo:\n"+
-             "  Altura de vuelo         = %f m\n"+
-             "  GSD                     = %f cm/pix\n"+
-             "  Translape lateral       = %f %\n"+
-             "  Translape longitudinal  = %f %\n"+
-             "  Angulo entrada          = %f %\n",
-             Width_sensor,Height_sensor,Image_pix_Width,Image_pix_Height,
-             Focal_length,H,GSD,translape_lateral,translape_longitudinal,
-             angulo_entrada); 
+//    ROS_INFO("Parametros de vuelo:\n"+
+//             "-Configuracion de camara:\n"+
+//             "  Ancho del sensor        = %f mm\n"+
+//             "  Altura del sensor       = %f mm\n"+
+//             "  Pixeles por ancho       = %f pix\n"+
+//             "  Pixeles por alto        = %f pix\n"+
+//             "  Longitud focal          = %f mm\n"+
+//             "-Configuracion de vuelo:\n"+
+//             "  Altura de vuelo         = %f m\n"+
+//             "  GSD                     = %f cm/pix\n"+
+//             "  Translape lateral       = %f %\n"+
+//             "  Translape longitudinal  = %f %\n"+
+//             "  Angulo entrada          = %f %\n",
+//             Width_sensor,Height_sensor,Image_pix_Width,Image_pix_Height,
+//             Focal_length,H,GSD,translape_lateral,translape_longitudinal,
+//             angulo_entrada);
 ///////cercas de vuelo 
     geometry_msgs::PolygonStamped cerca;
     geometry_msgs::PolygonStamped cerca_max;
@@ -149,7 +150,7 @@ int main(int argc, char **argv)
     cerca.header.stamp=ros::Time::now();
     cerca.header.frame_id="map";
 
-    geometry_msgs::Point p1;
+    geometry_msgs::Point32 p1;
 
     p1.x=max_x;
     p1.y=max_y;
@@ -216,8 +217,8 @@ int main(int argc, char **argv)
         geometry_msgs::PoseStamped pose;
         pose.header.stamp = ros::Time::now();
         pose.header.frame_id = "map";
-        pose.pose.position.x = 10*cos(62.8318e-3*i);
-        pose.pose.position.y = 10*sin(62.8318e-3*i);
+        pose.pose.position.x = 10*cos(62.8318e-3);
+        pose.pose.position.y = 10*sin(62.8318e-3);
         pose.pose.position.z = H;
         pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(pose.pose.position.y,pose.pose.position.x));
         path.poses.push_back(pose);
