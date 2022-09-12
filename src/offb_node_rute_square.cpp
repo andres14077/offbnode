@@ -234,8 +234,7 @@ int main(int argc, char **argv)
         punto_arranque.x= min_cerca_x;
         punto_arranque.y= max_cerca_y;;
         punto_arranque.z=H;
-        bool inicio=true;
-        while (inicio){
+        for (int j = 0; j < 100; ++j){
             punto_arranque.x= punto_arranque.x+dis_entre_lineas.x;
             punto_arranque.y= punto_arranque.y-dis_entre_lineas.y;
             punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
@@ -244,22 +243,18 @@ int main(int argc, char **argv)
                 punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x);
                 ROS_INFO("punto arranque en recta y x=[%f],y=[%f],z=[%f]",punto_arranque.x, punto_arranque.y, punto_arranque.z);
             }
-            int i=0;
-            while(i<100){
+            for (int i = 0; i < 100; ++i){
                 geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
                 ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z);
                 if(Dentro_de_Cerca(max_x,min_x,max_y,min_y,px)){
-                    inicio=false;
+                    j=100;
                     ROS_INFO("dentro de cerca");
                     break;
                 }
                 if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)){
                     ROS_INFO("cambio de linea");
                     break;
-                }else{
-                    i++;
                 }
-                
             }
         }
     }else if(angulo_entrada<0 && angulo_entrada>-90){
@@ -275,8 +270,7 @@ int main(int argc, char **argv)
     path.header.frame_id= "map";
 
     ROS_INFO("path");
-    int i=0;
-    while(1){
+    for (int i = 0; i < 100; ++i){
         geometry_msgs::PoseStamped pose;
         pose.header.stamp = ros::Time::now();
         pose.header.frame_id = "map";
@@ -284,8 +278,6 @@ int main(int argc, char **argv)
         geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
         if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)){
             break;
-        }else{
-            i++;
         }
         ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z);
         pose.pose.position.x = px.x;
