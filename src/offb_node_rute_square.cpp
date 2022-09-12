@@ -219,7 +219,7 @@ int main(int argc, char **argv)
 ////// calculo de lineas de vuelo planas
 
     angulo_entrada=angulo_en_rango(angulo_entrada);
-
+    ROS_INFO("angulo normalizado %f",angulo_entrada);
     geometry_msgs::Vector3 vector_avance=Normalizar_vector(cos(angulo_entrada*G_to_R),sin(angulo_entrada*G_to_R),0);
     vector_avance.x=vector_avance.x*base_en_aire;
     vector_avance.y=vector_avance.y*base_en_aire;
