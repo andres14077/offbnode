@@ -56,7 +56,7 @@ bool Dentro_de_Cerca(double x_max, double x_min, double y_max, double y_min,geom
 }
 double angulo_en_rango(double a){
     double aa;
-    if (a<180){
+    if (a>180){
         aa= a-360;
     }else if (a<-180){
         aa= a+360;
@@ -67,7 +67,7 @@ double angulo_en_rango(double a){
         aa=179;
     }else if(aa==90){
         aa=89;
-    }else if(aa=0){
+    }else if(aa==0){
         aa=1;
     }else if(aa==-90){
         aa=-89;
