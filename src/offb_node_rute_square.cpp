@@ -189,7 +189,7 @@ int main(int argc, char **argv)
     p1.y=max_cerca_y;
     p1.z=H;
     cerca_max.polygon.points.push_back(p1);
-    cerca_pub.publish(cerca_max);
+    cerca_max_pub.publish(cerca_max);
 ////// calculo de lineas de vuelo planas
 
     angulo_entrada=angulo_en_rango(angulo_entrada);
