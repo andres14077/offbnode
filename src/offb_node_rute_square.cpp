@@ -44,8 +44,8 @@ double distancia(double l_x,double l_y,double l_z,double s_x,double s_y,double s
     return sqrt(dx+dy+dz);
 }
 bool Dentro_de_Cerca(double x_max, double x_min, double y_max, double y_min,geometry_msgs::Point p){
-    if(p.x<x_max && p.x>x_min){
-        if(p.y<y_max && p.y>y_min){
+    if(p.x<=x_max && p.x>=x_min){
+        if(p.y<=y_max && p.y>=y_min){
             ROS_INFO("dentro");
             return true;
         }else{
