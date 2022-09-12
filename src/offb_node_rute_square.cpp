@@ -234,6 +234,7 @@ int main(int argc, char **argv)
         punto_arranque.x= min_cerca_x;
         punto_arranque.y= max_cerca_y;;
         punto_arranque.z=H;
+        ROS_INFO("xx");
         bool inicio=true;
         while (inicio){
             punto_arranque.x= punto_arranque.x+dis_entre_lineas.x;
