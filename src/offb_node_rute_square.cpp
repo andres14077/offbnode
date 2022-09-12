@@ -245,7 +245,7 @@ int main(int argc, char **argv)
                 ROS_INFO("punto arranque en recta y x=[%f],y=[%f],z=[%f]",punto_arranque.x, punto_arranque.y, punto_arranque.z);
             }
             int i=0;
-            while(1){
+            while(i<100){
                 geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
                 ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z);
                 if(Dentro_de_Cerca(max_x,min_x,max_y,min_y,px)){
