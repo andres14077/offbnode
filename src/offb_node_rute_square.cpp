@@ -222,11 +222,11 @@ int main(int argc, char **argv)
         ros::spinOnce();
         rate.sleep();
     }
-    geometry_msgs::PoseStamped pose;
-    pose.pose.position.x = 0;
-    pose.pose.position.y = 0;
-    pose.pose.position.z = H;
-    pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(1,0));
+    // geometry_msgs::PoseStamped pose;
+    // pose.pose.position.x = 0;
+    // pose.pose.position.y = 0;
+    // pose.pose.position.z = H;
+    // pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(1,0));
 
     mavros_msgs::SetMode offb_set_mode;
     offb_set_mode.request.custom_mode = "OFFBOARD";
