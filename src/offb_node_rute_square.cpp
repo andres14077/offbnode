@@ -156,7 +156,6 @@ int main(int argc, char **argv)
     p1.y=max_y;
     p1.z=H;
     cerca.polygon.points.push_back(p1);
-    cerca_pub.publish(cerca);
 
     cerca_max.header.stamp=ros::Time::now();
     cerca_max.header.frame_id="map";
@@ -177,7 +176,7 @@ int main(int argc, char **argv)
     p1.y=max_cerca_y;
     p1.z=H;
     cerca_max.polygon.points.push_back(p1);
-    cerca_max_pub.publish(cerca_max);
+    
 ////// calculo de lineas de vuelo planas
 
     angulo_entrada=angulo_en_rango(angulo_entrada);
@@ -201,7 +200,6 @@ int main(int argc, char **argv)
     path.header.stamp = ros::Time::now();
     path.header.frame_id= "map";
 
-    while(1){
         geometry_msgs::PoseStamped pose;
         pose.header.stamp = ros::Time::now();
         pose.header.frame_id = "map";
@@ -210,10 +208,11 @@ int main(int argc, char **argv)
         pose.pose.position.z = H;
         pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(pose.pose.position.y,pose.pose.position.x));
         path.poses.push_back(pose);
-    }
 
     while(ros::ok()){
         nav_pos_pub.publish(path);
+        cerca_pub.publish(cerca);
+        cerca_max_pub.publish(cerca_max);
         ros::spinOnce();
         rate.sleep();
     }
