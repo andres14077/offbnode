@@ -261,7 +261,6 @@ int main(int argc, char **argv)
                 }
                 
             }
-            return 0;
         }
     }else if(angulo_entrada<0 && angulo_entrada>-90){
         punto_arranque.x=max_cerca_x;
@@ -283,7 +282,7 @@ int main(int argc, char **argv)
         pose.header.frame_id = "map";
 
         geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
-        if(Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)){
+        if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)){
             break;
         }else{
             i++;
