@@ -168,7 +168,7 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
 
     //the setpoint publishing rate MUST be faster than 2Hz
-    ros::Rate rate(1.0);
+    ros::Rate rate(10.0);
 
 
     ros::Publisher nav_pos_pub = nh.advertise<nav_msgs::Path>
@@ -331,7 +331,7 @@ int main(int argc, char **argv)
                 punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x);
                 ROS_INFO("x_max");
                 if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
-                    if(d3>d4){
+                    if(d3<d4){
                         punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
                     }else{
                         punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y);
@@ -341,7 +341,7 @@ int main(int argc, char **argv)
                 punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x);
                 ROS_INFO("x_min");
                 if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
-                    if(d3>d4){
+                    if(d3<d4){
                         punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
                     }else{
                         punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y);
@@ -351,7 +351,7 @@ int main(int argc, char **argv)
                 punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
                 ROS_INFO("y_max");
                 if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
-                    if(d1>d2){
+                    if(d1<d2){
                         punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x);
                     }else{
                         punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x);
@@ -361,7 +361,7 @@ int main(int argc, char **argv)
                 punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y);
                 ROS_INFO("y_min");
                 if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
-                    if(d1>d2){
+                    if(d1<d2){
                         punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x);
                     }else{
                         punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x);
