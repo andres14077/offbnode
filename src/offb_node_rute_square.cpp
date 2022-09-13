@@ -327,7 +327,7 @@ int main(int argc, char **argv)
             punto_arranque.y= punto_arranque.y-dis_entre_lineas.y;
             vector_avance.x=vector_avance.x*(-1);
             vector_avance.y=vector_avance.y*(-1);
-            if( d1>=d2 && d1>=d3 && d1>=d4){
+            if( d1<=d2 && d1<=d3 && d1<=d4){
                 punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x);
                 ROS_INFO("x_max");
                 if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
@@ -337,7 +337,7 @@ int main(int argc, char **argv)
                         punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y);
                     }
                 }
-            }else if( d2>=d3 && d2>=d4 ){
+            }else if( d2<=d3 && d2<=d4 ){
                 punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x);
                 ROS_INFO("x_min");
                 if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
@@ -347,7 +347,7 @@ int main(int argc, char **argv)
                         punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y);
                     }
                 }
-            }else if( d3>=d4 ){
+            }else if( d3<=d4 ){
                 punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
                 ROS_INFO("y_max");
                 if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
@@ -358,7 +358,7 @@ int main(int argc, char **argv)
                     }
                 }
             }else{
-                punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
+                punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y);
                 ROS_INFO("y_min");
                 if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
                     if(d1>d2){
