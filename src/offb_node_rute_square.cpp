@@ -168,7 +168,7 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
 
     //the setpoint publishing rate MUST be faster than 2Hz
-    ros::Rate rate(10.0);
+    ros::Rate rate(40.0);
 
 
     ros::Publisher nav_pos_pub = nh.advertise<nav_msgs::Path>
