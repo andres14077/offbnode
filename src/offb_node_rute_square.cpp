@@ -168,7 +168,7 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
 
     //the setpoint publishing rate MUST be faster than 2Hz
-    ros::Rate rate(20.0);
+    ros::Rate rate(1.0);
 
 
     ros::Publisher nav_pos_pub = nh.advertise<nav_msgs::Path>
@@ -365,6 +365,7 @@ int main(int argc, char **argv)
                 }
             }
             i=0;
+            geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
         }
         ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z);
         pose.pose.position.x = px.x;
