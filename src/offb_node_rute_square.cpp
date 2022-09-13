@@ -312,6 +312,7 @@ int main(int argc, char **argv)
 
         geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
         if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)){
+            px=Recta(vector_avance,punto_arranque,i-1);
             double d1,d2,d3,d4;
             d1=distancia_punto_recta(vector_linea_x_max,punto_linea_x_max,px);
             d2=distancia_punto_recta(vector_linea_x_min,punto_linea_x_min,px);
