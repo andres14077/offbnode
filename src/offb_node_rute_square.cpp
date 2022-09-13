@@ -242,21 +242,25 @@ int main(int argc, char **argv)
     geometry_msgs::Point punto_linea_y_max;
     vector_linea_y_max.x=1;
     punto_linea_y_max.y=max_cerca_y;
+    punto_linea_y_max.z=H;
 
     geometry_msgs::Vector3 vector_linea_y_min;
     geometry_msgs::Point punto_linea_y_min;
     vector_linea_y_min.x=1;
     punto_linea_y_min.y=min_cerca_y;
+    punto_linea_y_min.z=H;
 
     geometry_msgs::Vector3 vector_linea_x_max;
     geometry_msgs::Point punto_linea_x_max;
     vector_linea_x_max.y=1;
     punto_linea_x_max.x=max_cerca_x;
+    punto_linea_x_max.z=H;
 
     geometry_msgs::Vector3 vector_linea_x_min;
     geometry_msgs::Point punto_linea_x_min;
     vector_linea_x_min.y=1;
     punto_linea_x_min.x=min_cerca_x;
+    punto_linea_x_min.z=H;
 ////// calculo de lineas de vuelo planas
 
     angulo_entrada=angulo_en_rango(angulo_entrada);
