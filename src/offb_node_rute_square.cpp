@@ -376,15 +376,6 @@ int main(int argc, char **argv)
         pose.pose.position.z = px.z;
         pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(vector_avance.y,vector_avance.x));
         path.poses.push_back(pose);
-
-        nav_pos_pub.publish(path);
-        cerca_pub.publish(cerca);
-        cerca_max_pub.publish(cerca_max);
-        ros::spinOnce();
-        rate.sleep();
-        if(!ros::ok()){
-            return 0;
-        }
     }
     while(ros::ok()){
         nav_pos_pub.publish(path);
