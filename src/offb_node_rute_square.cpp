@@ -86,15 +86,15 @@ double angulo_en_rango(double a){
         aa= a;
     }
     if(aa==180){
-        aa=179;
+        aa=179.9999;
     }else if(aa==90){
-        aa=89;
+        aa=89.9999;
     }else if(aa==0){
-        aa=1;
+        aa=0.0001;
     }else if(aa==-90){
-        aa=-89;
+        aa=-89.9999;
     }else if(aa==-180){
-        aa=-179;
+        aa=-179.9999;
     }
     return aa;
 }
@@ -168,7 +168,7 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
 
     //the setpoint publishing rate MUST be faster than 2Hz
-    ros::Rate rate(40.0);
+    ros::Rate rate(30.0);
 
 
     ros::Publisher nav_pos_pub = nh.advertise<nav_msgs::Path>
