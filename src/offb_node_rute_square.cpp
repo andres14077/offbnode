@@ -365,7 +365,7 @@ int main(int argc, char **argv)
                 }
             }
             i=0;
-            geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
+            px=Recta(vector_avance,punto_arranque,i);
         }
         ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z);
         pose.pose.position.x = px.x;
@@ -379,6 +379,9 @@ int main(int argc, char **argv)
         cerca_max_pub.publish(cerca_max);
         ros::spinOnce();
         rate.sleep();
+        if(!ros::ok()){
+            return 0;
+        }
     }
     while(ros::ok()){
         nav_pos_pub.publish(path);
