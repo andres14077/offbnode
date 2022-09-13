@@ -37,6 +37,28 @@ double min_y=-300;                       // en m desde el punto de partida
 double max_x=300;                        // en m desde el punto de partida
 double max_y=300;                        // en m desde el punto de partida
 
+
+geometry_msgs::Vector3 producto_cruz(geometry_msgs::Vector3 v1,geometry_msgs::Vector3 v2,){
+    geometry_msgs::Vector3 v3;
+    v3.x=v1.y*v2.z-v1.z*v2.y;
+    v3.y=v1.z*v2.x-v1.x*v2.z;
+    v3.z=v1.x*v2.y-v1.y*v2.x;
+    return v3;
+}
+double magnitud(geometry_msgs::Vector3 v){
+    double a=v.x*v.x;
+    a+=v.y*v.y;
+    a+=v.z*v.z;
+    return sqrt(a);
+}
+double distancia_punto_recta(geometry_msgs::Vector3 v,geometry_msgs::Point pl,geometry_msgs::Point p){
+    geometry_msgs::Vector3 pl_p,v1;
+    pl_p.x=pl.x-p.x;
+    pl_p.y=pl.y-p.y;
+    pl_p.z=pl.z-p.z;
+    v1=producto_cruz(v,pl_p);
+    return magnitud(v1)/magnitud(v);
+}
 double distancia(double l_x,double l_y,double l_z,double s_x,double s_y,double s_z ){
     double dx=(l_x-s_x)*(l_x-s_x);
     double dy=(l_y-s_y)*(l_y-s_y);
@@ -215,7 +237,26 @@ int main(int argc, char **argv)
     p1.y=max_cerca_y;
     p1.z=H;
     cerca_max.polygon.points.push_back(p1);
-    
+
+    geometry_msgs::Vector3 vector_linea_y_max;
+    geometry_msgs::Point punto_linea_y_max;
+    vector_linea_y_max.x=1;
+    punto_linea_y_max.y=max_cerca_y;
+
+    geometry_msgs::Vector3 vector_linea_y_min;
+    geometry_msgs::Point punto_linea_y_min;
+    vector_linea_y_min.x=1;
+    punto_linea_y_min.y=min_cerca_y;
+
+    geometry_msgs::Vector3 vector_linea_x_max;
+    geometry_msgs::Point punto_linea_x_max;
+    vector_linea_x_max.y=1;
+    punto_linea_x_max.x=max_cerca_x;
+
+    geometry_msgs::Vector3 vector_linea_x_min;
+    geometry_msgs::Point punto_linea_x_min;
+    vector_linea_x_min.y=1;
+    punto_linea_x_min.x=min_cerca_x;
 ////// calculo de lineas de vuelo planas
 
     angulo_entrada=angulo_en_rango(angulo_entrada);
@@ -225,7 +266,6 @@ int main(int argc, char **argv)
     geometry_msgs::Point punto_arranque,dis_entre_lineas;
     dis_entre_lineas.x=separacion_lineas_vuelo*sin(angulo_entrada*G_to_R);
     dis_entre_lineas.y=separacion_lineas_vuelo*cos(angulo_entrada*G_to_R);
-    ROS_INFO("distancia de rectas x=[%f],y=[%f],z=[%f]",dis_entre_lineas.x, dis_entre_lineas.y, dis_entre_lineas.z);
     //punto de arranque
     if(angulo_entrada<180 && angulo_entrada>90){
         punto_arranque.x=max_cerca_x;
@@ -238,22 +278,16 @@ int main(int argc, char **argv)
             punto_arranque.x= punto_arranque.x+dis_entre_lineas.x;
             punto_arranque.y= punto_arranque.y-dis_entre_lineas.y;
             punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x);
-            ROS_INFO("punto arranque en recta y x=[%f],y=[%f],z=[%f]",punto_arranque.x, punto_arranque.y, punto_arranque.z);
             if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
-                
                 punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y);
-                ROS_INFO("punto arranque en recta x x=[%f],y=[%f],z=[%f]",punto_arranque.x, punto_arranque.y, punto_arranque.z);
             }
             for (int i = 0; i < 100; ++i){
                 geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
-                ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z);
                 if(Dentro_de_Cerca(max_x,min_x,max_y,min_y,px)){
                     j=100;
-                    ROS_INFO("dentro de cerca");
                     break;
                 }
                 if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)){
-                    ROS_INFO("cambio de linea");
                     break;
                 }
             }
@@ -271,13 +305,19 @@ int main(int argc, char **argv)
     path.header.frame_id= "map";
 
     ROS_INFO("path");
-    for (int i = 0; i < 100; ++i){
+    for (int i = 0; i < 1000; ++i){
         geometry_msgs::PoseStamped pose;
         pose.header.stamp = ros::Time::now();
         pose.header.frame_id = "map";
 
         geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i);
         if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)){
+            double d1,d2,d3,d4;
+            d1=distancia_punto_recta(vector_linea_x_max,punto_linea_x_max,px);
+            d2=distancia_punto_recta(vector_linea_x_min,punto_linea_x_min,px);
+            d3=distancia_punto_recta(vector_linea_y_max,punto_linea_y_max,px);
+            d4=distancia_punto_recta(vector_linea_y_min,punto_linea_y_min,px);
+            ROS_INFO("distancia a rectas %f %f %f %f",d1,d2,d3,d4);
             break;
         }
         ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z);
