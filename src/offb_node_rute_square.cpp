@@ -276,7 +276,7 @@ int main(int argc, char **argv)
         punto_arranque.y= max_cerca_y;
     }else if(angulo_entrada<90 && angulo_entrada>0){
         punto_arranque.x= min_cerca_x;
-        punto_arranque.y= max_cerca_y;;
+        punto_arranque.y= max_cerca_y;
         punto_arranque.z=H;
         for (int j = 0; j < 100; ++j){
             punto_arranque.x= punto_arranque.x+dis_entre_lineas.x;
@@ -322,8 +322,49 @@ int main(int argc, char **argv)
             d2=distancia_punto_recta(vector_linea_x_min,punto_linea_x_min,px);
             d3=distancia_punto_recta(vector_linea_y_max,punto_linea_y_max,px);
             d4=distancia_punto_recta(vector_linea_y_min,punto_linea_y_min,px);
-            ROS_INFO("distancia a rectas %f %f %f %f",d1,d2,d3,d4);
-            break;
+            // cambio a siguiente recta;
+            punto_arranque.x= punto_arranque.x+dis_entre_lineas.x;
+            punto_arranque.y= punto_arranque.y-dis_entre_lineas.y;
+            vector_avance.x=vector_avance.x*(-1);
+            vector_avance.y=vector_avance.y*(-1);
+            if( d1>=d2 && d1>=d3 && d1>=d4){
+                punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x);
+                if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
+                    if(d3>d4){
+                        punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
+                    }else{
+                        punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y);
+                    }
+                }
+            }else if( d2>=d3 && d2>=d4 ){
+                punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x);
+                if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
+                    if(d3>d4){
+                        punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
+                    }else{
+                        punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y);
+                    }
+                }
+            }else if( d3>=d4 ){
+                punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
+                if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
+                    if(d1>d2){
+                        punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x);
+                    }else{
+                        punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x);
+                    }
+                }
+            }else{
+                punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
+                if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
+                    if(d1>d2){
+                        punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x);
+                    }else{
+                        punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x);
+                    }
+                }
+            }
+            i=0;
         }
         ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z);
         pose.pose.position.x = px.x;
@@ -331,6 +372,12 @@ int main(int argc, char **argv)
         pose.pose.position.z = px.z;
         pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(vector_avance.y,vector_avance.x));
         path.poses.push_back(pose);
+
+        nav_pos_pub.publish(path);
+        cerca_pub.publish(cerca);
+        cerca_max_pub.publish(cerca_max);
+        ros::spinOnce();
+        rate.sleep();
     }
     while(ros::ok()){
         nav_pos_pub.publish(path);
