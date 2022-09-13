@@ -370,6 +370,9 @@ int main(int argc, char **argv)
             }
             i=0;
             px=Recta(vector_avance,punto_arranque,i);
+            if(!Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)){
+                i=1000;
+            }
         }
         //ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z);
         pose.pose.position.x = px.x;
