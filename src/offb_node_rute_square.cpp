@@ -38,7 +38,7 @@ double max_x=300;                        // en m desde el punto de partida
 double max_y=300;                        // en m desde el punto de partida
 
 
-geometry_msgs::Vector3 producto_cruz(geometry_msgs::Vector3 v1,geometry_msgs::Vector3 v2,){
+geometry_msgs::Vector3 producto_cruz(geometry_msgs::Vector3 v1,geometry_msgs::Vector3 v2){
     geometry_msgs::Vector3 v3;
     v3.x=v1.y*v2.z-v1.z*v2.y;
     v3.y=v1.z*v2.x-v1.x*v2.z;
