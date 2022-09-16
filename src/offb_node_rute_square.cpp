@@ -150,7 +150,7 @@ void local_pose_cb(const geometry_msgs::PoseStamped::ConstPtr& msg){
 
 int main(int argc, char **argv)
 {
-    //double H = atof(argv[1]);
+    angulo_entrada = atof(argv[1]);
     //calculo de variables de vuelo
     double GSD=(Width_sensor*H*100)/(Focal_length*Image_pix_Width);             // en cm/pix
     double ancho_huella=(GSD*Image_pix_Width)/100;                              // en m
