@@ -306,7 +306,7 @@ int main(int argc, char **argv)
             punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
         }
     }else if(angulo_entrada<-90 && angulo_entrada>-180){
-        punto_arranque.x=max_cerca_x;
+        punto_arranque.x= max_cerca_x;
         punto_arranque.y= min_cerca_y;
         punto_arranque.z= H;
         punto_arranque.x= punto_arranque.x+dis_entre_lineas.x;
