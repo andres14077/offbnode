@@ -9,6 +9,7 @@
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/State.h>
+#include <mavros_msgs/WaypointReached.h>
 #include <tf/transform_listener.h>
 #include <tf/transform_datatypes.h>
 #include <string.h>
@@ -177,6 +178,9 @@ int main(int argc, char **argv)
             ("offboard/cerca", 10);
     ros::Publisher cerca_max_pub = nh.advertise<geometry_msgs::PolygonStamped>
             ("offboard/cerca_extra", 10);
+    ros::Publisher mensaje_camara_pub = nh.advertise<mavros_msgs::WaypointReached>
+            ("offboard/mission/reached", 10);
+
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>
             ("mavros/state", 10, state_cb);
     ros::Subscriber local_pose_sub = nh.subscribe<geometry_msgs::PoseStamped>
@@ -441,7 +445,10 @@ int main(int argc, char **argv)
         if(distancia(pose.pose.position.x,pose.pose.position.y,pose.pose.position.z,
                      current_local_pose.pose.position.x,current_local_pose.pose.position.y,current_local_pose.pose.position.z)<1){
             i++;
-
+            mavros_msgs::WaypointReached tomar_foto;
+            tomar_foto.header.frame_id = "map";
+            tomar_foto.header.stamp = ros::Time::now();
+            tomar_foto.wp_seq=i;
             if(i>path.poses.size()){
                 mission=false;
             }
