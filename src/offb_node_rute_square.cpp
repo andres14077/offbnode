@@ -396,24 +396,18 @@ int main(int argc, char **argv)
         pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(vector_avance.y,vector_avance.x));
         path.poses.push_back(pose);
     }
-    while(ros::ok()){
+    for (int i = 0; i < 5; ++i) {
         nav_pos_pub.publish(path);
         cerca_pub.publish(cerca);
         cerca_max_pub.publish(cerca_max);
         ros::spinOnce();
         rate.sleep();
     }
-
     // wait for FCU connection
     while(ros::ok() && !current_state.connected){
         ros::spinOnce();
         rate.sleep();
     }
-    // geometry_msgs::PoseStamped pose;
-    // pose.pose.position.x = 0;
-    // pose.pose.position.y = 0;
-    // pose.pose.position.z = H;
-    // pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(1,0));
 
     mavros_msgs::SetMode offb_set_mode;
     offb_set_mode.request.custom_mode = "OFFBOARD";
@@ -422,8 +416,11 @@ int main(int argc, char **argv)
     arm_cmd.request.value = true;
 
     ros::Time last_request = ros::Time::now();
-
-    while(ros::ok()){
+    ros::Time last_view_porcentaje = ros::Time::now();
+    bool mission=true;
+    int i=0;
+    while(ros::ok() && mission){
+        geometry_msgs::PoseStamped pose=path.poses[i];
         if( current_state.mode != "OFFBOARD" &&
             (ros::Time::now() - last_request > ros::Duration(5.0))){
             if( set_mode_client.call(offb_set_mode) &&
@@ -441,17 +438,22 @@ int main(int argc, char **argv)
                 last_request = ros::Time::now();
             }
         }
+        if(distancia(pose.pose.position.x,pose.pose.position.y,pose.pose.position.z,
+                     current_local_pose.pose.position.x,current_local_pose.pose.position.y,current_local_pose.pose.position.z)<1){
+            i++;
 
-            // pose.pose.position.x = 0;
-            // pose.pose.position.y = 0;
-            // pose.pose.position.z = H;
-            // pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(1,0));
-        // ROS_INFO("set point x=[%f],y=[%f],z=[%f]",pose.pose.position.x,pose.pose.position.y,
-        //     pose.pose.position.z);
-        ROS_INFO("local point x=[%f],y=[%f],z=[%f]",current_local_pose.pose.position.x,
-            current_local_pose.pose.position.y,current_local_pose.pose.position.z);
-    
-        // local_pos_pub.publish(pose);
+            if(i>path.poses.size()){
+                mission=false;
+            }
+        }
+        if(ros::Time::now() - last_view_porcentaje > ros::Duration(5.0)){
+            ROS_INFO("Porcentade de mision %f%%",(i*100.0/(uint)path.poses.size()));
+            last_view_porcentaje = ros::Time::now();
+        }
+//        ROS_INFO("local point x=[%f],y=[%f],z=[%f]",current_local_pose.pose.position.x,
+//            current_local_pose.pose.position.y,current_local_pose.pose.position.z);
+
+        local_pos_pub.publish(pose);
         ros::spinOnce();
         rate.sleep();
     }

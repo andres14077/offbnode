@@ -22,7 +22,7 @@ class Cap_imag:
         self._cv_bridge=CvBridge()
         self.last_id=0
         self.capture_image=0
-        self.pub=rospy.Publisher('/mavros/mount_control/command', MountControl, queue_size=10)
+        self.pub=rospy.Publisher('/offboard/mount_control/command', MountControl, queue_size=10)
         self.cmd=MountControl()
         
                                         
@@ -58,6 +58,8 @@ if __name__ == '__main__':
     try:
         capture_for_px4()
     except rospy.ROSInterruptException:
+        exit()
+    except:
         exit()
 
     
