@@ -272,6 +272,7 @@ int main(int argc, char **argv)
     dis_entre_lineas.y=separacion_lineas_vuelo*cos(angulo_entrada*G_to_R);
     //punto de arranque
     if(angulo_entrada<180 && angulo_entrada>90){
+        ROS_INFO("ang1");
         dis_entre_lineas.x*=-1;
         dis_entre_lineas.y*=-1;
         punto_arranque.x= max_cerca_x;
@@ -284,6 +285,7 @@ int main(int argc, char **argv)
             punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y);
         }
     }else if(angulo_entrada<90 && angulo_entrada>0){
+        ROS_INFO("ang2");
         punto_arranque.x= min_cerca_x;
         punto_arranque.y= max_cerca_y;
         punto_arranque.z= H;
@@ -294,6 +296,7 @@ int main(int argc, char **argv)
             punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y);
         }
     }else if(angulo_entrada<0 && angulo_entrada>-90){
+        ROS_INFO("ang3");
         dis_entre_lineas.x*=-1;
         dis_entre_lineas.y*=-1;
         punto_arranque.x= min_cerca_x;
@@ -306,6 +309,7 @@ int main(int argc, char **argv)
             punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y);
         }
     }else if(angulo_entrada<-90 && angulo_entrada>-180){
+        ROS_INFO("ang4");
         punto_arranque.x= max_cerca_x;
         punto_arranque.y= min_cerca_y;
         punto_arranque.z= H;
