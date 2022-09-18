@@ -7,10 +7,7 @@ from sensor_msgs.msg import Image
 
 from cv_bridge import CvBridge 
 import cv2
-import numpy as np
 #import tensorflow as tf
-from std_msgs.msg import String
-from matplotlib import pyplot 
 import sys
 import os
 
@@ -49,7 +46,8 @@ class Cap_imag:
         self.cmd.header.stamp=rospy.Time.now()
         self.cmd.header.frame_id="map"
         self.cmd.mode=2
-        self.cmd.pitch=90
+        self.cmd.pitch=-90
+        self.pub.publish(self.cmd)
         
 def capture_for_px4():
     rospy.init_node('capture_for_px4', anonymous=True)
