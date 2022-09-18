@@ -8,7 +8,7 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge 
 import cv2
 import numpy as np
-import tensorflow as tf
+#import tensorflow as tf
 from std_msgs.msg import String
 from matplotlib import pyplot 
 import sys
@@ -27,7 +27,7 @@ class Cap_imag:
         self.pub=rospy.Publisher('/mavros/mount_control/command', MountControl, queue_size=10)
         self.cmd=MountControl()
         self.image_directory=sys.argv[1]
-        if not (os.path.exists(image_directory)):
+        if not (os.path.exists(self.image_directory)):
             rospy.loginfo("Carpeta no encontrada:"+self.image_directory)
             exit()
             
@@ -64,8 +64,10 @@ if __name__ == '__main__':
     try:
         capture_for_px4()
     except rospy.ROSInterruptException:
+        rospy.loginfo("Interrupcion")
         exit()
     except:
+        rospy.loginfo("error")
         exit()
 
     

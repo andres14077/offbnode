@@ -22,4 +22,4 @@ export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)/Tools/sitl_gazebo
 #roslaunch offbnode mavros_posix_sitl.launch vehicle:=typhoon_h480
 #roslaunch offbnode mundo_y_dron.launch vehicle:=iris_gimbal world:="$(find mavlink_sitl_gazebo)/worlds/p3.world"
 roslaunch offbnode pruebas_sin_gui.launch
-#reset
+reset

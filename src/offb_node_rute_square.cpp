@@ -33,10 +33,10 @@ double gradiente_x=0;                    // en m
 double gradiente_y=0;                    // en m
 double gradiente_z=0;                    // en m
 // cerca de vuelo
-double min_x=-300;                       // en m desde el punto de partida
-double min_y=-300;                       // en m desde el punto de partida
-double max_x=300;                        // en m desde el punto de partida
-double max_y=300;                        // en m desde el punto de partida
+double min_x=-50;                       // en m desde el punto de partida
+double min_y=-50;                       // en m desde el punto de partida
+double max_x=50;                        // en m desde el punto de partida
+double max_y=50;                        // en m desde el punto de partida
 
 
 geometry_msgs::Vector3 producto_cruz(geometry_msgs::Vector3 v1,geometry_msgs::Vector3 v2){
@@ -449,6 +449,7 @@ int main(int argc, char **argv)
             tomar_foto.header.frame_id = "map";
             tomar_foto.header.stamp = ros::Time::now();
             tomar_foto.wp_seq=i;
+            mensaje_camara_pub.publish(tomar_foto);
             if(i>path.poses.size()){
                 mission=false;
             }
