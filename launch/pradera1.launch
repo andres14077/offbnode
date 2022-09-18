@@ -10,6 +10,7 @@
     <arg name="P" default="0"/>
     <arg name="Y" default="0"/>
     <!-- vehicle model and world -->
+    <arg name="gui" default="false"/>
     <arg name="vehicle" default="iris_gimbal"/>
     <arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/p1.world"/>
     <!-- MAVROS configs -->
@@ -28,6 +29,7 @@
         <arg name="world" value="$(arg world)"/>
         <arg name="vehicle" value="$(arg vehicle)"/>
         <arg name="gcs_url" value="$(arg gcs_url)"/>
+        <arg name="gui" default="$(arg gui)"/>
     </include>
 
     <node name="capture_px4_image" pkg="offbnode" type="capture_for_px4.py" output="screen" launch-prefix="xterm -e">

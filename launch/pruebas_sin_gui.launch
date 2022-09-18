@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <launch>
     <include file="$(find offbnode)/launch/mavros_posix_sitl.launch">
-        <arg name="gui" default="false"/>
+        <arg name="gui" default="true"/>
         <arg name="vehicle" default="iris_gimbal"/>
     </include>
 
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" />
+    <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" /> -->
 
 </launch>
