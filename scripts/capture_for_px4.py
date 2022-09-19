@@ -25,7 +25,7 @@ class Cap_imag:
         self.cmd=MountControl()
         self.image_directory=sys.argv[1]
         if not (os.path.exists(self.image_directory)):
-            rospy.loginfo("Carpeta no encontrada:"+self.image_directory)
+            rospy.logerr("Carpeta no encontrada:"+self.image_directory)
             exit()
             
                                         
@@ -66,7 +66,7 @@ if __name__ == '__main__':
         rospy.loginfo("Interrupcion")
         exit()
     except:
-        rospy.loginfo("error")
+        rospy.logerr("Error desconocido")
         exit()
 
     
