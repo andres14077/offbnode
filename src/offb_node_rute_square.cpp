@@ -1,6 +1,7 @@
 
 #include <ros/ros.h>
 #include <nav_msgs/Path.h>
+#include <std_msgs/Bool.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PolygonStamped.h>
 #include <geometry_msgs/Point.h>
@@ -180,6 +181,9 @@ int main(int argc, char **argv)
             ("offboard/cerca_extra", 10);
     ros::Publisher mensaje_camara_pub = nh.advertise<mavros_msgs::WaypointReached>
             ("offboard/mission/reached", 10);
+
+    ros::Publisher kill_ros_pub = nh.advertise<std_msgs::Bool>
+            ("kill_ros", 10);
 
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>
             ("mavros/state", 10, state_cb);
@@ -452,6 +456,9 @@ int main(int argc, char **argv)
             mensaje_camara_pub.publish(tomar_foto);
             if(i>path.poses.size()){
                 mission=false;
+                std_msgs::Bool kill_ros;
+                kill_ros.data=true;
+                kill_ros_pub.publish(kill_ros);
             }
         }
         if(ros::Time::now() - last_view_porcentaje > ros::Duration(5.0)){

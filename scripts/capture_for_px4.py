@@ -15,7 +15,7 @@ import os
 class Cap_imag:
     
     def __init__(self):
-        rospy.loginfo("init node")
+        rospy.loginfo("init node capture images for offboard")
         rospy.Subscriber("/offboard/mission/reached",WaypointReached,self.Waypoint_Reached_Calback)
         rospy.Subscriber("/iris_gimbal/usb_cam/image_raw", Image, self.Image_Calback)
         self._cv_bridge=CvBridge()
@@ -47,6 +47,7 @@ class Cap_imag:
         self.cmd.header.frame_id="map"
         self.cmd.mode=2
         self.cmd.pitch=-90
+        self.cmd.pitch=0
         self.pub.publish(self.cmd)
         
 def capture_for_px4():

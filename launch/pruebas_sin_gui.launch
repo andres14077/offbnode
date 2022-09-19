@@ -5,6 +5,8 @@
         <arg name="vehicle" default="iris_gimbal"/>
     </include>
 
+    <node type="capture_for_px4.py" name="capture_for_px4" pkg="offbnode" output="screen" args="~/imagenes" />
+    <node type="offb_node_rute_square" name="offb_node_rute_square" pkg="offbnode" output="screen" args="45" />
 <!--     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" />-->
 
 </launch>

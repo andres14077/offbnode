@@ -9,12 +9,12 @@ import os
 class Service_kill:
     
     def __init__(self):
-        rospy.loginfo("init node") 
+        rospy.loginfo("init node service kill ROS")
         rospy.Subscriber("/kill_ROS",Bool,self.Service_Calback)         
                                         
     def Service_Calback(self,msgg):
         if(msgg.data==True):
-            os.system("kill $(ps -aux | grep offbnode)")
+            os.system("kill $(ps -aux | grep offbnode| awk '{print $2}')")
             exit(0)
         
 def servicio_de_kill():
