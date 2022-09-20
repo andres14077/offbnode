@@ -37,7 +37,6 @@ echo "export ROSCONSOLE_FORMAT='[${severity}] [${time}]:${message}'" >> ~/.bashr
 
 catkin_make
 catkin_make
-exit 0
 
 cd 
 mkdir opencv3 
