@@ -17,7 +17,7 @@ sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libpng12
 
 sudo apt-get install -y python-dev python-numpy python-py python-pytest 
 
-sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest 
+sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest python-jinja2 	
 
 sudo apt-get install -y git
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
@@ -98,7 +98,7 @@ catkin_make
 
 mkdir ~/Documents
 cd ~/Documents
-git clone https://github.com/ros-perception/vision_opencv.git vision_opncv
+git clone https://github.com/ros-perception/vision_opencv.git vision_opencv
 cp ~/Documents/vision_opencv/image_geometry ~/catkin_ws/src/image_geometry
 sudo apt-get update
 cd ~/catkin_ws/src
