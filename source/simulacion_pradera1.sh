@@ -17,5 +17,15 @@ source ~/catkin_ws/devel/setup.bash    # (optional)
 source Tools/setup_gazebo.bash $(pwd) $(pwd)/build/px4_sitl_default
 export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)
 export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)/Tools/sitl_gazebo
-roslaunch offbnode pradera1.launch angulo_entrada:=$1
+if [[ -z $1 ]]; then
+	angulo_entrada=0
+else
+	angulo_entrada=$1
+fi
+if [[ -z $2 ]]; then
+	carpeta=p1/
+else
+	carpeta=$2
+fi
+roslaunch offbnode pradera1.launch angulo_entrada:=$angulo_entrada carpeta_imagenes:=$carpeta
 #reset
