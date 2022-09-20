@@ -99,7 +99,7 @@ catkin_make
 mkdir ~/Documents
 cd ~/Documents
 git clone https://github.com/ros-perception/vision_opencv.git vision_opencv
-cp ~/Documents/vision_opencv/image_geometry ~/catkin_ws/src/image_geometry
+cp -r ~/Documents/vision_opencv/image_geometry ~/catkin_ws/src/image_geometry
 sudo apt-get update
 cd ~/catkin_ws/src
 git clone https://github.com/ros-visualization/rqt_image_view.git
