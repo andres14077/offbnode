@@ -13,7 +13,11 @@ sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libpng12
 sudo apt-get install -y python-dev python-numpy python-py python-pytest 
 
 sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest 
+
 sudo apt-get install -y git
+sudo apt-get install -y build-essential
+sudo apt-get install -y python-rosdep 
+
 
 
 cd 
@@ -48,7 +52,7 @@ cd
 mkdir catkin_ws 
 mkdir catkin_ws/src
 cd ~/catkin_ws/src
-sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface
+sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
 git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git -b melodic-devel
 rosdep update
 # Verificar dependencias faltantes :
