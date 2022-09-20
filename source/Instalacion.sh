@@ -13,6 +13,7 @@ sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libpng12
 sudo apt-get install -y python-dev python-numpy python-py python-pytest 
 
 sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest 
+sudo apt-get install -y git*
 
 
 cd 
