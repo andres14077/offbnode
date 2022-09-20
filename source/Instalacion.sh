@@ -143,7 +143,7 @@ git checkout v1.9.0
 
 DONT_RUN=1 make px4_sitl_default gazebo 
 
-mv ~/offbnode ~/catkin_ws/src/
+#mv ~/offbnode ~/catkin_ws/src/
 cd ~/catkin_ws
 catkin_make
 catkin_make
