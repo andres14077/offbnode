@@ -1,12 +1,15 @@
 #!/bin/bash
 #
-sudo apt --fix-broken install
+sudo apt --fix-broken install -y
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo apt install curl
+sudo apt install -y curl
 curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 sudo apt update
-sudo apt install -y ros-melodic-desktop-full
+sudo apt install -y ros-melodic-desktop
 
+echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
 ## Instalacion de librerias sobre las que open -cv depnede 
 sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libpng12-dev libjasper-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config 
 
@@ -14,7 +17,7 @@ sudo apt-get install -y python-dev python-numpy python-py python-pytest
 
 sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest 
 
-sudo apt-get install -y git build-essential python-rosdep cmake
+sudo apt-get install -y git
 cd ~/catkin_ws/
 sudo rosdep init
 rosdep update
