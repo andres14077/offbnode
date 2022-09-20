@@ -14,10 +14,10 @@ sudo apt-get install -y python-dev python-numpy python-py python-pytest
 
 sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest 
 
-sudo apt-get install -y git
-sudo apt-get install -y build-essential
-sudo apt-get install -y python-rosdep 
+sudo apt-get install -y git build-essential python-rosdep cmake
 
+sudo rosdep init
+rosdep update
 
 
 cd 
