@@ -36,6 +36,8 @@ echo "export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$ROS_WORKSPACE" >> ~/.bashrc
 echo "export ROSCONSOLE_FORMAT='[${severity}] [${time}]:${message}'" >> ~/.bashrc
 
 catkin_make
+catkin_make
+exit 0
 
 cd 
 mkdir opencv3 
