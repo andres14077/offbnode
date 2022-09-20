@@ -183,7 +183,7 @@ int main(int argc, char **argv)
             ("offboard/mission/reached", 10);
 
     ros::Publisher kill_ros_pub = nh.advertise<std_msgs::Bool>
-            ("kill_ros", 10);
+            ("kill_ROS", 10);
 
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>
             ("mavros/state", 10, state_cb);
