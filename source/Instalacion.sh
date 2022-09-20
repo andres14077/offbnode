@@ -114,7 +114,7 @@ catkin_make
 catkin_make
 catkin_make
 #Instalacion Geographic-Lib y mavros
-cd ~/catkin_ws/
+cd 
 git clone git://git.code.sourceforge.net/p/geographiclib/code geographiclib
 cd geographiclib
 mkdir BUILD
@@ -128,6 +128,11 @@ wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/inst
 sudo bash ./install_geographiclib_datasets.sh   
 
 sudo apt-get install -y ros-melodic-mav*
+cd ~/catkin_ws/
+catkin_make
+catkin_make
+catkin_make
+
 
 #Firmware 
 
