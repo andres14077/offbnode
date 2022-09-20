@@ -52,6 +52,6 @@
         <arg name="fcu_url" value="$(arg fcu_url)"/>
         <arg name="respawn_mavros" value="$(arg respawn_mavros)"/>
     </include>
-    <node name="servicio_de_kill_ros" pkg="offbnode" type="servicio_de_kill_ros.py" >
+    <node name="servicio_de_kill_ros" pkg="offbnode" type="servicio_de_kill_ros.py" output="screen">
     </node>
 </launch>
