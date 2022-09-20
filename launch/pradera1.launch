@@ -33,7 +33,7 @@
         <arg name="gui" default="$(arg gui)"/>
     </include>
 
-    <node type="capture_for_px4.py" name="capture_for_px4" pkg="offbnode" output="screen" args="$(echo $HOME)/Capture_px4/p1/" />
+    <node type="capture_for_px4.py" name="capture_for_px4" pkg="offbnode" output="screen" args="${HOME}/Capture_px4/p1/" />
     <node type="offb_node_rute_square" name="offb_node_rute_square" pkg="offbnode" output="screen" args="$(arg angulo_entrada)" />
 
 </launch>
