@@ -9,7 +9,7 @@ sudo apt install -y ros-melodic-desktop
 
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
-sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
 ## Instalacion de librerias sobre las que open -cv depnede 
 sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libpng12-dev libjasper-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config 
 
