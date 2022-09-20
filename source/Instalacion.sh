@@ -15,7 +15,7 @@ sudo apt-get install -y python-dev python-numpy python-py python-pytest
 sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest 
 
 sudo apt-get install -y git build-essential python-rosdep cmake
-
+cd ~/catkin_ws/
 sudo rosdep init
 rosdep update
 
@@ -48,9 +48,6 @@ make -j7
 ## Instalar librerias 
 sudo make install
 
-cd
-mkdir catkin_ws 
-mkdir catkin_ws/src
 cd ~/catkin_ws/src
 sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
 git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git -b melodic-devel
