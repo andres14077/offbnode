@@ -15,9 +15,10 @@ sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator 
 ## Instalacion de librerias sobre las que open -cv depnede 
 sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libpng12-dev libjasper-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config 
 
-sudo apt-get install -y python-dev python-numpy python-py python-pytest 
+sudo apt-get install -y python-dev python-numpy python-py python-pytest python-pip
 
 sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest python-jinja2 	
+sudo pip install numpy toml
 
 sudo apt-get install -y git
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
@@ -30,10 +31,11 @@ catkin_make
 echo "export SVGA_VGPU10=0" >> ~/.bashrc
 
 
-echo "source /home/andres1407/catkin_ws/devel/setup.bash" >> ~/.bashrc
-echo "export ROS_WORKSPACE=/home/andres/catkin_ws" >> ~/.bashrc
-echo "export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$ROS_WORKSPACE" >> ~/.bashrc
-echo "export ROSCONSOLE_FORMAT='[${severity}] [${time}]:${message}'" >> ~/.bashrc
+echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+echo "export ROS_WORKSPACE=~/catkin_ws" >> ~/.bashrc
+echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$ROS_WORKSPACE" >> ~/.bashrc
+echo "export ROSCONSOLE_FORMAT='[\${severity}] [\${time}]:\${message}'" >> ~/.bashrc
+
 
 catkin_make
 catkin_make
@@ -69,6 +71,9 @@ sudo make install
 cd ~/catkin_ws/src
 sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
 git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git -b melodic-devel
+cd gazebo_ros_pkgs
+git checkout 2.8.7
+cd ..
 rosdep update
 # Verificar dependencias faltantes :
 rosdep check --from-paths . --ignore-src --rosdistro melodic
@@ -82,7 +87,10 @@ sudo apt-get update
 
 # clonar paquete image_common
 cd ~/catkin_ws/src
-git clone https://github.com/ros-perception/image_common.git
+git clone https://github.com/ros-perception/image_common.git -b noetic-devel
+cd image_common
+git checkout 1.12.0
+cd ..
 rosdep update
 # Verificar dependencias faltantes :
 rosdep check --from-paths . --ignore-src --rosdistro  melodic
@@ -98,12 +106,20 @@ catkin_make
 
 mkdir ~/Documents
 cd ~/Documents
-git clone https://github.com/ros-perception/vision_opencv.git vision_opencv
-cp -r ~/Documents/vision_opencv/image_geometry ~/catkin_ws/src/image_geometry
+git clone https://github.com/ros-perception/vision_opencv.git -b melodic
+cd vision_opencv
+git checkout 1.13.0
+cp -r ~/Documents/vision_opencv/image_geometry  ~/catkin_ws/src/image_geometry
 sudo apt-get update
 cd ~/catkin_ws/src
-git clone https://github.com/ros-visualization/rqt_image_view.git
+git clone https://github.com/ros-visualization/rqt_image_view.git}
+cd rqt_image_view
+git checkout 0.4.16
+cd ..
+cd rqt_common_plugins
 git clone https://github.com/ros-visualization/rqt_common_plugins.git
+git checkout 0.4.9
+cd ..
 rosdep update
 # Verificar dependencias faltantes :
 rosdep check --from-paths . --ignore-src --rosdistro melodic
@@ -143,7 +159,7 @@ git checkout v1.9.0
 
 DONT_RUN=1 make px4_sitl_default gazebo 
 
-#mv ~/offbnode ~/catkin_ws/src/
+mv ~/offbnode ~/catkin_ws/src/
 cd ~/catkin_ws
 catkin_make
 catkin_make
