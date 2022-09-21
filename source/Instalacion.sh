@@ -163,3 +163,8 @@ cd ~/catkin_ws
 catkin_make
 catkin_make
 catkin_make
+
+roscd offbnode 
+source ./source/Descargar_models.sh
+source ./source/Copiar_modelos_y_configuraciones.sh 
+
