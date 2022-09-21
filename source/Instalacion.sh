@@ -21,24 +21,23 @@ sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest pyth
 sudo pip install numpy toml
 
 sudo apt-get install -y git
-echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-source ~/.bashrc
-cd ~/catkin_ws/
-sudo rosdep init
-rosdep update
-catkin_make
-
 echo "export SVGA_VGPU10=0" >> ~/.bashrc
-
-
+echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 echo "export ROS_WORKSPACE=~/catkin_ws" >> ~/.bashrc
 echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$ROS_WORKSPACE" >> ~/.bashrc
 echo "export ROSCONSOLE_FORMAT='[\${severity}] [\${time}]:\${message}'" >> ~/.bashrc
-
+source ~/.bashrc
+source /opt/ros/melodic/setup.bash
+cd ~/catkin_ws/
+sudo rosdep init
+rosdep update
 
 catkin_make
 catkin_make
+catkin_make
+
+source ~/catkin_ws/devel/setup.bash
 
 cd 
 mkdir opencv3 
