@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 cd
-mkdir catkin_ws/ 
+mkdir catkin_ws/
 mkdir catkin_ws/src
 sudo apt --fix-broken install -y
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -12,12 +12,12 @@ sudo apt install -y ros-melodic-desktop-full
 
 
 sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
-## Instalacion de librerias sobre las que open -cv depnede 
-sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libpng12-dev libjasper-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config 
+## Instalacion de librerias sobre las que open -cv depnede
+sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libpng12-dev libjasper-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config
 
 sudo apt-get install -y python-dev python-numpy python-py python-pytest python-pip
 
-sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest python-jinja2 	
+sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest python-jinja2
 sudo pip install numpy toml
 
 sudo apt-get install -y git
@@ -39,39 +39,39 @@ catkin_make
 
 source ~/catkin_ws/devel/setup.bash
 
-cd 
-mkdir opencv3 
-cd opencv3 
+cd
+mkdir opencv3
+cd opencv3
 
-## Clonar repositorio 
-git clone https://github.com/opencv/opencv.git opencv 
-cd opencv 
-git checkout 3.3.1 
-cd .. 
-## OpenCV Extras 
-git clone https://github.com/opencv/opencv_extra.git 
-cd opencv_extra/ 
-git checkout 3.3.1 
-cd .. 
+## Clonar repositorio
+git clone https://github.com/opencv/opencv.git opencv
+cd opencv
+git checkout 3.3.1
+cd ..
+## OpenCV Extras
+git clone https://github.com/opencv/opencv_extra.git
+cd opencv_extra/
+git checkout 3.3.1
+cd ..
 cd opencv
 
 ## Crear directorio para construir los paquetes
-mkdir build 
+mkdir build
 cd build/
-## Configuracion de la comiplacion e instalacion 
-export PATH=$PATH:/usr/local/cuda/bin 
-export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64 
-cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr -D BUILD_PNG=OFF -D BUILD_TIFF=OFF -D BUILD_TBB=OFF -D BUILD_JPEG=OFF -D BUILD_JASPER=OFF -D BUILD_ZLIB=OFF -D BUILD_EXAMPLES=ON -D BUILD_JAVA=OFF -D BUILD_opencv_python2=ON -D BUILD_opencv_python3=OFF -D WITH_OPENCL=OFF -D WITH_OPENMP=OFF -D WITH_FFMPEG=ON  -DWITH_GSTREAMER=OFF -DWITH_GSTREAMER_0_10=OFF -DWITH_CUDA=ON -DWITH_GTK=ON -DWITH_VTK=OFF -DWITH_TBB=ON -DWITH_1394=OFF -DWITH_OPENEXR=OFF -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-8.0 -DCUDA_ARCH_BIN=’3.0 3.5 5.0 6.0 6.2 ’ -DCUDA_ARCH_PTX="" -DINSTALL_C_EXAMPLES=ON -DINSTALL_TESTS=OFF -DOPENCV_TEST_DATA_PATH=../opencv_extra/testdata ../opencv .. 
-## Comiplar librerias con siete de los procesadores de la CPU del dispositivo 
-make -j7 
-## Instalar librerias 
+## Configuracion de la comiplacion e instalacion
+export PATH=$PATH:/usr/local/cuda/bin
+export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64
+cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr -D BUILD_PNG=OFF -D BUILD_TIFF=OFF -D BUILD_TBB=OFF -D BUILD_JPEG=OFF -D BUILD_JASPER=OFF -D BUILD_ZLIB=OFF -D BUILD_EXAMPLES=ON -D BUILD_JAVA=OFF -D BUILD_opencv_python2=ON -D BUILD_opencv_python3=OFF -D WITH_OPENCL=OFF -D WITH_OPENMP=OFF -D WITH_FFMPEG=ON  -DWITH_GSTREAMER=OFF -DWITH_GSTREAMER_0_10=OFF -DWITH_CUDA=ON -DWITH_GTK=ON -DWITH_VTK=OFF -DWITH_TBB=ON -DWITH_1394=OFF -DWITH_OPENEXR=OFF -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-8.0 -DCUDA_ARCH_BIN=’3.0 3.5 5.0 6.0 6.2 ’ -DCUDA_ARCH_PTX="" -DINSTALL_C_EXAMPLES=ON -DINSTALL_TESTS=OFF -DOPENCV_TEST_DATA_PATH=../opencv_extra/testdata ../opencv ..
+## Comiplar librerias con siete de los procesadores de la CPU del dispositivo
+make -j7
+## Instalar librerias
 sudo make install
 
 cd ~/catkin_ws/src
 sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
 git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git -b melodic-devel
 cd gazebo_ros_pkgs
-git checkout 2.8.7
+git checkout 6ce46e3
 cd ..
 rosdep update
 # Verificar dependencias faltantes :
@@ -88,7 +88,7 @@ sudo apt-get update
 cd ~/catkin_ws/src
 git clone https://github.com/ros-perception/image_common.git -b noetic-devel
 cd image_common
-git checkout 1.12.0
+git checkout e9c8c32
 cd ..
 rosdep update
 # Verificar dependencias faltantes :
@@ -99,21 +99,21 @@ cd ~/catkin_ws/
 catkin_make
 catkin_make
 catkin_make
-# clonar el paquete image_geometry de vision_opencv . No se clona el repositorio 
+# clonar el paquete image_geometry de vision_opencv . No se clona el repositorio
 # directamente en el workspace , pues ya se tiene el paquete de cv_bridge que
 # compila con soporte para GPU.
 
 mkdir ~/Documents
 cd ~/Documents
-git clone https://github.com/ros-perception/vision_opencv.git -b melodic
+git clone https://github.com/ros-perception/vision_opencv.git -b noetic
 cd vision_opencv
-git checkout 1.13.0
+git checkout e9c8c32
 cp -r ~/Documents/vision_opencv/image_geometry  ~/catkin_ws/src/image_geometry
 sudo apt-get update
 cd ~/catkin_ws/src
-git clone https://github.com/ros-visualization/rqt_image_view.git}
+git clone https://github.com/ros-visualization/rqt_image_view.git
 cd rqt_image_view
-git checkout 0.4.16
+git checkout f6abb6a
 cd ..
 cd rqt_common_plugins
 git clone https://github.com/ros-visualization/rqt_common_plugins.git
@@ -140,7 +140,7 @@ make # compile the library and utilities
 make test # run some tests
 sudo make install
 wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh
-sudo bash ./install_geographiclib_datasets.sh   
+sudo bash ./install_geographiclib_datasets.sh
 
 sudo apt-get install -y ros-melodic-mav*
 cd ~/catkin_ws/
@@ -149,14 +149,14 @@ catkin_make
 catkin_make
 
 
-#Firmware 
+#Firmware
 
-cd 
+cd
 git clone https://github.com/PX4/Firmware.git
 cd ~/Firmware
 git checkout v1.9.0
 
-DONT_RUN=1 make px4_sitl_default gazebo 
+DONT_RUN=1 make px4_sitl_default gazebo
 
 mv ~/offbnode ~/catkin_ws/src/
 cd ~/catkin_ws
@@ -164,7 +164,7 @@ catkin_make
 catkin_make
 catkin_make
 
-roscd offbnode 
+roscd offbnode
 source ./source/Descargar_models.sh
-source ./source/Copiar_modelos_y_configuraciones.sh 
+source ./source/Copiar_modelos_y_configuraciones.sh
 
