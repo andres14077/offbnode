@@ -123,8 +123,8 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
- include
- ${catkin_INCLUDE_DIRS}
+  include
+  ${catkin_INCLUDE_DIRS}
 )
 #catkin_install_python(PROGRAMS scripts/cap_imag_for_px4.py
 #  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -172,10 +172,10 @@ target_link_libraries(offb_node_rute_square
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
- catkin_install_python(PROGRAMS
-   scripts/capture_for_px4.py
-   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
- )
+catkin_install_python(PROGRAMS
+  scripts/capture_for_px4.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 catkin_install_python(PROGRAMS
   scripts/servicio_de_kill_ros.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
