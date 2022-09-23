@@ -3,7 +3,7 @@
     <!-- MAVROS posix SITL environment launch script -->
     <!-- launches MAVROS, PX4 SITL, Gazebo environment, and spawns vehicle -->
     <arg name="angulo_entrada" default="0"/>
-    <arg name="carpeta_imagenes" default="p1/"/>
+    <arg name="carpeta_imagenes" default="p5/"/>
     <!-- vehicle pose -->
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
@@ -14,7 +14,7 @@
     <!-- vehicle model and world -->
     <arg name="gui" default="true"/>
     <arg name="vehicle" default="iris_gimbal"/>
-    <arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/p2.world"/>
+    <arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/p5.world"/>
     <!-- MAVROS configs -->
     <arg name="gcs_url" default="udp://:18570@localhost:14550"/>
 
