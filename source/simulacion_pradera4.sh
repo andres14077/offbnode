@@ -22,7 +22,7 @@ else
 	angulo_entrada=$1
 fi
 if [[ -z $2 ]]; then
-	carpeta=p2/
+	carpeta=p4/
 else
 	carpeta=$2
 fi
