@@ -46,7 +46,6 @@ class Cap_imag:
         self.cmd.header.stamp=rospy.Time.now()
         self.cmd.header.frame_id="map"
         self.cmd.mode=2
-        self.cmd.pitch=-90
         self.cmd.pitch=0
         self.pub.publish(self.cmd)
         
