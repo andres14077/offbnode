@@ -8,7 +8,6 @@ cd .ros/
 cd eeprom/
 rm parameters
 
-
 cd ~/Firmware
 DONT_RUN=1 make px4_sitl_default gazebo_iris
 #////////
