@@ -26,5 +26,5 @@ if [[ -z $2 ]]; then
 else
 	carpeta=$2
 fi
-roslaunch offbnode pradera2.launch angulo_entrada:=$angulo_entrada carpeta_imagenes:=$carpeta
+roslaunch offbnode pradera5.launch angulo_entrada:=$angulo_entrada carpeta_imagenes:=$carpeta
 #reset
