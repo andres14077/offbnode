@@ -23,9 +23,9 @@ else
 	angulo_entrada=$1
 fi
 if [[ -z $2 ]]; then
-	carpeta=l1/
+	carpeta=l5/
 else
 	carpeta=$2
 fi
-roslaunch offbnode ladera1.launch angulo_entrada:=$angulo_entrada carpeta_imagenes:=$carpeta
+roslaunch offbnode ladera5.launch angulo_entrada:=$angulo_entrada carpeta_imagenes:=$carpeta
 #reset
