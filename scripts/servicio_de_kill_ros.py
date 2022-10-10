@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import rospy
 from std_msgs.msg import Bool
-import sys
 import os
 
 
