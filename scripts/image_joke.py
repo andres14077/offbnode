@@ -43,9 +43,9 @@ if __name__ == "__main__":
     # Setpoint publishing MUST be faster than 2Hz
     rate = rospy.Rate(20)
 
-    rospy.Subscriber("iris_gimbal/usb_cam/image_raw", Image, image_cb)
-    rospy.Subscriber("iris_gimbal/usb_cam/camera_info", CameraInfo, camera_info_cb)
-    rospy.Subscriber("mavros/local_position/pose", PoseStamped, local_pose_cb)
+    image_raw_sub=rospy.Subscriber("iris_gimbal/usb_cam/image_raw", Image, image_cb)
+    camera_info_sub=rospy.Subscriber("iris_gimbal/usb_cam/camera_info", CameraInfo, camera_info_cb)
+    local_pose_sub=rospy.Subscriber("mavros/local_position/pose", PoseStamped, local_pose_cb)
 
     local_poss_pub = rospy.Publisher("offbnode/pose_local_cmd", PoseStamped, queue_size=10)
     camera_pose_pub=rospy.Publisher('mavros/mount_control/command', MountControl, queue_size=10)
@@ -119,6 +119,11 @@ if __name__ == "__main__":
 
     rate = rospy.Rate(0.5)
 
+    image_raw_sub.unregister()
+    camera_info_sub.unregister()
+    local_pose_sub.unregister()
+
+    rospy.loginfo("Joke stereo image")
     while(not rospy.is_shutdown()):
         image_l.header.stamp = rospy.Time.now()
         camera_info_l.header.stamp = rospy.Time.now()
@@ -130,5 +135,5 @@ if __name__ == "__main__":
         camera_info_left_pub.publish(camera_info_l)
 
         image_right_pub.publish(image_r)
-        camera_pose_pub.publish(camera_info_r)
+        camera_info_right_pub.publish(camera_info_r)
         rate.sleep()
