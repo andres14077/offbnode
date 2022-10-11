@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from copy import copy
 import math
 import rospy
 from geometry_msgs.msg import PoseStamped
@@ -20,10 +21,10 @@ def image_cb(msg):
     global image_2
     if (toma_imagen_l==True):
         toma_imagen_l = False
-        image_1 =msg
+        image_1 = copy(msg)
     if (toma_imagen_r==True):
         toma_imagen_r = False
-        image_2 =msg
+        image_2 = copy(msg)
 def camera_info_cb(msg):
     global camera_info_b
     camera_info_b=msg
@@ -58,6 +59,7 @@ if __name__ == "__main__":
     rospy.wait_for_service("offbnode/master_ok")
 
     offboard_client = rospy.ServiceProxy("offbnode/master_ok", CommandBool)
+    rospy.loginfo("Esperando servicio offboard")
 
     while(offboard_client.call(True).success==False):
         rate.sleep()
@@ -77,6 +79,8 @@ if __name__ == "__main__":
     camera_pose.mode=2
     camera_pose.pitch=-90
 
+    rospy.loginfo("Ir a posicion 1")
+
     while(not rospy.is_shutdown() and distancia_to_setpoint(pose_local)>0.05):
         local_poss_pub.publish(pose_local)
         camera_pose_pub.publish(camera_pose)
@@ -95,6 +99,8 @@ if __name__ == "__main__":
     pose_local.pose.orientation.z = q[2]
     pose_local.pose.orientation.w = q[3]
 
+    rospy.loginfo("Ir a posicion 2")
+
     while(not rospy.is_shutdown() and distancia_to_setpoint(pose_local)>0.05):
         local_poss_pub.publish(pose_local)
         camera_pose_pub.publish(camera_pose)
@@ -103,3 +109,8 @@ if __name__ == "__main__":
     pose_2=current_local_pose.pose
     while(not rospy.is_shutdown() and toma_imagen_r):
         rate.sleep()
+
+    camera_info_l = copy(camera_info_b)
+    camera_info_r = copy(camera_info_b)
+    camera_info_r.P=(camera_info_r.P[0],camera_info_r.P[1],camera_info_r.P[2],camera_info_r.P[3],camera_info_r.P[4],camera_info_r.P[5],camera_info_r.P[6],
+    camera_info_r.P[7],camera_info_r.P[8],camera_info_r.P[9],camera_info_r.P[10], camera_info_r.P[11])
