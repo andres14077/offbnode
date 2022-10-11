@@ -6,25 +6,25 @@ import rospy
 from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import Image,CameraInfo
 from mavros_msgs.msg import MountControl
-from mavros_msgs.srv import CommandBool, CommandBoolRequest
+from mavros_msgs.srv import CommandBool
 from tf.transformations import quaternion_from_euler
 toma_imagen_l=False
 toma_imagen_r=False
-image_1 = Image()
-image_2 = Image()
+image_l = Image()
+image_r = Image()
 current_local_pose=PoseStamped()
 camera_info_b=CameraInfo()
 def image_cb(msg):
     global toma_imagen_l
     global toma_imagen_r
-    global image_1
-    global image_2
+    global image_l
+    global image_r
     if (toma_imagen_l==True):
         toma_imagen_l = False
-        image_1 = copy(msg)
+        image_l = copy(msg)
     if (toma_imagen_r==True):
         toma_imagen_r = False
-        image_2 = copy(msg)
+        image_r = copy(msg)
 def camera_info_cb(msg):
     global camera_info_b
     camera_info_b=msg
@@ -110,7 +110,25 @@ if __name__ == "__main__":
     while(not rospy.is_shutdown() and toma_imagen_r):
         rate.sleep()
 
+    dx=pose_2.position.x-pose_1.position.x
+    dy=pose_2.position.y-pose_1.position.y
     camera_info_l = copy(camera_info_b)
     camera_info_r = copy(camera_info_b)
-    camera_info_r.P=(camera_info_r.P[0],camera_info_r.P[1],camera_info_r.P[2],camera_info_r.P[3],camera_info_r.P[4],camera_info_r.P[5],camera_info_r.P[6],
-    camera_info_r.P[7],camera_info_r.P[8],camera_info_r.P[9],camera_info_r.P[10], camera_info_r.P[11])
+    camera_info_r.P=(camera_info_r.P[0],camera_info_r.P[1],camera_info_r.P[2],(-1)*camera_info_r.P[0]*dx,camera_info_r.P[4],camera_info_r.P[5],camera_info_r.P[6],
+    (-1)*camera_info_r.P[5]*dy,camera_info_r.P[8],camera_info_r.P[9],camera_info_r.P[10], camera_info_r.P[11])
+
+    rate = rospy.Rate(0.5)
+
+    while(not rospy.is_shutdown()):
+        image_l.header.stamp = rospy.Time.now()
+        camera_info_l.header.stamp = rospy.Time.now()
+
+        image_r.header.stamp = rospy.Time.now()
+        camera_info_r.header.stamp = rospy.Time.now()
+
+        image_left_pub.publish(image_l)
+        camera_info_left_pub.publish(camera_info_l)
+
+        image_right_pub.publish(image_r)
+        camera_pose_pub.publish(camera_info_r)
+        rate.sleep()

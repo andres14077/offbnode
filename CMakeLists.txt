@@ -16,7 +16,6 @@ find_package(catkin REQUIRED
       sensor_msgs
       mavros_msgs
       cv_bridge
-      OpenCV
       tf
       )
   include_directories(${OpenCV_INCLUDE_DIRS})

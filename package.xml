@@ -56,8 +56,8 @@
   <depend>mavros_msgs</depend>
   <depend>sensor_msgs</depend>
   <depend>cv_bridge</depend>
-  <depend>OpenCV</depend>
   <depend>tf</depend>
+  <depend>image_pipeline</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
