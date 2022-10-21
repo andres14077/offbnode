@@ -5,7 +5,7 @@
         <arg name="vehicle" default="iris_gimbal"/>
     </include>
     <node type="offboard_node.py" name="offboard_node" pkg="offbnode" output="screen" />
-    <node type="image_joke.py" name="image_joke" pkg="offbnode" output="screen" />
+    <node type="image_joke_cal.py" name="image_joke_cal" pkg="offbnode" output="screen" />
     <!-- <node type="capture_for_px4.py" name="capture_for_px4" pkg="offbnode" output="screen" args="$(env HOME)/imagenes" />
     <node type="offb_node_rute_square" name="offb_node_rute_square" pkg="offbnode" output="screen" args="45" /> -->
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" />

@@ -39,7 +39,7 @@ if __name__ == "__main__":
     offboard_service = rospy.Service("offbnode/master_ok", CommandBool,offboard_service_cb)
 
     # Setpoint publishing MUST be faster than 2Hz
-    rate = rospy.Rate(20)
+    rate = rospy.Rate(30)
 
     # Wait for Flight Controller connection
     while(not rospy.is_shutdown() and not current_state.connected):
@@ -62,13 +62,13 @@ if __name__ == "__main__":
     last_req = rospy.Time.now()
 
     while(not rospy.is_shutdown()):
-        if(current_state.mode != "OFFBOARD" and (rospy.Time.now() - last_req) > rospy.Duration(5.0)):
+        if(current_state.mode != "OFFBOARD" and (rospy.Time.now() - last_req) > rospy.Duration(1.0)):
             if(set_mode_client.call(offb_set_mode).mode_sent == True):
                 rospy.loginfo("OFFBOARD enabled")
             
             last_req = rospy.Time.now()
         else:
-            if(not current_state.armed and (rospy.Time.now() - last_req) > rospy.Duration(5.0)):
+            if(not current_state.armed and (rospy.Time.now() - last_req) > rospy.Duration(1.0)):
                 if(arming_client.call(arm_cmd).success == True):
                     rospy.loginfo("Vehicle armed")
             
