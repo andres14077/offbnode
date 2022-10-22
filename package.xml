@@ -57,7 +57,7 @@
   <depend>sensor_msgs</depend>
   <depend>cv_bridge</depend>
   <depend>tf</depend>
-  <depend>image_pipeline</depend>
+  <depend>stereo_image_proc</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

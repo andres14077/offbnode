@@ -17,6 +17,7 @@ find_package(catkin REQUIRED
       mavros_msgs
       cv_bridge
       tf
+      stereo_image_proc
       )
   include_directories(${OpenCV_INCLUDE_DIRS})
 ## System dependencies are found with CMake's conventions
@@ -189,6 +190,10 @@ catkin_install_python(PROGRAMS
 )
 catkin_install_python(PROGRAMS
   scripts/image_joke_cal.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+catkin_install_python(PROGRAMS
+  scripts/image_joke_cal_2.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 ## Mark executables for installation

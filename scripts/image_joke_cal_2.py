@@ -15,7 +15,39 @@ toma_imagen_r=False
 image_lg = Image()
 image_rg = Image()
 current_local_pose=PoseStamped()
-camera_info_b=CameraInfo()
+
+width = 921
+height = 691
+
+camera_info_l = CameraInfo()
+camera_info_l.width = width
+camera_info_l.height = height
+camera_info_l.distortion_model="plumb_bob"
+camera_info_l.D=[0.005396, -0.008894, -0.002057, 0.003354, 0.000000]
+camera_info_l.K=[  737.73067,    0.0     ,  468.77655,
+                    0.0     ,  738.33516 ,  336.97961,
+                    0.0     ,    0.0     ,    1.0     ]
+camera_info_l.R=[   0.99144641, -0.01139178, -0.1300163 ,
+                    0.01002423,  0.99988739, -0.01116794,
+                    0.13012888,  0.0097691 ,  0.99144896]
+camera_info_l.P=[ 658.97901,    0.0    ,  604.79104,    0.0    ,
+                    0.0    ,  658.97901,  345.43336,    0.0    ,
+                    0.0    ,    0.0    ,    1.0    ,    0.0    ]
+
+camera_info_r = CameraInfo()
+camera_info_r.width = width
+camera_info_r.height = height
+camera_info_r.distortion_model="plumb_bob"
+camera_info_r.D=[0.007305, -0.009637, 0.000069, 0.000014, 0.000000]
+camera_info_r.K=[ 740.14254,    0.0    ,  466.50946,
+                    0.0    ,  740.35689,  353.3165 ,
+                    0.0    ,    0.0    ,    1.0    ]
+camera_info_r.R=[   0.99146671, -0.01456424, -0.12954399,
+                    0.01592539,  0.99982826,  0.00947749,
+                    0.12938371, -0.01145965,  0.99152838]
+camera_info_r.P=[ 658.97901,     0.0    ,   604.79104, -1294.75718,
+                    0.0    ,   658.97901,   345.43336,     0.0    ,
+                    0.0    ,     0.0    ,     1.0    ,     0.0    ]
 
 def image_cb(msg):
     global toma_imagen_l
@@ -28,9 +60,6 @@ def image_cb(msg):
     if (toma_imagen_r==True):
         toma_imagen_r = False
         image_rg = copy(msg)
-def camera_info_cb(msg):
-    global camera_info_b
-    camera_info_b=msg
 def local_pose_cb(msg):
     global current_local_pose
     current_local_pose = msg
@@ -47,7 +76,6 @@ if __name__ == "__main__":
     rate = rospy.Rate(20)
 
     image_raw_sub=rospy.Subscriber("iris_gimbal/usb_cam/image_raw", Image, image_cb)
-    camera_info_sub=rospy.Subscriber("iris_gimbal/usb_cam/camera_info", CameraInfo, camera_info_cb)
     local_pose_sub=rospy.Subscriber("mavros/local_position/pose", PoseStamped, local_pose_cb)
 
     local_poss_pub = rospy.Publisher("offbnode/pose_local_cmd", PoseStamped, queue_size=10)
@@ -72,19 +100,7 @@ if __name__ == "__main__":
     camera_pose.header.frame_id="map"
     camera_pose.mode=2
     camera_pose.pitch=-90
-
-    camera_info_l = copy(camera_info_b)
-    camera_info_r = copy(camera_info_b)
-    camera_info_sub.unregister()
-
-    width = int(camera_info_b.width * 20 / 100)
-    height = int(camera_info_b.height * 20 / 100)
-
-    camera_info_l.width=width
-    camera_info_l.height=height
-    camera_info_r.width=width
-    camera_info_r.height=height
-
+    camera_pose_pub.publish(camera_pose)
 
     image_l = Image()
     image_r = Image()
@@ -115,7 +131,6 @@ if __name__ == "__main__":
 
         while(not rospy.is_shutdown() and distancia_to_setpoint(pose_local)>0.05):
             local_poss_pub.publish(pose_local)
-            camera_pose_pub.publish(camera_pose)
 
             image_l.header.stamp = rospy.Time.now()
             camera_info_l.header.stamp = rospy.Time.now()
@@ -130,9 +145,6 @@ if __name__ == "__main__":
             camera_info_right_pub.publish(camera_info_r)
 
             rate.sleep()
-
-
-        pose_1=current_local_pose.pose
 
         toma_imagen_l= True
         while(not rospy.is_shutdown() and toma_imagen_l):
@@ -157,13 +169,8 @@ if __name__ == "__main__":
 
         image_l=copy(image_l2)
         image_r=copy(image_r2)
-        # rospy.logwarn("Puedes mover el tablero")
-        # for i in range(0, 200):
-        #     rate.sleep()
-        # rospy.logwarn("No mover el tablero")
         while(not rospy.is_shutdown() and distancia_to_setpoint(pose_local)>0.05):
             local_poss_pub.publish(pose_local)
-            camera_pose_pub.publish(camera_pose)
 
             image_l.header.stamp = rospy.Time.now()
             camera_info_l.header.stamp = rospy.Time.now()
@@ -180,15 +187,9 @@ if __name__ == "__main__":
             rate.sleep()
 
 
-        pose_2=current_local_pose.pose
-
         toma_imagen_r= True
         while(not rospy.is_shutdown() and toma_imagen_r):
             rate.sleep()
 
-        dx=pose_2.position.x-pose_1.position.x
-        dy=pose_2.position.y-pose_1.position.y
-        camera_info_r.P=(camera_info_r.P[0],camera_info_r.P[1],camera_info_r.P[2],(-1)*camera_info_l.P[0]*dx,camera_info_r.P[4],camera_info_r.P[5],camera_info_r.P[6],
-        (-1)*camera_info_l.P[5]*dy,camera_info_r.P[8],camera_info_r.P[9],camera_info_r.P[10], camera_info_r.P[11])
 
 
