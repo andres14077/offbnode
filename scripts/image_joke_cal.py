@@ -101,116 +101,219 @@ if __name__ == "__main__":
         rate.sleep()
 
 
+    
+    for k in range(-21,30,5):
+        for i in range(-22,22,5):
+            for j in range(-13,13,5):
+
+                if(rospy.is_shutdown()):
+                    break
+
+                pose_local=PoseStamped()
+                pose_local.pose.position.x = 0
+                pose_local.pose.position.y = 0
+                pose_local.pose.position.z = 50
+                q=quaternion_from_euler(0,0,0)
+                pose_local.pose.orientation.x = q[0]
+                pose_local.pose.orientation.y = q[1]
+                pose_local.pose.orientation.z = q[2]
+                pose_local.pose.orientation.w = q[3]
+
+                rospy.loginfo("Ir a posicion 1")
+                local_poss_pub.publish(pose_local)
+                camera_pose_pub.publish(camera_pose)
+
+                image_rl=_cv_bridge.imgmsg_to_cv2(image_rg, "bgr8")
+                image_rl=cv2.resize(image_rl,(width, height))
+                image_r2=_cv_bridge.cv2_to_imgmsg(image_rl, "bgr8")
+
+                while(not rospy.is_shutdown() and distancia_to_setpoint(pose_local)>0.05):
+                    local_poss_pub.publish(pose_local)
+                    camera_pose_pub.publish(camera_pose)
+
+                    image_l.header.stamp = rospy.Time.now()
+                    camera_info_l.header.stamp = rospy.Time.now()
+
+                    image_r.header.stamp = rospy.Time.now()
+                    camera_info_r.header.stamp = rospy.Time.now()
+
+                    image_left_pub.publish(image_l)
+                    camera_info_left_pub.publish(camera_info_l)
+
+                    image_right_pub.publish(image_r)
+                    camera_info_right_pub.publish(camera_info_r)
+
+                    rate.sleep()
+
+
+                pose_1=current_local_pose.pose
+
+                toma_imagen_l= True
+                while(not rospy.is_shutdown() and toma_imagen_l):
+                    rate.sleep()
+
+                pose_local.pose.position.x = 2
+                pose_local.pose.position.y = 0
+                pose_local.pose.position.z = 50
+                q=quaternion_from_euler(0,0,0)
+                pose_local.pose.orientation.x = q[0]
+                pose_local.pose.orientation.y = q[1]
+                pose_local.pose.orientation.z = q[2]
+                pose_local.pose.orientation.w = q[3]
+                rospy.loginfo("Ir a posicion 2")
+                local_poss_pub.publish(pose_local)
+                camera_pose_pub.publish(camera_pose)
+
+                image_ll=_cv_bridge.imgmsg_to_cv2(image_lg, "bgr8")
+                image_ll=cv2.resize(image_ll,(width, height))
+                image_l2=_cv_bridge.cv2_to_imgmsg(image_ll, "bgr8")
+
+                image_l=copy(image_l2)
+                image_r=copy(image_r2)
+                # rospy.logwarn("Puedes mover el tablero")
+                # for i in range(0, 200):
+                #     rate.sleep()
+                # rospy.logwarn("No mover el tablero")
+                tablero_pose.pose.position.x = i
+                tablero_pose.pose.position.y = j
+                tablero_pose.pose.position.z = k
+                q2=quaternion_from_euler(0,0,1.570796)
+                tablero_pose.pose.orientation.x = q2[0]
+                tablero_pose.pose.orientation.y = q2[1]
+                tablero_pose.pose.orientation.z = q2[2]
+                tablero_pose.pose.orientation.w = q2[3]
+                tablero_pose_pub.publish(tablero_pose)
+                rospy.logerr("posicion tablero x=%d, y=%d, z=%d, roll=%f,pitch=%f",i,j,k,0,0)
+
+                while(not rospy.is_shutdown() and distancia_to_setpoint(pose_local)>0.05):
+                    local_poss_pub.publish(pose_local)
+                    camera_pose_pub.publish(camera_pose)
+
+                    image_l.header.stamp = rospy.Time.now()
+                    camera_info_l.header.stamp = rospy.Time.now()
+
+                    image_r.header.stamp = rospy.Time.now()
+                    camera_info_r.header.stamp = rospy.Time.now()
+
+                    image_left_pub.publish(image_l)
+                    camera_info_left_pub.publish(camera_info_l)
+
+                    image_right_pub.publish(image_r)
+                    camera_info_right_pub.publish(camera_info_r)
+
+                    rate.sleep()
+
+
+                pose_2=current_local_pose.pose
+
+                toma_imagen_r= True
+                while(not rospy.is_shutdown() and toma_imagen_r):
+                    rate.sleep()
+
+
+
     for roll in np.arange(0,0.3,0.1):
         for pitch in np.arange(0,0.3,0.1):
-            for k in range(-21,30,5):
-                for i in range(-22,22,5):
-                    for j in range(-13,13,5):
+            if(rospy.is_shutdown()):
+                break
 
-                        if(rospy.is_shutdown()):
-                            break
+            pose_local=PoseStamped()
+            pose_local.pose.position.x = 0
+            pose_local.pose.position.y = 0
+            pose_local.pose.position.z = 50
+            q=quaternion_from_euler(0,0,0)
+            pose_local.pose.orientation.x = q[0]
+            pose_local.pose.orientation.y = q[1]
+            pose_local.pose.orientation.z = q[2]
+            pose_local.pose.orientation.w = q[3]
 
-                        pose_local=PoseStamped()
-                        pose_local.pose.position.x = 0
-                        pose_local.pose.position.y = 0
-                        pose_local.pose.position.z = 50
-                        q=quaternion_from_euler(0,0,0)
-                        pose_local.pose.orientation.x = q[0]
-                        pose_local.pose.orientation.y = q[1]
-                        pose_local.pose.orientation.z = q[2]
-                        pose_local.pose.orientation.w = q[3]
+            rospy.loginfo("Ir a posicion 1")
+            local_poss_pub.publish(pose_local)
+            camera_pose_pub.publish(camera_pose)
 
-                        rospy.loginfo("Ir a posicion 1")
-                        local_poss_pub.publish(pose_local)
-                        camera_pose_pub.publish(camera_pose)
+            image_rl=_cv_bridge.imgmsg_to_cv2(image_rg, "bgr8")
+            image_rl=cv2.resize(image_rl,(width, height))
+            image_r2=_cv_bridge.cv2_to_imgmsg(image_rl, "bgr8")
 
-                        image_rl=_cv_bridge.imgmsg_to_cv2(image_rg, "bgr8")
-                        image_rl=cv2.resize(image_rl,(width, height))
-                        image_r2=_cv_bridge.cv2_to_imgmsg(image_rl, "bgr8")
+            while(not rospy.is_shutdown() and distancia_to_setpoint(pose_local)>0.05):
+                local_poss_pub.publish(pose_local)
+                camera_pose_pub.publish(camera_pose)
 
-                        while(not rospy.is_shutdown() and distancia_to_setpoint(pose_local)>0.05):
-                            local_poss_pub.publish(pose_local)
-                            camera_pose_pub.publish(camera_pose)
+                image_l.header.stamp = rospy.Time.now()
+                camera_info_l.header.stamp = rospy.Time.now()
 
-                            image_l.header.stamp = rospy.Time.now()
-                            camera_info_l.header.stamp = rospy.Time.now()
+                image_r.header.stamp = rospy.Time.now()
+                camera_info_r.header.stamp = rospy.Time.now()
 
-                            image_r.header.stamp = rospy.Time.now()
-                            camera_info_r.header.stamp = rospy.Time.now()
+                image_left_pub.publish(image_l)
+                camera_info_left_pub.publish(camera_info_l)
 
-                            image_left_pub.publish(image_l)
-                            camera_info_left_pub.publish(camera_info_l)
+                image_right_pub.publish(image_r)
+                camera_info_right_pub.publish(camera_info_r)
 
-                            image_right_pub.publish(image_r)
-                            camera_info_right_pub.publish(camera_info_r)
-
-                            rate.sleep()
+                rate.sleep()
 
 
-                        pose_1=current_local_pose.pose
+            pose_1=current_local_pose.pose
 
-                        toma_imagen_l= True
-                        while(not rospy.is_shutdown() and toma_imagen_l):
-                            rate.sleep()
+            toma_imagen_l= True
+            while(not rospy.is_shutdown() and toma_imagen_l):
+                rate.sleep()
 
-                        pose_local.pose.position.x = 2
-                        pose_local.pose.position.y = 0
-                        pose_local.pose.position.z = 50
-                        q=quaternion_from_euler(0,0,0)
-                        pose_local.pose.orientation.x = q[0]
-                        pose_local.pose.orientation.y = q[1]
-                        pose_local.pose.orientation.z = q[2]
-                        pose_local.pose.orientation.w = q[3]
-                        rospy.loginfo("Ir a posicion 2")
-                        local_poss_pub.publish(pose_local)
-                        camera_pose_pub.publish(camera_pose)
+            pose_local.pose.position.x = 2
+            pose_local.pose.position.y = 0
+            pose_local.pose.position.z = 50
+            q=quaternion_from_euler(0,0,0)
+            pose_local.pose.orientation.x = q[0]
+            pose_local.pose.orientation.y = q[1]
+            pose_local.pose.orientation.z = q[2]
+            pose_local.pose.orientation.w = q[3]
+            rospy.loginfo("Ir a posicion 2")
+            local_poss_pub.publish(pose_local)
+            camera_pose_pub.publish(camera_pose)
 
-                        image_ll=_cv_bridge.imgmsg_to_cv2(image_lg, "bgr8")
-                        image_ll=cv2.resize(image_ll,(width, height))
-                        image_l2=_cv_bridge.cv2_to_imgmsg(image_ll, "bgr8")
+            image_ll=_cv_bridge.imgmsg_to_cv2(image_lg, "bgr8")
+            image_ll=cv2.resize(image_ll,(width, height))
+            image_l2=_cv_bridge.cv2_to_imgmsg(image_ll, "bgr8")
 
-                        image_l=copy(image_l2)
-                        image_r=copy(image_r2)
-                        # rospy.logwarn("Puedes mover el tablero")
-                        # for i in range(0, 200):
-                        #     rate.sleep()
-                        # rospy.logwarn("No mover el tablero")
-                        tablero_pose.pose.position.x = i
-                        tablero_pose.pose.position.y = j
-                        tablero_pose.pose.position.z = k
-                        q2=quaternion_from_euler(roll,pitch,1.570796)
-                        tablero_pose.pose.orientation.x = q2[0]
-                        tablero_pose.pose.orientation.y = q2[1]
-                        tablero_pose.pose.orientation.z = q2[2]
-                        tablero_pose.pose.orientation.w = q2[3]
-                        tablero_pose_pub.publish(tablero_pose)
-                        rospy.logerr("posicion tablero x=%d, y=%d, z=%d, roll=%f,pitch=%f",i,j,k,roll,pitch)
+            image_l=copy(image_l2)
+            image_r=copy(image_r2)
+            # rospy.logwarn("Puedes mover el tablero")
+            # for i in range(0, 200):
+            #     rate.sleep()
+            # rospy.logwarn("No mover el tablero")
+            tablero_pose.pose.position.x = 0
+            tablero_pose.pose.position.y = 0
+            tablero_pose.pose.position.z = 0
+            q2=quaternion_from_euler(roll,pitch,1.570796)
+            tablero_pose.pose.orientation.x = q2[0]
+            tablero_pose.pose.orientation.y = q2[1]
+            tablero_pose.pose.orientation.z = q2[2]
+            tablero_pose.pose.orientation.w = q2[3]
+            tablero_pose_pub.publish(tablero_pose)
+            rospy.logerr("posicion tablero x=%d, y=%d, z=%d, roll=%f,pitch=%f",0,0,0,roll,pitch)
 
-                        while(not rospy.is_shutdown() and distancia_to_setpoint(pose_local)>0.05):
-                            local_poss_pub.publish(pose_local)
-                            camera_pose_pub.publish(camera_pose)
+            while(not rospy.is_shutdown() and distancia_to_setpoint(pose_local)>0.05):
+                local_poss_pub.publish(pose_local)
+                camera_pose_pub.publish(camera_pose)
 
-                            image_l.header.stamp = rospy.Time.now()
-                            camera_info_l.header.stamp = rospy.Time.now()
+                image_l.header.stamp = rospy.Time.now()
+                camera_info_l.header.stamp = rospy.Time.now()
 
-                            image_r.header.stamp = rospy.Time.now()
-                            camera_info_r.header.stamp = rospy.Time.now()
+                image_r.header.stamp = rospy.Time.now()
+                camera_info_r.header.stamp = rospy.Time.now()
 
-                            image_left_pub.publish(image_l)
-                            camera_info_left_pub.publish(camera_info_l)
+                image_left_pub.publish(image_l)
+                camera_info_left_pub.publish(camera_info_l)
 
-                            image_right_pub.publish(image_r)
-                            camera_info_right_pub.publish(camera_info_r)
+                image_right_pub.publish(image_r)
+                camera_info_right_pub.publish(camera_info_r)
 
-                            rate.sleep()
-
-
-                        pose_2=current_local_pose.pose
-
-                        toma_imagen_r= True
-                        while(not rospy.is_shutdown() and toma_imagen_r):
-                            rate.sleep()
+                rate.sleep()
 
 
+            pose_2=current_local_pose.pose
 
-
+            toma_imagen_r= True
+            while(not rospy.is_shutdown() and toma_imagen_r):
+                rate.sleep()
