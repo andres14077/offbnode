@@ -18,6 +18,7 @@ find_package(catkin REQUIRED
       cv_bridge
       tf
       stereo_image_proc
+      OpenCV
       )
   include_directories(${OpenCV_INCLUDE_DIRS})
 ## System dependencies are found with CMake's conventions

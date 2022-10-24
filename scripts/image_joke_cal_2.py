@@ -20,6 +20,7 @@ width = 921
 height = 691
 
 camera_info_l = CameraInfo()
+camera_info_l.header.frame_id="robot_camera_link"
 camera_info_l.width = width
 camera_info_l.height = height
 camera_info_l.distortion_model="plumb_bob"
@@ -35,6 +36,7 @@ camera_info_l.P=[ 658.97901,    0.0    ,  604.79104,    0.0    ,
                     0.0    ,    0.0    ,    1.0    ,    0.0    ]
 
 camera_info_r = CameraInfo()
+camera_info_r.header.frame_id="robot_camera_link"
 camera_info_r.width = width
 camera_info_r.height = height
 camera_info_r.distortion_model="plumb_bob"
@@ -97,9 +99,11 @@ if __name__ == "__main__":
 
 
     camera_pose=MountControl()
-    camera_pose.header.frame_id="map"
+    camera_pose.header.frame_id=""
     camera_pose.mode=2
     camera_pose.pitch=-90
+    camera_pose.roll=0
+    camera_pose.yaw=0
     camera_pose_pub.publish(camera_pose)
 
     image_l = Image()
@@ -115,7 +119,7 @@ if __name__ == "__main__":
         pose_local.pose.position.x = 0
         pose_local.pose.position.y = 0
         pose_local.pose.position.z = 50
-        q=quaternion_from_euler(0,0,math.atan2(1,0))
+        q=quaternion_from_euler(0,0,0)
         pose_local.pose.orientation.x = q[0]
         pose_local.pose.orientation.y = q[1]
         pose_local.pose.orientation.z = q[2]
@@ -153,13 +157,12 @@ if __name__ == "__main__":
         pose_local.pose.position.x = 2
         pose_local.pose.position.y = 0
         pose_local.pose.position.z = 50
-        q=quaternion_from_euler(0,0,math.atan2(1,0))
+        q=quaternion_from_euler(0,0,0)
         pose_local.pose.orientation.x = q[0]
         pose_local.pose.orientation.y = q[1]
         pose_local.pose.orientation.z = q[2]
         pose_local.pose.orientation.w = q[3]
 
-        rospy.loginfo("Ir a posicion 2")
         local_poss_pub.publish(pose_local)
         camera_pose_pub.publish(camera_pose)
 
@@ -169,6 +172,8 @@ if __name__ == "__main__":
 
         image_l=copy(image_l2)
         image_r=copy(image_r2)
+
+        rospy.loginfo("Ir a posicion 2")
         while(not rospy.is_shutdown() and distancia_to_setpoint(pose_local)>0.05):
             local_poss_pub.publish(pose_local)
 

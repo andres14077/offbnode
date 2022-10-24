@@ -62,18 +62,17 @@ if __name__ == "__main__":
     last_req = rospy.Time.now()
 
     while(not rospy.is_shutdown()):
-        if(current_state.mode != "OFFBOARD" and (rospy.Time.now() - last_req) > rospy.Duration(0.2)):
+        if(current_state.mode != "OFFBOARD" and (rospy.Time.now() - last_req) > rospy.Duration(1)):
             if(set_mode_client.call(offb_set_mode).mode_sent == True):
                 rospy.loginfo("OFFBOARD enabled")
             
             last_req = rospy.Time.now()
         else:
-            if(not current_state.armed and (rospy.Time.now() - last_req) > rospy.Duration(0.2)):
+            if(not current_state.armed and (rospy.Time.now() - last_req) > rospy.Duration(1)):
                 if(arming_client.call(arm_cmd).success == True):
                     rospy.loginfo("Vehicle armed")
-            
+                    estado_nodo.success = True
                 last_req = rospy.Time.now()
-        estado_nodo.success = True
         pose.header.stamp = rospy.Time.now()
         local_pos_pub.publish(pose)
 
