@@ -74,7 +74,7 @@ if __name__ == "__main__":
     while(offboard_client.call(True).success==False):
         rate.sleep()
 
-
+    rate.sleep()
     camera_pose=MountControl()
     camera_pose.header.frame_id="map"
     camera_pose.mode=2
@@ -100,8 +100,6 @@ if __name__ == "__main__":
     while(not rospy.is_shutdown() and toma_imagen_r):
         rate.sleep()
 
-
-    
     for k in range(-21,30,5):
         for i in range(-22,22,5):
             for j in range(-13,13,5):
@@ -152,8 +150,8 @@ if __name__ == "__main__":
                 while(not rospy.is_shutdown() and toma_imagen_l):
                     rate.sleep()
 
-                pose_local.pose.position.x = 2
-                pose_local.pose.position.y = 0
+                pose_local.pose.position.x = 0
+                pose_local.pose.position.y = 2
                 pose_local.pose.position.z = 50
                 q=quaternion_from_euler(0,0,0)
                 pose_local.pose.orientation.x = q[0]
@@ -212,8 +210,8 @@ if __name__ == "__main__":
 
 
 
-    for roll in np.arange(0,0.3,0.1):
-        for pitch in np.arange(0,0.3,0.1):
+    for roll in np.arange(-0.5,0.5,0.05):
+        for pitch in np.arange(-0.5,0.5,0.05):
             if(rospy.is_shutdown()):
                 break
 
@@ -232,6 +230,8 @@ if __name__ == "__main__":
             camera_pose_pub.publish(camera_pose)
 
             image_rl=_cv_bridge.imgmsg_to_cv2(image_rg, "bgr8")
+            rospy.loginfo(width)
+            rospy.loginfo(height)
             image_rl=cv2.resize(image_rl,(width, height))
             image_r2=_cv_bridge.cv2_to_imgmsg(image_rl, "bgr8")
 
@@ -260,8 +260,8 @@ if __name__ == "__main__":
             while(not rospy.is_shutdown() and toma_imagen_l):
                 rate.sleep()
 
-            pose_local.pose.position.x = 2
-            pose_local.pose.position.y = 0
+            pose_local.pose.position.x = 0
+            pose_local.pose.position.y = 2
             pose_local.pose.position.z = 50
             q=quaternion_from_euler(0,0,0)
             pose_local.pose.orientation.x = q[0]
