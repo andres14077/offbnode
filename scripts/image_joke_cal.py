@@ -100,9 +100,9 @@ if __name__ == "__main__":
     while(not rospy.is_shutdown() and toma_imagen_r):
         rate.sleep()
 
-    for k in range(-21,30,5):
-        for i in range(-22,22,5):
-            for j in range(-13,13,5):
+    for k in range(-21,30,2):
+        for i in range(-22,22,2):
+            for j in range(-13,13,2):
 
                 if(rospy.is_shutdown()):
                     break
