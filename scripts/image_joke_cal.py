@@ -210,8 +210,8 @@ if __name__ == "__main__":
 
 
 
-    for roll in np.arange(-0.5,0.5,0.05):
-        for pitch in np.arange(-0.5,0.5,0.05):
+    for roll in np.arange(-0.6,0.7,0.05):
+        for pitch in np.arange(-0.6,0.7,0.05):
             if(rospy.is_shutdown()):
                 break
 
