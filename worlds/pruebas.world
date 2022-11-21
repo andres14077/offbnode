@@ -35,5 +35,9 @@
       <real_time_update_rate>250</real_time_update_rate>
       <magnetic_field>6.0e-6 2.3e-5 -4.2e-5</magnetic_field>
     </physics>
+    <spherical_coordinates>
+      <latitude_deg>4.722919</latitude_deg>
+      <longitude_deg>-73.9901342</longitude_deg>
+    </spherical_coordinates>
   </world>
 </sdf>

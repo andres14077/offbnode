@@ -100,9 +100,9 @@ if __name__ == "__main__":
     while(not rospy.is_shutdown() and toma_imagen_r):
         rate.sleep()
 
-    for k in range(-21,30,2):
-        for i in range(-22,22,2):
-            for j in range(-13,13,2):
+    for k in range(-21,30,8):
+        for i in range(-22,23,4):
+            for j in range(-20,21,4):
 
                 if(rospy.is_shutdown()):
                     break
@@ -210,8 +210,8 @@ if __name__ == "__main__":
 
 
 
-    for roll in np.arange(-0.6,0.7,0.05):
-        for pitch in np.arange(-0.6,0.7,0.05):
+    for roll in np.arange(-0.6,0.7,0.1):
+        for pitch in np.arange(-0.6,0.7,0.1):
             if(rospy.is_shutdown()):
                 break
 
