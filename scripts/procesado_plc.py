@@ -1,37 +1,28 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import rospy
-from std_msgs.msg import Bool
-import os
+import sensor_msgs.point_cloud2 as pc2
+from sensor_msgs.msg import PointCloud2
+import matplotlib.pyplot as plt
+distancia_z=[]
 
+def point_cloud_cb(msg):
+    global distancia_z
+    z_mean=0
+    i=0
+    for p in pc2.read_points(msg, field_names = ("z"), skip_nans=True):
+        z_mean += p[0]
+        i+=1
+    rospy.loginfo("z_mean : %f",z_mean/i)
+    distancia_z.append(z_mean/i)
 
-class Service_kill:
-    
-    def __init__(self):
-        rospy.loginfo("init node service kill ROS")
-        rospy.Subscriber("/kill_ROS",Bool,self.Service_Calback)         
-                                        
-    def Service_Calback(self,msgg):
-        if(msgg.data==True):
-            os.system("kill $(ps -aux | grep offbnode| awk '{print $2}')")
-            exit(0)
-        
-def servicio_de_kill():
-    rospy.init_node('servicio_de_kill_node', anonymous=True)
-    serv=Service_kill()
-    rate=rospy.Rate(20)
-    rospy.spin()
-    
-    
 if __name__ == '__main__':
-    try:
-        servicio_de_kill()
-    except rospy.ROSInterruptException:
-        rospy.loginfo("Interrupcion")
-        exit()
-    except:
-        rospy.loginfo("error")
-        exit()
+    rospy.init_node('servicio_de_kill_node', anonymous=True)
+    rate=rospy.Rate(20)
+    local_pose_sub=rospy.Subscriber("offbnode/points2", PointCloud2, point_cloud_cb)
 
-    
-    
+
+    while(not rospy.is_shutdown()):
+        plt.scatter(distancia_z)
+        plt.pause(0.0001)
+        rate.sleep()
