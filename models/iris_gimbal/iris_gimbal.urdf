@@ -92,7 +92,7 @@
     <visual name="iris_gimbal__base_link_inertia_visual">
       <origin xyz="0   0   0.26" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://meshes/iris.stl" scale="1 1 1"/>
+        <mesh filename="package://mavlink_sitl_gazebo/models/rotors_description/meshes/iris.stl" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
@@ -118,7 +118,7 @@
     <visual name="iris_gimbal__rotor_0_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://meshes/iris_prop_ccw.dae" scale="1 1 1"/>
+        <mesh filename="package://mavlink_sitl_gazebo/models/rotors_description/meshes/iris_prop_ccw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
@@ -137,7 +137,7 @@
     <visual name="iris_gimbal__rotor_1_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://meshes/iris_prop_ccw.dae" scale="1 1 1"/>
+        <mesh filename="package://mavlink_sitl_gazebo/models/rotors_description/meshes/iris_prop_ccw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
@@ -156,7 +156,7 @@
     <visual name="iris_gimbal__rotor_2_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://meshes/iris_prop_cw.dae" scale="1 1 1"/>
+        <mesh filename="package://mavlink_sitl_gazebo/models/rotors_description/meshes/iris_prop_cw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
@@ -175,7 +175,7 @@
     <visual name="iris_gimbal__rotor_3_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://meshes/iris_prop_cw.dae" scale="1 1 1"/>
+        <mesh filename="package://mavlink_sitl_gazebo/models/rotors_description/meshes/iris_prop_cw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
@@ -188,7 +188,7 @@
     <visual name="iris_gimbal__cgo3_mount_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://meshes/cgo3_mount_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://mavlink_sitl_gazebo/models/typhoon_h480/meshes/cgo3_mount_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
@@ -201,7 +201,7 @@
     <visual name="iris_gimbal__cgo3_vertical_arm_visual">
       <origin xyz="0.026 0    0.1" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://meshes/cgo3_vertical_arm_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://mavlink_sitl_gazebo/models/typhoon_h480/meshes/cgo3_vertical_arm_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
@@ -214,7 +214,7 @@
     <visual name="iris_gimbal__cgo3_horizontal_arm_visual">
       <origin xyz="-0.026  0     0.162" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://meshes/cgo3_horizontal_arm_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://mavlink_sitl_gazebo/models/typhoon_h480/meshes/cgo3_horizontal_arm_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
@@ -233,7 +233,7 @@
     <visual name="iris_gimbal__cgo3_camera_visual">
       <origin xyz="0.041 -0.03   0.162" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://meshes/cgo3_camera_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://mavlink_sitl_gazebo/models/typhoon_h480/meshes/cgo3_camera_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
@@ -258,7 +258,7 @@
     <visual name="iris_gimbal__base_link_left_leg">
       <origin xyz="-0.00025  0.04051  0.048" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://meshes/leg2_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://mavlink_sitl_gazebo/models/typhoon_h480/meshes/leg2_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
@@ -283,7 +283,7 @@
     <visual name="iris_gimbal__base_link_right_leg">
       <origin xyz="-0.00025 -0.04051  0.048" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://meshes/leg1_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://mavlink_sitl_gazebo/models/typhoon_h480/meshes/leg1_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
