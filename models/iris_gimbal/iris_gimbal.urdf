@@ -1,286 +1,286 @@
 <?xml version="1.0" ?>
 <robot name="iris_gimbal">
-  <joint name="iris_gimbal__/imu_joint" type="fixed">
-    <parent link="iris_gimbal__base_link"/>
-    <child link="iris_gimbal__/imu_link"/>
-    <origin xyz="0   0   0.26" rpy="0 0 0"/>
+  <joint name="/imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="/imu_link"/>
+    <origin xyz="0   0   0" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
     <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0"/>
   </joint>
-  <joint name="iris_gimbal__rotor_0_joint" type="revolute">
-    <parent link="iris_gimbal__base_link"/>
-    <child link="iris_gimbal__rotor_0"/>
-    <origin xyz="0.1295  -0.2188   0.28599" rpy="0 0 0"/>
+  <joint name="rotor_0_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="rotor_0"/>
+    <origin xyz="0.1295  -0.2188   0.026" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1e+16" upper="1e+16" effort="0.0" velocity="0.0"/>
   </joint>
-  <joint name="iris_gimbal__rotor_1_joint" type="revolute">
-    <parent link="iris_gimbal__base_link"/>
-    <child link="iris_gimbal__rotor_1"/>
-    <origin xyz="-0.1338   0.2065   0.28599" rpy="0 0 0"/>
+  <joint name="rotor_1_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="rotor_1"/>
+    <origin xyz="-0.1338   0.2065   0.026" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1e+16" upper="1e+16" effort="0.0" velocity="0.0"/>
   </joint>
-  <joint name="iris_gimbal__rotor_2_joint" type="revolute">
-    <parent link="iris_gimbal__base_link"/>
-    <child link="iris_gimbal__rotor_2"/>
-    <origin xyz="0.1257  0.2225  0.28599" rpy="0 0 0"/>
+  <joint name="rotor_2_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="rotor_2"/>
+    <origin xyz="0.1257  0.2225  0.026" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1e+16" upper="1e+16" effort="0.0" velocity="0.0"/>
   </joint>
-  <joint name="iris_gimbal__rotor_3_joint" type="revolute">
-    <parent link="iris_gimbal__base_link"/>
-    <child link="iris_gimbal__rotor_3"/>
-    <origin xyz="-0.1375  -0.203    0.28599" rpy="0 0 0"/>
+  <joint name="rotor_3_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="rotor_3"/>
+    <origin xyz="-0.1375  -0.203    0.026" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1e+16" upper="1e+16" effort="0.0" velocity="0.0"/>
   </joint>
-  <joint name="iris_gimbal__cgo3_mount_joint" type="fixed">
-    <parent link="iris_gimbal__base_link"/>
-    <child link="iris_gimbal__cgo3_mount_link"/>
-    <origin xyz="0      0      0.28599" rpy="0      0      3.14159"/>
+  <joint name="cgo3_mount_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="cgo3_mount_link"/>
+    <origin xyz="0      0      0.026" rpy="0      0      3.14159"/>
     <axis xyz="0 0 1"/>
     <limit lower="0.0" upper="0.0" effort="100.0" velocity="-1.0"/>
   </joint>
-  <joint name="iris_gimbal__cgo3_vertical_arm_joint" type="revolute">
-    <parent link="iris_gimbal__cgo3_mount_link"/>
-    <child link="iris_gimbal__cgo3_vertical_arm_link"/>
+  <joint name="cgo3_vertical_arm_joint" type="revolute">
+    <parent link="cgo3_mount_link"/>
+    <child link="cgo3_vertical_arm_link"/>
     <origin xyz="-0.026  0    -0.1" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1e+16" upper="1e+16" effort="100.0" velocity="-1.0"/>
   </joint>
-  <joint name="iris_gimbal__cgo3_horizontal_arm_joint" type="revolute">
-    <parent link="iris_gimbal__cgo3_vertical_arm_link"/>
-    <child link="iris_gimbal__cgo3_horizontal_arm_link"/>
+  <joint name="cgo3_horizontal_arm_joint" type="revolute">
+    <parent link="cgo3_vertical_arm_link"/>
+    <child link="cgo3_horizontal_arm_link"/>
     <origin xyz="0.052  0    -0.062" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
     <limit lower="-785398.0" upper="785398.0" effort="100.0" velocity="-1.0"/>
   </joint>
-  <joint name="iris_gimbal__cgo3_camera_joint" type="revolute">
-    <parent link="iris_gimbal__cgo3_horizontal_arm_link"/>
-    <child link="iris_gimbal__cgo3_camera_link"/>
+  <joint name="cgo3_camera_joint" type="revolute">
+    <parent link="cgo3_horizontal_arm_link"/>
+    <child link="cgo3_camera_link"/>
     <origin xyz="-0.067  0.03   0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <limit lower="-315.0" upper="315.0" effort="100.0" velocity="-1.0"/>
   </joint>
-  <joint name="iris_gimbal__left_leg_joint" type="revolute">
-    <parent link="iris_gimbal__base_link"/>
-    <child link="iris_gimbal__left_leg"/>
+  <joint name="left_leg_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="left_leg"/>
     <origin xyz="0.00038 -0.04052  0.229" rpy="-0.00021 -0.00233  0.0003"/>
     <axis xyz="-9.9999e-01  3.0000e-04  2.3300e-03"/>
     <limit lower="0.0" upper="1.0" effort="100.0" velocity="-1.0"/>
   </joint>
-  <joint name="iris_gimbal__right_leg_joint" type="revolute">
-    <parent link="iris_gimbal__base_link"/>
-    <child link="iris_gimbal__right_leg"/>
+  <joint name="right_leg_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="right_leg"/>
     <origin xyz="1.2000e-04 4.0570e-02 2.2904e-01" rpy="0.00119 0.00126 0.0018"/>
     <axis xyz="0.99999 -0.0018   0.00126"/>
     <limit lower="0.0" upper="1.0" effort="100.0" velocity="-1.0"/>
   </joint>
-  <link name="iris_gimbal__base_link">
+  <link name="base_link">
     <inertial>
       <mass value="1.5"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="0.0347563" ixy="0" ixz="0" iyy="0.0458929" iyz="0" izz="0.0977"/>
     </inertial>
-    <collision name="iris_gimbal__base_link_inertia_collision">
-      <origin xyz="0   0   0.26" rpy="0 0 0"/>
+    <collision name="base_link_inertia_collision">
+      <origin xyz="0   0   0" rpy="0 0 0"/>
       <geometry>
         <box size="0.47 0.47 0.11"/>
       </geometry>
     </collision>
-    <visual name="iris_gimbal__base_link_inertia_visual">
-      <origin xyz="0   0   0.26" rpy="0 0 0"/>
+    <visual name="base_link_inertia_visual">
+      <origin xyz="0   0   0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://mavlink_sitl_gazebo/models/rotors_description/meshes/iris.stl" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
-  <link name="iris_gimbal__/imu_link">
+  <link name="/imu_link">
     <inertial>
       <mass value="0.015"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="1e-05" ixy="0" ixz="0" iyy="1e-05" iyz="0" izz="1e-05"/>
     </inertial>
   </link>
-  <link name="iris_gimbal__rotor_0">
+  <link name="rotor_0">
     <inertial>
       <mass value="0.005"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="9.75e-07" ixy="0" ixz="0" iyy="0.000273104" iyz="0" izz="0.000274004"/>
     </inertial>
-    <collision name="iris_gimbal__rotor_0_collision">
+    <collision name="rotor_0_collision">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.128" length="0.005"/>
       </geometry>
     </collision>
-    <visual name="iris_gimbal__rotor_0_visual">
+    <visual name="rotor_0_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://mavlink_sitl_gazebo/models/rotors_description/meshes/iris_prop_ccw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
-  <link name="iris_gimbal__rotor_1">
+  <link name="rotor_1">
     <inertial>
       <mass value="0.005"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="9.75e-07" ixy="0" ixz="0" iyy="0.000273104" iyz="0" izz="0.000274004"/>
     </inertial>
-    <collision name="iris_gimbal__rotor_1_collision">
+    <collision name="rotor_1_collision">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.128" length="0.005"/>
       </geometry>
     </collision>
-    <visual name="iris_gimbal__rotor_1_visual">
+    <visual name="rotor_1_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://mavlink_sitl_gazebo/models/rotors_description/meshes/iris_prop_ccw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
-  <link name="iris_gimbal__rotor_2">
+  <link name="rotor_2">
     <inertial>
       <mass value="0.005"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="9.75e-07" ixy="0" ixz="0" iyy="0.000273104" iyz="0" izz="0.000274004"/>
     </inertial>
-    <collision name="iris_gimbal__rotor_2_collision">
+    <collision name="rotor_2_collision">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.128" length="0.005"/>
       </geometry>
     </collision>
-    <visual name="iris_gimbal__rotor_2_visual">
+    <visual name="rotor_2_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://mavlink_sitl_gazebo/models/rotors_description/meshes/iris_prop_cw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
-  <link name="iris_gimbal__rotor_3">
+  <link name="rotor_3">
     <inertial>
       <mass value="0.005"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="9.75e-07" ixy="0" ixz="0" iyy="0.000273104" iyz="0" izz="0.000274004"/>
     </inertial>
-    <collision name="iris_gimbal__rotor_3_collision">
+    <collision name="rotor_3_collision">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.128" length="0.005"/>
       </geometry>
     </collision>
-    <visual name="iris_gimbal__rotor_3_visual">
+    <visual name="rotor_3_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://mavlink_sitl_gazebo/models/rotors_description/meshes/iris_prop_cw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
-  <link name="iris_gimbal__cgo3_mount_link">
+  <link name="cgo3_mount_link">
     <inertial>
       <mass value="0.11"/>
       <origin xyz="-0.041  0    -0.162" rpy="0 0 0"/>
       <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
     </inertial>
-    <visual name="iris_gimbal__cgo3_mount_visual">
+    <visual name="cgo3_mount_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://mavlink_sitl_gazebo/models/typhoon_h480/meshes/cgo3_mount_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
-  <link name="iris_gimbal__cgo3_vertical_arm_link">
+  <link name="cgo3_vertical_arm_link">
     <inertial>
       <mass value="0.11"/>
       <origin xyz="-0.041  0    -0.162" rpy="0 0 0"/>
       <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
     </inertial>
-    <visual name="iris_gimbal__cgo3_vertical_arm_visual">
-      <origin xyz="0.026 0    0.1" rpy="0 0 0"/>
+    <visual name="cgo3_vertical_arm_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://mavlink_sitl_gazebo/models/typhoon_h480/meshes/cgo3_vertical_arm_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
-  <link name="iris_gimbal__cgo3_horizontal_arm_link">
+  <link name="cgo3_horizontal_arm_link">
     <inertial>
       <mass value="0.11"/>
       <origin xyz="-0.041  0    -0.081" rpy="0 0 0"/>
       <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
     </inertial>
-    <visual name="iris_gimbal__cgo3_horizontal_arm_visual">
+    <visual name="cgo3_horizontal_arm_visual">
       <origin xyz="-0.026  0     0.162" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://mavlink_sitl_gazebo/models/typhoon_h480/meshes/cgo3_horizontal_arm_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
-  <link name="iris_gimbal__cgo3_camera_link">
+  <link name="cgo3_camera_link">
     <inertial>
       <mass value="0.11"/>
       <origin xyz="-0.041  0    -0.162" rpy="0 0 0"/>
       <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
     </inertial>
-    <collision name="iris_gimbal__cgo3_camera_collision">
+    <collision name="cgo3_camera_collision">
       <origin xyz="0   -0.03  0" rpy="0 0 0"/>
       <geometry>
         <sphere radius="0.035"/>
       </geometry>
     </collision>
-    <visual name="iris_gimbal__cgo3_camera_visual">
+    <visual name="cgo3_camera_visual">
       <origin xyz="0.041 -0.03   0.162" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://mavlink_sitl_gazebo/models/typhoon_h480/meshes/cgo3_camera_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
-  <link name="iris_gimbal__left_leg">
+  <link name="left_leg">
     <inertial>
       <mass value="0.1"/>
       <origin xyz="0      -0.14313 -0.20725" rpy="0 0 0"/>
       <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
     </inertial>
-    <collision name="iris_gimbal__collision">
+    <collision name="collision">
       <origin xyz="-0.00526 -0.10262 -0.15925" rpy="0      1.56893 0"/>
       <geometry>
         <box size="0.024418 0.024418 0.3"/>
       </geometry>
     </collision>
-    <collision name="iris_gimbal__collision_bar">
+    <collision name="collision_bar">
       <origin xyz="0.00025 -0.04451 -0.07318" rpy="-0.50131  0       0"/>
       <geometry>
         <cylinder radius="0.00914984" length="0.176893"/>
       </geometry>
     </collision>
-    <visual name="iris_gimbal__base_link_left_leg">
+    <visual name="base_link_left_leg">
       <origin xyz="-0.00025  0.04051  0.048" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://mavlink_sitl_gazebo/models/typhoon_h480/meshes/leg2_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
-  <link name="iris_gimbal__right_leg">
+  <link name="right_leg">
     <inertial>
       <mass value="0.1"/>
       <origin xyz="0       0.14313 -0.20725" rpy="0 0 0"/>
       <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
     </inertial>
-    <collision name="iris_gimbal__collision">
+    <collision name="collision">
       <origin xyz="-0.00526  0.10262 -0.15925" rpy="0      1.56893 0"/>
       <geometry>
         <box size="0.024418 0.024418 0.3"/>
       </geometry>
     </collision>
-    <collision name="iris_gimbal__collision_bar">
+    <collision name="collision_bar">
       <origin xyz="0.00025  0.04451 -0.07318" rpy="0.50131 0      0"/>
       <geometry>
         <cylinder radius="0.00914984" length="0.176893"/>
       </geometry>
     </collision>
-    <visual name="iris_gimbal__base_link_right_leg">
+    <visual name="base_link_right_leg">
       <origin xyz="-0.00025 -0.04051  0.048" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://mavlink_sitl_gazebo/models/typhoon_h480/meshes/leg1_remeshed_v3.stl" scale="0.001 0.001 0.001"/>

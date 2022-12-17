@@ -347,8 +347,8 @@
       </axis>
     </joint>
 <link name="cgo3_mount_link">
-    <pose frame=''>0 0 0.026 0 0 3.14159</pose>
-    <inertial>
+  <pose frame=''>0 0 0.026 0 0 3.14159</pose>
+  <inertial>
     <!-- place holder -->
     <pose>-0.041 0 -0.162 0 0 0</pose>
     <mass>0.11</mass>
@@ -402,7 +402,7 @@
 </joint>
 
 <link name="cgo3_vertical_arm_link">
-<pose frame=''>0 0 0.026 0  0 3.14159</pose>
+  <pose frame=''>0 0 0.026 0  0 3.14159</pose>
   <inertial>
     <!-- place holder -->
     <pose>-0.041 0 -0.162 0 0 0</pose>
