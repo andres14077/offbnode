@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  ros_melodic_px4:
+    build:
+      context: .
+    # restart: unless-stopped
+    # ports:
+    #   - "80:80"
+    #   - "443:443"
+    #   - "443:443/udp"
+    volumes:
+      - ./:/root/catkin_ws/src/offbnode

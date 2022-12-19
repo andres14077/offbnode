@@ -1,14 +1,15 @@
-#!/bin/bash
+#!/bin/bash -x
 #
 cd
 mkdir catkin_ws/
 mkdir catkin_ws/src
-sudo apt --fix-broken install -y
+sudo apt-get update
+sudo apt-get --fix-broken install -y
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo apt install -y curl
+sudo apt-get install -y curl
 curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-sudo apt update
-sudo apt install -y ros-melodic-desktop
+sudo apt-get update
+sudo apt-get install -y ros-melodic-desktop
 
 
 sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
@@ -21,7 +22,7 @@ sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest pyth
 sudo pip install numpy toml
 
 sudo apt-get install -y git
-echo "export SVGA_VGPU10=0" >> ~/.bashrc
+#echo "export SVGA_VGPU10=0" >> ~/.bashrc
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 echo "export ROS_WORKSPACE=~/catkin_ws" >> ~/.bashrc
