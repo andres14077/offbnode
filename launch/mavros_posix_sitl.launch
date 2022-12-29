@@ -52,9 +52,7 @@
         <arg name="fcu_url" value="$(arg fcu_url)"/>
         <arg name="respawn_mavros" value="$(arg respawn_mavros)"/>
     </include>
-    <node name="servicio_de_kill_ros" pkg="offbnode" type="servicio_de_kill_ros.py" output="screen">
-    </node>
+    <node name="servicio_de_kill_ros" pkg="offbnode" type="servicio_de_kill_ros.py" output="screen"/>
     <param name="robot_description" textfile="$(find mavlink_sitl_gazebo)/models/iris_gimbal/iris_gimbal.urdf" />
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 </launch>

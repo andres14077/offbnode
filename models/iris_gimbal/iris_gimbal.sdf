@@ -1161,13 +1161,29 @@
       </control_gimbal_channels>
       <gimbal_imu>camera_imu</gimbal_imu>
     </plugin>
-    <plugin name="JointStatePublisher" filename="libJointStatePublisher.so">
-      <publish_selected_only>true</publish_selected_only>
-      <joint>/imu_joint</joint>
-      <joint>rotor_0_joint</joint>
-      <joint>rotor_1_joint</joint>
-      <joint>rotor_2_joint</joint>
-      <joint>rotor_3_joint</joint>
+    <plugin name="gazebo_ros_joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+        <!-- <robotNamespace/> -->
+        <updateRate>30</updateRate>
+        <jointName>rotor_0_joint,
+                  rotor_1_joint,
+                  rotor_2_joint,
+                  rotor_3_joint,
+                  cgo3_mount_joint,
+                  cgo3_vertical_arm_joint,
+                  cgo3_horizontal_arm_joint,
+                  cgo3_camera_joint,
+                  left_leg_joint,
+                  right_leg_joint
+        </jointName>
+        <!-- <jointName>rotor_1_joint</jointName>
+        <jointName>rotor_2_joint</jointName>
+        <jointName>rotor_3_joint</jointName>
+        <jointName>cgo3_mount_joint</jointName>
+        <jointName>cgo3_vertical_arm_joint</jointName>
+        <jointName>cgo3_horizontal_arm_joint</jointName>
+        <jointName>cgo3_camera_joint</jointName>
+        <jointName>left_leg_joint</jointName>
+        <jointName>right_leg_joint</jointName> -->
     </plugin>
     <!--<include>
       <uri>model://fpv_cam</uri>
