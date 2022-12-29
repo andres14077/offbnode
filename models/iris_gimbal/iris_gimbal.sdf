@@ -346,557 +346,557 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-<link name="cgo3_mount_link">
-  <pose frame=''>0 0 0.026 0 0 3.14159</pose>
-  <inertial>
-    <!-- place holder -->
-    <pose>-0.041 0 -0.162 0 0 0</pose>
-    <mass>0.11</mass>
-    <inertia>
-      <ixx>0.001</ixx>
-      <ixy>0</ixy>
-      <ixz>0</ixz>
-      <iyy>0.001</iyy>
-      <iyz>0</iyz>
-      <izz>0.001</izz>
-    </inertia>
-  </inertial>
-  <visual name='cgo3_mount_visual'>
-    <pose>0 0 0 0 0 0</pose>
-    <geometry>
-      <mesh>
-        <scale>0.001 0.001 0.001</scale>
-        <uri>model://typhoon_h480/meshes/cgo3_mount_remeshed_v1.stl</uri>
-      </mesh>
-    </geometry>
-    <material>
-      <script>
-        <name>Gazebo/DarkGrey</name>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-      </script>
-    </material>
-  </visual>
-</link>
-<joint name='cgo3_mount_joint' type='revolute'>
-  <child>cgo3_mount_link</child>
-  <parent>base_link</parent>
-  <pose>0 0 0 0 0 0</pose>
-  <axis>
-    <xyz>0 0 1</xyz>
-    <limit>
-      <lower>0</lower>
-      <upper>0</upper>
-      <effort>100</effort>
-      <velocity>-1</velocity>
-    </limit>
-    <dynamics>
-      <damping>1</damping>
-    </dynamics>
-    <use_parent_model_frame>1</use_parent_model_frame>
-  </axis>
-  <physics>
-    <ode>
-      <implicit_spring_damper>1</implicit_spring_damper>
-    </ode>
-  </physics>
-</joint>
+    <link name="cgo3_mount_link">
+      <pose frame=''>0 0 0.026 0 0 3.14159</pose>
+      <inertial>
+        <!-- place holder -->
+        <pose>-0.041 0 -0.162 0 0 0</pose>
+        <mass>0.11</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <visual name='cgo3_mount_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://typhoon_h480/meshes/cgo3_mount_remeshed_v1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+    </link>
+    <joint name='cgo3_mount_joint' type='revolute'>
+      <child>cgo3_mount_link</child>
+      <parent>base_link</parent>
+      <pose>0 0 0 0 0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>0</upper>
+          <effort>100</effort>
+          <velocity>-1</velocity>
+        </limit>
+        <dynamics>
+          <damping>1</damping>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+      <physics>
+        <ode>
+          <implicit_spring_damper>1</implicit_spring_damper>
+        </ode>
+      </physics>
+    </joint>
 
-<link name="cgo3_vertical_arm_link">
-  <pose frame=''>0 0 0.026 0  0 3.14159</pose>
-  <inertial>
-    <!-- place holder -->
-    <pose>-0.041 0 -0.162 0 0 0</pose>
-    <mass>0.11</mass>
-    <inertia>
-      <ixx>0.001</ixx>
-      <ixy>0</ixy>
-      <ixz>0</ixz>
-      <iyy>0.001</iyy>
-      <iyz>0</iyz>
-      <izz>0.001</izz>
-    </inertia>
-  </inertial>
-  <visual name='cgo3_vertical_arm_visual'>
-    <pose>0 0 0 0 0 0</pose>
-    <geometry>
-      <mesh>
-        <scale>0.001 0.001 0.001</scale>
-        <uri>model://typhoon_h480/meshes/cgo3_vertical_arm_remeshed_v1.stl</uri>
-      </mesh>
-    </geometry>
-    <material>
-      <script>
-        <name>Gazebo/DarkGrey</name>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-      </script>
-    </material>
-  </visual>
-</link>
-<joint name='cgo3_vertical_arm_joint' type='revolute'>
-  <child>cgo3_vertical_arm_link</child>
-  <parent>cgo3_mount_link</parent>
-  <pose>-0.026 0 -0.10 0 0 0</pose>
-  <!--
-  <controlIndex>6</controlIndex>
-  -->
-  <axis>
-    <xyz>0 0 1</xyz>
-    <limit>
-      <lower>-1e16</lower>
-      <upper>1e16</upper>
-      <effort>100</effort>
-      <velocity>-1</velocity>
-    </limit>
-    <dynamics>
-      <damping>0.1</damping>
-    </dynamics>
-    <use_parent_model_frame>1</use_parent_model_frame>
-  </axis>
-  <physics>
-    <ode>
-      <implicit_spring_damper>1</implicit_spring_damper>
-      <limit>
-        <!-- testing soft limits -->
-        <cfm>0.1</cfm>
-        <erp>0.2</erp>
-      </limit>
-    </ode>
-  </physics>
-</joint>
+    <link name="cgo3_vertical_arm_link">
+      <pose frame=''>0 0 0.026 0  0 3.14159</pose>
+      <inertial>
+        <!-- place holder -->
+        <pose>-0.041 0 -0.162 0 0 0</pose>
+        <mass>0.11</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <visual name='cgo3_vertical_arm_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://typhoon_h480/meshes/cgo3_vertical_arm_remeshed_v1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+    </link>
+    <joint name='cgo3_vertical_arm_joint' type='revolute'>
+      <child>cgo3_vertical_arm_link</child>
+      <parent>cgo3_mount_link</parent>
+      <pose>-0.026 0 -0.10 0 0 0</pose>
+      <!--
+      <controlIndex>6</controlIndex>
+      -->
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e16</lower>
+          <upper>1e16</upper>
+          <effort>100</effort>
+          <velocity>-1</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.1</damping>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+      <physics>
+        <ode>
+          <implicit_spring_damper>1</implicit_spring_damper>
+          <limit>
+            <!-- testing soft limits -->
+            <cfm>0.1</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
 
-<link name="cgo3_horizontal_arm_link">
-<pose frame=''>0 0 0.026 0 0 3.14159</pose>
-  <inertial>
-    <!-- place holder -->
-    <pose>-0.041 0 -0.081 0 0 0</pose>
-    <mass>0.11</mass>
-    <inertia>
-      <ixx>0.001</ixx>
-      <ixy>0</ixy>
-      <ixz>0</ixz>
-      <iyy>0.001</iyy>
-      <iyz>0</iyz>
-      <izz>0.001</izz>
-    </inertia>
-  </inertial>
-  <visual name='cgo3_horizontal_arm_visual'>
-    <pose>0 0 0 0 0 0</pose>
-    <geometry>
-      <mesh>
-        <scale>0.001 0.001 0.001</scale>
-        <uri>model://typhoon_h480/meshes/cgo3_horizontal_arm_remeshed_v1.stl</uri>
-      </mesh>
-    </geometry>
-    <material>
-      <script>
-        <name>Gazebo/DarkGrey</name>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-      </script>
-    </material>
-  </visual>
-</link>
-<joint name='cgo3_horizontal_arm_joint' type='revolute'>
-  <child>cgo3_horizontal_arm_link</child>
-  <parent>cgo3_vertical_arm_link</parent>
-  <pose>0.026 0 -0.162 0 0 0</pose>
-  <!--
-  <controlIndex>7</controlIndex>
-  -->
-  <axis>
-    <xyz>-1 0 0</xyz>
-    <limit>
-      <lower>-785398</lower>
-      <upper>785398</upper>
-      <effort>100</effort>
-      <velocity>-1</velocity>
-    </limit>
-    <dynamics>
-      <damping>0.1</damping>
-    </dynamics>
-    <use_parent_model_frame>1</use_parent_model_frame>
-  </axis>
-  <physics>
-    <ode>
-      <implicit_spring_damper>1</implicit_spring_damper>
-      <limit>
-        <!-- testing soft limits -->
-        <cfm>0.1</cfm>
-        <erp>0.2</erp>
-      </limit>
-    </ode>
-  </physics>
-</joint>
+    <link name="cgo3_horizontal_arm_link">
+    <pose frame=''>0 0 0.026 0 0 3.14159</pose>
+      <inertial>
+        <!-- place holder -->
+        <pose>-0.041 0 -0.081 0 0 0</pose>
+        <mass>0.11</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <visual name='cgo3_horizontal_arm_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://typhoon_h480/meshes/cgo3_horizontal_arm_remeshed_v1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+    </link>
+    <joint name='cgo3_horizontal_arm_joint' type='revolute'>
+      <child>cgo3_horizontal_arm_link</child>
+      <parent>cgo3_vertical_arm_link</parent>
+      <pose>0.026 0 -0.162 0 0 0</pose>
+      <!--
+      <controlIndex>7</controlIndex>
+      -->
+      <axis>
+        <xyz>-1 0 0</xyz>
+        <limit>
+          <lower>-785398</lower>
+          <upper>785398</upper>
+          <effort>100</effort>
+          <velocity>-1</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.1</damping>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+      <physics>
+        <ode>
+          <implicit_spring_damper>1</implicit_spring_damper>
+          <limit>
+            <!-- testing soft limits -->
+            <cfm>0.1</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
 
-<link name="cgo3_camera_link">
-<pose frame=''>0 0 0.026 0 0 3.14159</pose>
-  <inertial>
-    <!-- place holder -->
-    <pose>-0.041 0 -0.162 0 0 0</pose>
-    <mass>0.11</mass>
-    <inertia>
-      <ixx>0.001</ixx>
-      <ixy>0</ixy>
-      <ixz>0</ixz>
-      <iyy>0.001</iyy>
-      <iyz>0</iyz>
-      <izz>0.001</izz>
-    </inertia>
-  </inertial>
-  <collision name='cgo3_camera_collision'>
-    <pose>-0.041 0 -0.162 0 0 0</pose>
-    <geometry>
-      <sphere>
-        <radius>0.035</radius>
-      </sphere>
-    </geometry>
-    <surface>
-      <friction>
+    <link name="cgo3_camera_link">
+    <pose frame=''>0 0 0.026 0 0 3.14159</pose>
+      <inertial>
+        <!-- place holder -->
+        <pose>-0.041 0 -0.162 0 0 0</pose>
+        <mass>0.11</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <collision name='cgo3_camera_collision'>
+        <pose>-0.041 0 -0.162 0 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.035</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+8</kp>
+              <kd>1</kd>
+              <max_vel>0.01</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name='cgo3_camera_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://typhoon_h480/meshes/cgo3_camera_remeshed_v1.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <sensor name="camera_imu" type="imu">
+        <pose>-0.051 0 -0.162 0 0 3.14159</pose>
+        <always_on>1</always_on>
+      </sensor>
+      <sensor name="camera" type="camera">
+        <pose>-0.051 0 -0.162 0 0 3.14159</pose>
+        <camera>
+            <horizontal_fov>1.1238175</horizontal_fov>
+            <image>
+              <width>4608</width>
+              <height>3456</height>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>15000</far>
+            </clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>false</visualize>
+        <!-- how to make this work without using urdf?
+        <plugin name="cgo3_camera_controller" filename="libgazebo_ros_camera.so">
+          <alwaysOn>true</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <cameraName>cgo3_camera</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>cgo3_camera_optical_frame</frameName>
+          <hackBaseline>0.0</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+        </plugin>
+        -->
+        <plugin name='camera_plugin' filename='libgazebo_ros_camera.so'>
+            <robotNamespace></robotNamespace>
+          <alwaysOn>true</alwaysOn>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <updateRate>30.0</updateRate>
+          <cameraName>usb_cam</cameraName>
+          <frameName>/robot_camera_link</frameName>
+          <CxPrime>0</CxPrime>
+          <Cx>0</Cx>
+          <Cy>0</Cy>
+          <hackBaseline>0</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+        </plugin>
+        <!-- GStreamer camera plugin (needs a lot of CPU! Consider lowering the
+            camera image size) -->
+        <!--<plugin name="GstCameraPlugin" filename="libgazebo_gst_camera_plugin.so">
+            <robotNamespace></robotNamespace>
+            <udpPort>5600</udpPort>
+        </plugin>
+        <plugin name="GeotaggedImagesPlugin" filename="libgazebo_geotagged_images_plugin.so">
+            <robotNamespace></robotNamespace>
+            <interval>1</interval>
+            <width>4608</width>
+            <height>3456</height>
+        </plugin>-->
+      </sensor>
+    </link>
+    <joint name='cgo3_camera_joint' type='revolute'>
+      <child>cgo3_camera_link</child>
+      <parent>cgo3_horizontal_arm_link</parent>
+      <pose>-0.041 0.03 -0.162 0 0 0</pose>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-315</lower>
+          <upper>315</upper>
+          <effort>100</effort>
+          <velocity>-1</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.1</damping>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+      <physics>
         <ode>
-          <mu>1</mu>
-          <mu2>1</mu2>
+          <implicit_spring_damper>1</implicit_spring_damper>
+          <limit>
+            <!-- testing soft limits -->
+            <cfm>0.1</cfm>
+            <erp>0.2</erp>
+          </limit>
         </ode>
-      </friction>
-      <contact>
-        <ode>
-          <kp>1e+8</kp>
-          <kd>1</kd>
-          <max_vel>0.01</max_vel>
-          <min_depth>0.001</min_depth>
-        </ode>
-      </contact>
-    </surface>
-  </collision>
-  <visual name='cgo3_camera_visual'>
-    <pose>0 0 0 0 0 0</pose>
-    <geometry>
-      <mesh>
-        <scale>0.001 0.001 0.001</scale>
-        <uri>model://typhoon_h480/meshes/cgo3_camera_remeshed_v1.stl</uri>
-      </mesh>
-    </geometry>
-    <material>
-      <script>
-        <name>Gazebo/DarkGrey</name>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-      </script>
-    </material>
-  </visual>
-  <sensor name="camera_imu" type="imu">
-    <pose>-0.051 0 -0.162 0 0 3.14159</pose>
-    <always_on>1</always_on>
-  </sensor>
-  <sensor name="camera" type="camera">
-    <pose>-0.051 0 -0.162 0 0 3.14159</pose>
-    <camera>
-        <horizontal_fov>1.1238175</horizontal_fov>
-        <image>
-          <width>4608</width>
-          <height>3456</height>
-        </image>
-        <clip>
-          <near>0.1</near>
-          <far>15000</far>
-        </clip>
-    </camera>
-    <always_on>1</always_on>
-    <update_rate>30</update_rate>
-    <visualize>false</visualize>
-    <!-- how to make this work without using urdf?
-    <plugin name="cgo3_camera_controller" filename="libgazebo_ros_camera.so">
-      <alwaysOn>true</alwaysOn>
-      <updateRate>0.0</updateRate>
-      <cameraName>cgo3_camera</cameraName>
-      <imageTopicName>image_raw</imageTopicName>
-      <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-      <frameName>cgo3_camera_optical_frame</frameName>
-      <hackBaseline>0.0</hackBaseline>
-      <distortionK1>0.0</distortionK1>
-      <distortionK2>0.0</distortionK2>
-      <distortionK3>0.0</distortionK3>
-      <distortionT1>0.0</distortionT1>
-      <distortionT2>0.0</distortionT2>
-    </plugin>
-    -->
-    <plugin name='camera_plugin' filename='libgazebo_ros_camera.so'>
-        <robotNamespace></robotNamespace>
-      <alwaysOn>true</alwaysOn>
-      <imageTopicName>image_raw</imageTopicName>
-      <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-      <updateRate>30.0</updateRate>
-      <cameraName>usb_cam</cameraName>
-      <frameName>/robot_camera_link</frameName>
-      <CxPrime>0</CxPrime>
-      <Cx>0</Cx>
-      <Cy>0</Cy>
-      <hackBaseline>0</hackBaseline>
-      <distortionK1>0.0</distortionK1>
-      <distortionK2>0.0</distortionK2>
-      <distortionK3>0.0</distortionK3>
-      <distortionT1>0.0</distortionT1>
-      <distortionT2>0.0</distortionT2>
-    </plugin>
-    <!-- GStreamer camera plugin (needs a lot of CPU! Consider lowering the
-         camera image size) -->
-    <!--<plugin name="GstCameraPlugin" filename="libgazebo_gst_camera_plugin.so">
-        <robotNamespace></robotNamespace>
-        <udpPort>5600</udpPort>
-    </plugin>
-    <plugin name="GeotaggedImagesPlugin" filename="libgazebo_geotagged_images_plugin.so">
-        <robotNamespace></robotNamespace>
-        <interval>1</interval>
-        <width>4608</width>
-        <height>3456</height>
-    </plugin>-->
-  </sensor>
-</link>
-<joint name='cgo3_camera_joint' type='revolute'>
-  <child>cgo3_camera_link</child>
-  <parent>cgo3_horizontal_arm_link</parent>
-  <pose>-0.041 0.03 -0.162 0 0 0</pose>
-  <axis>
-    <xyz>0 -1 0</xyz>
-    <limit>
-      <lower>-315</lower>
-      <upper>315</upper>
-      <effort>100</effort>
-      <velocity>-1</velocity>
-    </limit>
-    <dynamics>
-      <damping>0.1</damping>
-    </dynamics>
-    <use_parent_model_frame>1</use_parent_model_frame>
-  </axis>
-  <physics>
-    <ode>
-      <implicit_spring_damper>1</implicit_spring_damper>
-      <limit>
-        <!-- testing soft limits -->
-        <cfm>0.1</cfm>
-        <erp>0.2</erp>
-      </limit>
-    </ode>
-  </physics>
-</joint>
+      </physics>
+    </joint>
 
-<link name="left_leg">
-  <pose frame=''>0 0 0.017 -0.000212 -0.002336 0.000306</pose>
-  <inertial>
-    <!-- place holder -->
-    <pose>0 -0.14314 -0.207252 0 0 0</pose>
-    <mass>0.1</mass>
-    <inertia>
-      <ixx>0.001</ixx>
-      <ixy>0</ixy>
-      <ixz>0</ixz>
-      <iyy>0.001</iyy>
-      <iyz>0</iyz>
-      <izz>0.001</izz>
-    </inertia>
-  </inertial>
-  <collision name='collision'>
-    <pose>-0.005 -0.14314 -0.207252 0 1.56893 0</pose>
-    <geometry>
-    <box>
-      <size>0.024418 0.024418 0.3</size>
-    </box>
-      <!--<cylinder>
-        <radius>0.012209</radius>
-        <length>0.3</length>
-      </cylinder>-->
-    </geometry>
-    <surface>
-      <friction>
+    <link name="left_leg">
+      <pose frame=''>0 0 0.017 -0.000212 -0.002336 0.000306</pose>
+      <inertial>
+        <!-- place holder -->
+        <pose>0 -0.14314 -0.207252 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <pose>-0.005 -0.14314 -0.207252 0 1.56893 0</pose>
+        <geometry>
+        <box>
+          <size>0.024418 0.024418 0.3</size>
+        </box>
+          <!--<cylinder>
+            <radius>0.012209</radius>
+            <length>0.3</length>
+          </cylinder>-->
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+8</kp>
+              <kd>1</kd>
+              <max_vel>0.01</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <collision name='collision_bar'>
+        <pose>0.00052 -0.08503 -0.121187 -0.501318 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.00914984</radius>
+            <length>0.176893</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+8</kp>
+              <kd>1</kd>
+              <max_vel>0.01</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name='base_link_left_leg'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://typhoon_h480/meshes/leg2_remeshed_v3.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+    </link>
+    <joint name='left_leg_joint' type='revolute'>
+      <child>left_leg</child>
+      <parent>base_link</parent>
+      <pose>0.00026 -0.040515 -0.048 0 0 0</pose>
+      <axis>
+        <xyz>-1 0 0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>1</upper>
+          <effort>100</effort>
+          <velocity>-1</velocity>
+          <stiffness>100000000</stiffness>
+          <dissipation>1</dissipation>
+        </limit>
+        <dynamics>
+          <damping>0.1</damping>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+      <physics>
         <ode>
-          <mu>1</mu>
-          <mu2>1</mu2>
+          <implicit_spring_damper>1</implicit_spring_damper>
         </ode>
-      </friction>
-      <contact>
-        <ode>
-          <kp>1e+8</kp>
-          <kd>1</kd>
-          <max_vel>0.01</max_vel>
-          <min_depth>0.001</min_depth>
-        </ode>
-      </contact>
-    </surface>
-  </collision>
-  <collision name='collision_bar'>
-    <pose>0.00052 -0.08503 -0.121187 -0.501318 0 0</pose>
-    <geometry>
-      <cylinder>
-        <radius>0.00914984</radius>
-        <length>0.176893</length>
-      </cylinder>
-    </geometry>
-    <surface>
-      <friction>
-        <ode>
-          <mu>1</mu>
-          <mu2>1</mu2>
-        </ode>
-      </friction>
-      <contact>
-        <ode>
-          <kp>1e+8</kp>
-          <kd>1</kd>
-          <max_vel>0.01</max_vel>
-          <min_depth>0.001</min_depth>
-        </ode>
-      </contact>
-    </surface>
-  </collision>
-  <visual name='base_link_left_leg'>
-    <pose>0 0 0 0 0 0</pose>
-    <geometry>
-      <mesh>
-        <scale>0.001 0.001 0.001</scale>
-        <uri>model://typhoon_h480/meshes/leg2_remeshed_v3.stl</uri>
-      </mesh>
-    </geometry>
-    <material>
-      <script>
-        <name>Gazebo/DarkGrey</name>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-      </script>
-    </material>
-  </visual>
-</link>
-<joint name='left_leg_joint' type='revolute'>
-  <child>left_leg</child>
-  <parent>base_link</parent>
-  <pose>0.00026 -0.040515 -0.048 0 0 0</pose>
-  <axis>
-    <xyz>-1 0 0</xyz>
-    <limit>
-      <lower>0</lower>
-      <upper>1</upper>
-      <effort>100</effort>
-      <velocity>-1</velocity>
-      <stiffness>100000000</stiffness>
-      <dissipation>1</dissipation>
-    </limit>
-    <dynamics>
-      <damping>0.1</damping>
-    </dynamics>
-    <use_parent_model_frame>1</use_parent_model_frame>
-  </axis>
-  <physics>
-    <ode>
-      <implicit_spring_damper>1</implicit_spring_damper>
-    </ode>
-  </physics>
-</joint>
+      </physics>
+    </joint>
 
-<link name="right_leg">
-  <pose frame=''>0 0 0.017 0.001197 0.001267 0.001805</pose>
-  <inertial>
-    <!-- place holder -->
-    <pose>0 0.14314 -0.207252 0 0 0</pose>
-    <mass>0.1</mass>
-    <inertia>
-      <ixx>0.001</ixx>
-      <ixy>0</ixy>
-      <ixz>0</ixz>
-      <iyy>0.001</iyy>
-      <iyz>0</iyz>
-      <izz>0.001</izz>
-    </inertia>
-  </inertial>
-  <collision name='collision'>
-    <pose>-0.005 0.14314 -0.207252 0 1.56893 0</pose>
-    <geometry>
-    <box>
-      <size>0.024418 0.024418 0.3</size>
-    </box>
-      <!--<cylinder>
-        <radius>0.012209</radius>
-        <length>0.3</length>
-      </cylinder>-->
-    </geometry>
-    <surface>
-      <friction>
+    <link name="right_leg">
+      <pose frame=''>0 0 0.017 0.001197 0.001267 0.001805</pose>
+      <inertial>
+        <!-- place holder -->
+        <pose>0 0.14314 -0.207252 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <collision name='collision'>
+        <pose>-0.005 0.14314 -0.207252 0 1.56893 0</pose>
+        <geometry>
+        <box>
+          <size>0.024418 0.024418 0.3</size>
+        </box>
+          <!--<cylinder>
+            <radius>0.012209</radius>
+            <length>0.3</length>
+          </cylinder>-->
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+8</kp>
+              <kd>1</kd>
+              <max_vel>0.01</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <collision name='collision_bar'>
+        <pose>0.00052 0.08503 -0.121187 0.501318 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.00914984</radius>
+            <length>0.176893</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+8</kp>
+              <kd>1</kd>
+              <max_vel>0.01</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name='base_link_right_leg'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://typhoon_h480/meshes/leg1_remeshed_v3.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+    </link>
+    <joint name='right_leg_joint' type='revolute'>
+      <child>right_leg</child>
+      <parent>base_link</parent>
+      <pose>0.00026 0.040515 -0.048 0 0 0</pose>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>1</upper>
+          <effort>100</effort>
+          <velocity>-1</velocity>
+          <stiffness>100000000</stiffness>
+          <dissipation>1</dissipation>
+        </limit>
+        <dynamics>
+          <damping>0.1</damping>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+      <physics>
         <ode>
-          <mu>1</mu>
-          <mu2>1</mu2>
+          <implicit_spring_damper>1</implicit_spring_damper>
         </ode>
-      </friction>
-      <contact>
-        <ode>
-          <kp>1e+8</kp>
-          <kd>1</kd>
-          <max_vel>0.01</max_vel>
-          <min_depth>0.001</min_depth>
-        </ode>
-      </contact>
-    </surface>
-  </collision>
-  <collision name='collision_bar'>
-    <pose>0.00052 0.08503 -0.121187 0.501318 0 0</pose>
-    <geometry>
-      <cylinder>
-        <radius>0.00914984</radius>
-        <length>0.176893</length>
-      </cylinder>
-    </geometry>
-    <surface>
-      <friction>
-        <ode>
-          <mu>1</mu>
-          <mu2>1</mu2>
-        </ode>
-      </friction>
-      <contact>
-        <ode>
-          <kp>1e+8</kp>
-          <kd>1</kd>
-          <max_vel>0.01</max_vel>
-          <min_depth>0.001</min_depth>
-        </ode>
-      </contact>
-    </surface>
-  </collision>
-  <visual name='base_link_right_leg'>
-    <pose>0 0 0 0 0 0</pose>
-    <geometry>
-      <mesh>
-        <scale>0.001 0.001 0.001</scale>
-        <uri>model://typhoon_h480/meshes/leg1_remeshed_v3.stl</uri>
-      </mesh>
-    </geometry>
-    <material>
-      <script>
-        <name>Gazebo/DarkGrey</name>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-      </script>
-    </material>
-  </visual>
-</link>
-<joint name='right_leg_joint' type='revolute'>
-  <child>right_leg</child>
-  <parent>base_link</parent>
-  <pose>0.00026 0.040515 -0.048 0 0 0</pose>
-  <axis>
-    <xyz>1 0 0</xyz>
-    <limit>
-      <lower>0</lower>
-      <upper>1</upper>
-      <effort>100</effort>
-      <velocity>-1</velocity>
-      <stiffness>100000000</stiffness>
-      <dissipation>1</dissipation>
-    </limit>
-    <dynamics>
-      <damping>0.1</damping>
-    </dynamics>
-    <use_parent_model_frame>1</use_parent_model_frame>
-  </axis>
-  <physics>
-    <ode>
-      <implicit_spring_damper>1</implicit_spring_damper>
-    </ode>
-  </physics>
-</joint>
+      </physics>
+    </joint>
 
 
     <plugin name='rosbag' filename='libgazebo_multirotor_base_plugin.so'>
@@ -1160,6 +1160,14 @@
         </channel>
       </control_gimbal_channels>
       <gimbal_imu>camera_imu</gimbal_imu>
+    </plugin>
+    <plugin name="JointStatePublisher" filename="libJointStatePublisher.so">
+      <publish_selected_only>true</publish_selected_only>
+      <joint>/imu_joint</joint>
+      <joint>rotor_0_joint</joint>
+      <joint>rotor_1_joint</joint>
+      <joint>rotor_2_joint</joint>
+      <joint>rotor_3_joint</joint>
     </plugin>
     <!--<include>
       <uri>model://fpv_cam</uri>
