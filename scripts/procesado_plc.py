@@ -21,7 +21,7 @@ def point_cloud_cb(msg):
     t.append(tnow.secs)
 
 if __name__ == '__main__':
-    rospy.init_node('servicio_de_kill_node', anonymous=True)
+    rospy.init_node('procesado_plc', anonymous=True)
     rate=rospy.Rate(20)
     local_pose_sub=rospy.Subscriber("offbnode/points2", PointCloud2, point_cloud_cb)
 

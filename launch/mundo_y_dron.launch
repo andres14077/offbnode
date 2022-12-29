@@ -5,13 +5,14 @@
     <!-- vehicle pose -->
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
-    <arg name="z" default="13.3"/>
+    <arg name="z" default="0.3"/>
     <arg name="R" default="0"/>
     <arg name="P" default="0"/>
     <arg name="Y" default="0"/>
     <!-- vehicle model and world -->
+    <arg name="gui" default="false"/>
     <arg name="vehicle" default="iris_gimbal"/>
-    <arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/p1.world"/>
+    <!-- <arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/p1.world"/> -->
     <!-- MAVROS configs -->
     <arg name="gcs_url" default="udp://:18570@localhost:14550"/>
 
@@ -25,8 +26,9 @@
         <arg name="R" value="$(arg R)"/>
         <arg name="P" value="$(arg P)"/>
         <arg name="Y" value="$(arg Y)"/>
-        <arg name="world" value="$(arg world)"/>
+        <!-- <arg name="world" value="$(arg world)"/> -->
         <arg name="vehicle" value="$(arg vehicle)"/>
         <arg name="gcs_url" value="$(arg gcs_url)"/>
+        <arg name="gui" default="$(arg gui)"/>
     </include>
 </launch>
