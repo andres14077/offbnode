@@ -63,6 +63,13 @@
     <axis xyz="0 1 0"/>
     <limit lower="-315.0" upper="315.0" effort="100.0" velocity="-1.0"/>
   </joint>
+  <joint name="cgo3_camera_optical_joint" type="fixed">
+    <parent link="cgo3_camera_link"/>
+    <child link="cgo3_camera_optical_link"/>
+    <origin xyz="0.041  0    -0.136" rpy="0 -1.5707963 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0" upper="0" effort="0" velocity="0"/>
+  </joint>
   <joint name="left_leg_joint" type="revolute">
     <parent link="base_link"/>
     <child link="left_leg"/>
@@ -236,6 +243,13 @@
         <mesh filename="package://offbnode/models/iris_gimbal/meshes/cgo3_camera_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
+  </link>
+  <link name="cgo3_camera_optical_link">
+    <inertial>
+      <mass value="1e-9"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
   </link>
   <link name="left_leg">
     <inertial>

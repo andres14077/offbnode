@@ -6,28 +6,34 @@ import rospy
 import tf_conversions
 
 import tf2_ros
-import geometry_msgs.msg
+from geometry_msgs.msg import TransformStamped
 from nav_msgs.msg import Odometry
 
-def tf_callback(msg, turtlename):
+def tf_callback(msg):
     br = tf2_ros.TransformBroadcaster()
-    t = geometry_msgs.msg.TransformStamped()
+    t = TransformStamped()
 
-    t.header.stamp = rospy.Time.now()
-    t.header.frame_id = msg.frame_id
-    t.child_frame_id = turtlename
-    t.transform.translation.x = msg.x
-    t.transform.translation.y = msg.y
-    t.transform.translation.z = 0.0
-    q = tf_conversions.transformations.quaternion_from_euler(0, 0, msg.theta)
-    t.transform.rotation.x = q[0]
-    t.transform.rotation.y = q[1]
-    t.transform.rotation.z = q[2]
-    t.transform.rotation.w = q[3]
+    t.header.stamp = msg.header.stamp
+    t.header.frame_id = msg.header.frame_id
+    t.child_frame_id = msg.child_frame_id
+    t.transform.translation.x = msg.pose.pose.position.x
+    t.transform.translation.y = msg.pose.pose.position.y
+    t.transform.translation.z = msg.pose.pose.position.z
+    t.transform.rotation.x = msg.pose.pose.orientation.x
+    t.transform.rotation.y = msg.pose.pose.orientation.y
+    t.transform.rotation.z = msg.pose.pose.orientation.z
+    t.transform.rotation.w = msg.pose.pose.orientation.w
 
     br.sendTransform(t)
 
 if __name__ == '__main__':
     rospy.init_node('tf2_pub')
-    rospy.rospy.Subscriber("mavros/global_position/local", Odometry, tf_callback, queue_size=5)
-    rospy.spin()
+    rospy.Subscriber("mavros/global_position/local", Odometry, tf_callback, queue_size=5)
+    try:
+        rospy.spin()
+    except rospy.ROSInterruptException:
+        rospy.loginfo("Interrupcion")
+        exit()
+    except:
+        rospy.loginfo("error")
+        exit()

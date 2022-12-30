@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+cp -r ~/catkin_ws/src/offbnode/models/iris_gimbal ~/Firmware/Tools/sitl_gazebo/models
+cp -r ~/catkin_ws/src/offbnode/worlds ~/Firmware/Tools/sitl_gazebo
+cp -r ~/catkin_ws/src/offbnode/init.d/* ~/Firmware/ROMFS/px4fmu_common/init.d-posix
+cd
+cd .ros/
+cd eeprom/
+rm parameters
+
 
 cd ~/Firmware
 source ~/catkin_ws/devel/setup.bash    # (optional)

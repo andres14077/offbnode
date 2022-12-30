@@ -20,7 +20,7 @@ width = 921
 height = 691
 
 camera_info_l = CameraInfo()
-camera_info_l.header.frame_id="cgo3_camera_joint"
+camera_info_l.header.frame_id="cgo3_camera_link"
 camera_info_l.width = width
 camera_info_l.height = height
 camera_info_l.distortion_model="plumb_bob"
@@ -36,7 +36,7 @@ camera_info_l.P=[792.208319723304, 0.0, 433.15198135375977, 0.0,
                  0.0, 0.0, 1.0, 0.0]
 
 camera_info_r = CameraInfo()
-camera_info_r.header.frame_id="cgo3_camera_joint"
+camera_info_r.header.frame_id="cgo3_camera_link"
 camera_info_r.width = width
 camera_info_r.height = height
 camera_info_r.distortion_model="plumb_bob"

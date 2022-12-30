@@ -55,4 +55,5 @@
     <node name="servicio_de_kill_ros" pkg="offbnode" type="servicio_de_kill_ros.py" output="screen"/>
     <param name="robot_description" textfile="$(find mavlink_sitl_gazebo)/models/iris_gimbal/iris_gimbal.urdf" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    <node name="tf2_pub" pkg="offbnode" type="tf2_pub.py"/>
 </launch>
