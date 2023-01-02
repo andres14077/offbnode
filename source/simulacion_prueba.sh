@@ -15,8 +15,8 @@ DONT_RUN=1 make px4_sitl_default gazebo_iris
 #////////
 #para solo lanzar sim
 source ~/catkin_ws/devel/setup.bash    # (optional)
-source /home/andres1407/Firmware/Tools/setup_gazebo.bash /home/andres1407/Firmware /home/andres1407/Firmware/build/px4_sitl_default
-export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:/home/andres1407/Firmware
-export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:/home/andres1407/Firmware/Tools/sitl_gazebo
+source ~/Firmware/Tools/setup_gazebo.bash ~/Firmware ~/Firmware/build/px4_sitl_default
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/Firmware
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/Firmware/Tools/sitl_gazebo
 roslaunch offbnode pruebas_sin_gui.launch
 reset
