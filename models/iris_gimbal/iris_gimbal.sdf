@@ -350,8 +350,8 @@
       <pose frame=''>0 0 0.026 0 0 3.14159</pose>
       <inertial>
         <!-- place holder -->
-        <pose>-0.041 0 -0.162 0 0 0</pose>
-        <mass>0.11</mass>
+        <pose>-0.026 0 -0.082 0 0 0</pose>
+        <mass>0.01</mass>
         <inertia>
           <ixx>0.001</ixx>
           <ixy>0</ixy>
@@ -386,7 +386,7 @@
         <limit>
           <lower>0</lower>
           <upper>0</upper>
-          <effort>100</effort>
+          <effort>0</effort>
           <velocity>-1</velocity>
         </limit>
         <dynamics>
@@ -405,8 +405,8 @@
       <pose frame=''>0 0 0.026 0  0 3.14159</pose>
       <inertial>
         <!-- place holder -->
-        <pose>-0.041 0 -0.162 0 0 0</pose>
-        <mass>0.11</mass>
+        <pose>-0.026 0 -0.10 0 0 0</pose>
+        <mass>0.01</mass>
         <inertia>
           <ixx>0.001</ixx>
           <ixy>0</ixy>
@@ -444,7 +444,7 @@
         <limit>
           <lower>-1e16</lower>
           <upper>1e16</upper>
-          <effort>100</effort>
+          <effort>10</effort>
           <velocity>-1</velocity>
         </limit>
         <dynamics>
@@ -452,24 +452,15 @@
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-          <limit>
-            <!-- testing soft limits -->
-            <cfm>0.1</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
+
     </joint>
 
     <link name="cgo3_horizontal_arm_link">
       <pose frame=''>0 0 0.026 0 0 3.14159</pose>
       <inertial>
         <!-- place holder -->
-        <pose>-0.041 0 -0.081 0 0 0</pose>
-        <mass>0.11</mass>
+        <pose>0.026 0 -0.162 0 0 0</pose>
+        <mass>0.01</mass>
         <inertia>
           <ixx>0.001</ixx>
           <ixy>0</ixy>
@@ -507,24 +498,14 @@
         <limit>
           <lower>-785398</lower>
           <upper>785398</upper>
-          <effort>100</effort>
-          <velocity>-1</velocity>
+          <effort>10</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
           <damping>0.1</damping>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-          <limit>
-            <!-- testing soft limits -->
-            <cfm>0.1</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
 
     <link name="cgo3_camera_link">
@@ -532,7 +513,7 @@
       <inertial>
         <!-- place holder -->
         <pose>-0.041 0 -0.162 0 0 0</pose>
-        <mass>0.11</mass>
+        <mass>0.02</mass>
         <inertia>
           <ixx>0.001</ixx>
           <ixy>0</ixy>
@@ -656,9 +637,9 @@
       <axis>
         <xyz>0 -1 0</xyz>
         <limit>
-          <lower>-315</lower>
-          <upper>315</upper>
-          <effort>100</effort>
+          <lower>-31500</lower>
+          <upper>31500</upper>
+          <effort>10</effort>
           <velocity>-1</velocity>
         </limit>
         <dynamics>
@@ -666,16 +647,6 @@
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-          <limit>
-            <!-- testing soft limits -->
-            <cfm>0.1</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
 
     <link name='cgo3_camera_optical_link'>
@@ -805,14 +776,12 @@
         <xyz>-1 0 0</xyz>
         <limit>
           <lower>0</lower>
-          <upper>1</upper>
-          <effort>100</effort>
-          <velocity>-1</velocity>
-          <stiffness>100000000</stiffness>
-          <dissipation>1</dissipation>
+          <upper>0</upper>
+          <effort>0</effort>
+          <velocity>0</velocity>
         </limit>
         <dynamics>
-          <damping>0.1</damping>
+          <damping>1</damping>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -915,14 +884,12 @@
         <xyz>1 0 0</xyz>
         <limit>
           <lower>0</lower>
-          <upper>1</upper>
-          <effort>100</effort>
-          <velocity>-1</velocity>
-          <stiffness>100000000</stiffness>
-          <dissipation>1</dissipation>
+          <upper>0</upper>
+          <effort>0</effort>
+          <velocity></velocity>
         </limit>
         <dynamics>
-          <damping>0.1</damping>
+          <damping>1</damping>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -1086,7 +1053,7 @@
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position_gztopic</joint_control_type>
           <gztopic>/gimbal_roll_cmd</gztopic>
-          <joint_name>iris_gimbal::cgo3_horizontal_arm_joint</joint_name>
+          <joint_name>cgo3_horizontal_arm_joint</joint_name>
         </channel>
         <channel name="gimbal_pitch">
           <input_index>7</input_index>
@@ -1096,19 +1063,19 @@
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position_gztopic</joint_control_type>
           <gztopic>/gimbal_pitch_cmd</gztopic>
-          <joint_name>iris_gimbal::cgo3_camera_joint</joint_name>
+          <joint_name>cgo3_camera_joint</joint_name>
         </channel>
         <channel name="gimbal_yaw">
           <input_index>8</input_index>
-          <input_offset>1</input_offset>
+          <input_offset>0</input_offset>
           <input_scaling>-3.1415</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position_gztopic</joint_control_type>
           <gztopic>/gimbal_yaw_cmd</gztopic>
-          <joint_name>iris_gimbal::cgo3_vertical_arm_joint</joint_name>
+          <joint_name>cgo3_vertical_arm_joint</joint_name>
         </channel>
-        <channel name="left_leg">
+        <!-- <channel name="left_leg">
           <input_index>9</input_index>
           <input_offset>1</input_offset>
           <input_scaling>0.5</input_scaling>
@@ -1116,7 +1083,7 @@
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position</joint_control_type>
           <joint_control_pid>
-            <p>3.5</p>
+            <p>5.5</p>
             <i>0.5</i>
             <d>0</d>
             <iMax>4</iMax>
@@ -1134,7 +1101,7 @@
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position</joint_control_type>
           <joint_control_pid>
-            <p>3.5</p>
+            <p>5.5</p>
             <i>0.5</i>
             <d>0</d>
             <iMax>4</iMax>
@@ -1143,53 +1110,53 @@
             <cmdMin>-6</cmdMin>
           </joint_control_pid>
           <joint_name>right_leg_joint</joint_name>
-        </channel>
+        </channel> -->
       </control_channels>
     </plugin>
-    <static>0</static>
+    <!-- <static>0</static> -->
     <plugin name='rotors_gazebo_imu_plugin' filename='libgazebo_imu_plugin.so'>
       <robotNamespace/>
       <linkName>/imu_link</linkName>
       <imuTopic>/imu</imuTopic>
     </plugin>
     <plugin name='gimbal_controller' filename='libgazebo_gimbal_controller_plugin.so'>
-      <joint_yaw>iris_gimbal::cgo3_vertical_arm_joint</joint_yaw>
-      <joint_roll>iris_gimbal::cgo3_horizontal_arm_joint</joint_roll>
-      <joint_pitch>iris_gimbal::cgo3_camera_joint</joint_pitch>
+      <joint_yaw>cgo3_vertical_arm_joint</joint_yaw>
+      <joint_roll>cgo3_horizontal_arm_joint</joint_roll>
+      <joint_pitch>cgo3_camera_joint</joint_pitch>
       <control_gimbal_channels>
         <channel>
           <joint_control_pid>
-            <p>-0.01</p>
-            <i>-0.00</i>
-            <d>-0.00000</d>
+            <p>5</p>
+            <i>0</i>
+            <d>0</d>
             <iMax>0</iMax>
             <iMin>0</iMin>
-            <cmdMax>1.0</cmdMax>
-            <cmdMin>-1.0</cmdMin>
+            <cmdMax>3</cmdMax>
+            <cmdMin>-3</cmdMin>
           </joint_control_pid>
           <joint_axis>joint_yaw</joint_axis>
         </channel>
         <channel>
           <joint_control_pid>
-            <p>8.2673</p>
-            <i>0.01546</i>
-            <d>1.0064e-6</d>
-            <iMax>6</iMax>
-            <iMin>-6</iMin>
-            <cmdMax>0.3</cmdMax>
-            <cmdMin>-0.3</cmdMin>
+            <p>12</p>
+            <i>0</i>
+            <d>0</d>
+            <iMax>100</iMax>
+            <iMin>-100</iMin>
+            <cmdMax>100</cmdMax>
+            <cmdMin>-100</cmdMin>
           </joint_control_pid>
           <joint_axis>joint_roll</joint_axis>
         </channel>
         <channel>
           <joint_control_pid>
-            <p>2.068</p>
-            <i>0.01245</i>
-            <d>0.01</d>
+            <p>5</p>
+            <i>0</i>
+            <d>0</d>
             <iMax>0</iMax>
             <iMin>0</iMin>
-            <cmdMax>0.3</cmdMax>
-            <cmdMin>-0.3</cmdMin>
+            <cmdMax>3</cmdMax>
+            <cmdMin>-3</cmdMin>
           </joint_control_pid>
           <joint_axis>joint_pitch</joint_axis>
         </channel>

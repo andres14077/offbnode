@@ -19,4 +19,4 @@ source ~/Firmware/Tools/setup_gazebo.bash ~/Firmware ~/Firmware/build/px4_sitl_d
 export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/Firmware
 export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/Firmware/Tools/sitl_gazebo
 roslaunch offbnode pruebas_sin_gui.launch
-reset
+#reset

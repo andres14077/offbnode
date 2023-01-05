@@ -26,7 +26,7 @@ def example_function():
     pose_transformed.pose.position.x*=57.29577951
     pose_transformed.pose.position.y*=57.29577951
     pose_transformed.pose.position.z*=57.29577951
-    print (pose_transformed.pose.position.x)
+    # print (pose_transformed.pose.position.x)
     return (pose_transformed)
 
 if __name__ == '__main__':
