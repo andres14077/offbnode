@@ -13,11 +13,11 @@ tf_listener = tf2_ros.TransformListener(tf_buffer)
 
 def example_function():
     pose_stamped=PoseStamped()
-    pose_stamped.header.frame_id="cgo3_camera_optical_link"
-    pose_stamped.pose.orientation.w=0.707
-    pose_stamped.pose.orientation.y=0.707
+    pose_stamped.header.frame_id="cgo3_camera_link"
+    pose_stamped.pose.orientation.x=0.7071
+    pose_stamped.pose.orientation.z=0.7071
 
-    transform = tf_buffer.lookup_transform("map","cgo3_camera_optical_link",rospy.Time(),rospy.Duration(1.0))
+    transform = tf_buffer.lookup_transform("map","cgo3_camera_link",rospy.Time(),rospy.Duration(1.0))
 
     pose_transformed = tf2_geometry_msgs.do_transform_pose(pose_stamped, transform)
     orientation_q = pose_transformed.pose.orientation

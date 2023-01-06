@@ -4,7 +4,7 @@
     <arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/pruebas.world"/>
     <include file="$(find offbnode)/launch/mavros_posix_sitl.launch">
         <arg name="gui" default="true"/>
-        <arg name="paused" default="true"/>
+        <arg name="paused" default="false"/>
         <arg name="vehicle" default="iris_gimbal"/>
         <arg name="world" value="$(arg world)"/>
     </include>
