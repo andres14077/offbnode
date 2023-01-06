@@ -776,12 +776,14 @@
         <xyz>-1 0 0</xyz>
         <limit>
           <lower>0</lower>
-          <upper>0</upper>
-          <effort>0</effort>
-          <velocity>0</velocity>
+          <upper>1</upper>
+          <effort>100</effort>
+          <velocity>-1</velocity>
+          <stiffness>100000000</stiffness>
+          <dissipation>1</dissipation>
         </limit>
         <dynamics>
-          <damping>1</damping>
+          <damping>0.1</damping>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -884,12 +886,14 @@
         <xyz>1 0 0</xyz>
         <limit>
           <lower>0</lower>
-          <upper>0</upper>
-          <effort>0</effort>
-          <velocity></velocity>
+          <upper>1</upper>
+          <effort>100</effort>
+          <velocity>-1</velocity>
+          <stiffness>100000000</stiffness>
+          <dissipation>1</dissipation>
         </limit>
         <dynamics>
-          <damping>1</damping>
+          <damping>0.1</damping>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
