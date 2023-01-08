@@ -109,7 +109,7 @@ if __name__ == "__main__":
 
                 pose_local=PoseStamped()
                 pose_local.pose.position.x = 0
-                pose_local.pose.position.y = 0
+                pose_local.pose.position.y = 2
                 pose_local.pose.position.z = 50
                 q=quaternion_from_euler(0,0,0)
                 pose_local.pose.orientation.x = q[0]
@@ -151,7 +151,7 @@ if __name__ == "__main__":
                     rate.sleep()
 
                 pose_local.pose.position.x = 0
-                pose_local.pose.position.y = 2
+                pose_local.pose.position.y = 0
                 pose_local.pose.position.z = 50
                 q=quaternion_from_euler(0,0,0)
                 pose_local.pose.orientation.x = q[0]
@@ -217,7 +217,7 @@ if __name__ == "__main__":
 
             pose_local=PoseStamped()
             pose_local.pose.position.x = 0
-            pose_local.pose.position.y = 0
+            pose_local.pose.position.y = 2
             pose_local.pose.position.z = 50
             q=quaternion_from_euler(0,0,0)
             pose_local.pose.orientation.x = q[0]
@@ -261,7 +261,7 @@ if __name__ == "__main__":
                 rate.sleep()
 
             pose_local.pose.position.x = 0
-            pose_local.pose.position.y = 2
+            pose_local.pose.position.y = 0
             pose_local.pose.position.z = 50
             q=quaternion_from_euler(0,0,0)
             pose_local.pose.orientation.x = q[0]
