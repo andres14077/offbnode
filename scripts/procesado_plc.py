@@ -12,9 +12,12 @@ def point_cloud_cb(msg):
     global t
     z_mean=0
     i=0
+    z=[]
     for p in pc2.read_points(msg, field_names = ("z"), skip_nans=True):
         z_mean += p[0]
+        z.append(p)
         i+=1
+    print (z)
     rospy.loginfo("z_mean : %f",z_mean/i)
     distancia_z.append(z_mean/i)
     tnow=rospy.Time.now()

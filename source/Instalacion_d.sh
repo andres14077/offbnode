@@ -22,7 +22,7 @@ sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest pyth
 sudo pip install numpy toml
 
 sudo apt-get install -y git
-#echo "export SVGA_VGPU10=0" >> ~/.bashrc
+echo "export SVGA_VGPU10=0" >> ~/.bashrc
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 echo "export ROS_WORKSPACE=~/catkin_ws" >> ~/.bashrc
@@ -158,6 +158,8 @@ cd ~/Firmware
 git checkout v1.9.0
 
 DONT_RUN=1 make px4_sitl_default gazebo
+cp ~/offbnode/src/gazebo_gimbal_controller_plugin.cpp ~/Firmware/Tools/sitl_gazebo/src/gazebo_gimbal_controller_plugin.cpp
+DONT_RUN=1 make px4_sitl_default gazebo
 
 mv ~/offbnode ~/catkin_ws/src/
 cd ~/catkin_ws
@@ -165,4 +167,6 @@ catkin_make
 catkin_make
 catkin_make
 
+cd ~/catkin_ws/src/offbnode
+source source/Copiar_modelos_y_configuraciones.sh
 
