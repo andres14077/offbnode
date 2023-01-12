@@ -158,6 +158,8 @@ cd ~/Firmware
 git checkout v1.9.0
 
 DONT_RUN=1 make px4_sitl_default gazebo
+cp ~/offbnode/src/gazebo_gimbal_controller_plugin.cpp ~/Firmware/Tools/sitl_gazebo/src/gazebo_gimbal_controller_plugin.cpp
+DONT_RUN=1 make px4_sitl_default gazebo
 
 mv ~/offbnode ~/catkin_ws/src/
 cd ~/catkin_ws
