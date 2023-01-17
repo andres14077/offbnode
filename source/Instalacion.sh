@@ -21,6 +21,8 @@ sudo apt-get install -y python-dev python-numpy python-py python-pytest python-p
 sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest python-jinja2
 sudo pip install numpy toml
 
+sudo pip3 install numpy rospkg catkin_pkg
+
 sudo apt-get install -y git
 #echo "export SVGA_VGPU10=0" >> ~/.bashrc
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
