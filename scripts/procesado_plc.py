@@ -22,6 +22,7 @@ class procesado_plc:
         self.vector_pub=rospy.Publisher('offbnode/vector_in_plane', Vector3Stamped, queue_size=10)
     def point_cloud_cb(self,msg):
         vector_normal=Vector3Stamped()
+        vectorN=Vector3()
         point_plane=PointStamped()
         z=[]
         x=[]
