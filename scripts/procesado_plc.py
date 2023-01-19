@@ -6,8 +6,8 @@ from sensor_msgs.msg import PointCloud2
 from geometry_msgs.msg import Vector3Stamped
 from geometry_msgs.msg import Vector3
 from geometry_msgs.msg import PointStamped
-import matplotlib.pyplot as plt
-import statistics
+# import matplotlib.pyplot as plt
+# import statistics
 import numpy as np
 
 class procesado_plc:
