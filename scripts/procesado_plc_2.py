@@ -29,9 +29,9 @@ class procesado_plc_2:
         self.t.transform.translation.y = msg.point.y
         self.t.transform.translation.z = msg.point.z
     def vector_cb(self,msg):
-        v_len=math.sqrt(msg.vector.x*msg.vector.x + msg.vector.y*msg.vector.y + msg.vector.z*msg.vector.z)
-        pitch = math.asin(-msg.vector.y/v_len);
-        yaw = math.atan2(msg.vector.x/v_len, msg.vector.z/v_len)
+        # v_len=math.sqrt(msg.vector.x*msg.vector.x + msg.vector.y*msg.vector.y + msg.vector.z*msg.vector.z)
+        yaw = math.atan2( msg.vector.x , -msg.vector.y )
+        pitch = math.atan2( math.sqrt( msg.vector.x**2 + msg.vector.y**2 ) , msg.vector.z )
         q=quaternion_from_euler(0,pitch,yaw)
         self.t.transform.rotation.x = q[0]
         self.t.transform.rotation.y = q[1]
