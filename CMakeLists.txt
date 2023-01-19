@@ -18,6 +18,8 @@ find_package(catkin REQUIRED
       cv_bridge
       tf
       stereo_image_proc
+      tf2_geometry_msgs
+      tf2_ros
       #OpenCV
       )
   include_directories(${OpenCV_INCLUDE_DIRS})
