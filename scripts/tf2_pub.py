@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 
 import rospy
-
-# Because of transformations
-import tf_conversions
-
 import tf2_ros
 from geometry_msgs.msg import TransformStamped
 from nav_msgs.msg import Odometry

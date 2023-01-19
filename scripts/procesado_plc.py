@@ -6,17 +6,15 @@ from sensor_msgs.msg import PointCloud2
 from geometry_msgs.msg import Vector3Stamped
 from geometry_msgs.msg import Vector3
 from geometry_msgs.msg import PointStamped
-from tf.transformations import euler_from_quaternion
 import matplotlib.pyplot as plt
 import statistics
 import numpy as np
-distancia_z=[]
-t=[]
+
 class procesado_plc:
     def __init__(self):
         rospy.init_node('procesado_plc', anonymous=True)
         self.rate=rospy.Rate(20)
-        self.local_pose_sub=rospy.Subscriber("offbnode/points2", PointCloud2, self.point_cloud_cb)
+        self.point_cloud_sub=rospy.Subscriber("offbnode/points2", PointCloud2, self.point_cloud_cb)
         self.distancia_z=[]
         self.t=[]
         self.point_pub=rospy.Publisher('offbnode/point_in_plane', PointStamped, queue_size=10)
@@ -32,7 +30,7 @@ class procesado_plc:
             z.append(p[2])
             x.append(p[0])
             y.append(p[1])
-        st_dev = statistics.pstdev(z)
+        # st_dev = statistics.pstdev(z)
         # if (st_dev > 30):
         #     return
         X = np.array([x,y])
@@ -52,20 +50,17 @@ class procesado_plc:
         self.point_pub.publish(point_plane)
         self.vector_pub.publish(vector_normal)
 
-        print (b)
-        #st_dev = statistics.pstdev(z)
-        # print (st_dev)
-        dist=statistics.mean(z)
+        dist=b[0]
         rospy.loginfo("z_mean : %f",dist)
-        # distancia_z.append(dist)
+        # self.distancia_z.append(dist)
         # tnow=rospy.Time.now()
-        # t.append(tnow.secs)
+        # self.t.append(tnow.secs)
 
 if __name__ == '__main__':
     
     nodo=procesado_plc()
     while(not rospy.is_shutdown()):
         
-        # plt.plot(distancia_z)
+        # plt.plot(nodo.distancia_z)
         # plt.pause(0.0001)
         nodo.rate.sleep()
