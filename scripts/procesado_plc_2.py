@@ -19,6 +19,7 @@ class procesado_plc_2:
         self.tf_buffer = tf2_ros.Buffer(rospy.Duration(100.0))  # tf buffer length
         self.tf_listener = tf2_ros.TransformListener(self.tf_buffer)
         self.t = TransformStamped()
+        self.br = tf2_ros.TransformBroadcaster()
         self.t.header.frame_id = "cgo3_camera_optical_link"
         self.t.child_frame_id = "plano_terreno"
     def point_cb(self,msg):
@@ -34,9 +35,13 @@ class procesado_plc_2:
         self.t.transform.rotation.y = q[1]
         self.t.transform.rotation.z = q[2]
         self.t.transform.rotation.w = q[3]
+    def update(self):
+        self.t.header.stamp = rospy.Time.now()
+        self.br.sendTransform(self.t)
 
 if __name__ == '__main__':
     
     nodo=procesado_plc_2()
     while(not rospy.is_shutdown()):
+        nodo.update()
         nodo.rate.sleep()
