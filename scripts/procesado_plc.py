@@ -6,6 +6,7 @@ from sensor_msgs.msg import PointCloud2
 from geometry_msgs.msg import Vector3Stamped
 from geometry_msgs.msg import Vector3
 from geometry_msgs.msg import PointStamped
+from tf.transformations import euler_from_quaternion
 import matplotlib.pyplot as plt
 import statistics
 import numpy as np
