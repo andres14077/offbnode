@@ -22,17 +22,20 @@ class procesado_plc_2:
 
         self.t = TransformStamped()
         self.t.transform.rotation.w = 1
-        self.t.header.frame_id = "cgo3_camera_optical_link"
+        self.t.header.frame_id = "map"
         self.t.child_frame_id = "plano_terreno"
     def point_cb(self,msg):
-        self.t.transform.translation.x = msg.point.x
-        self.t.transform.translation.y = msg.point.y
-        self.t.transform.translation.z = msg.point.z
+        transform = self.tf_buffer.lookup_transform("map","cgo3_camera_optical_link",rospy.Time(),rospy.Duration(1.0))
+        point_t = tf2_geometry_msgs.do_transform_point(msg, transform)
+        self.t.transform.translation.x = point_t.point.x
+        self.t.transform.translation.y = point_t.point.y
+        self.t.transform.translation.z = point_t.point.z
     def vector_cb(self,msg):
-        # v_len=math.sqrt(msg.vector.x*msg.vector.x + msg.vector.y*msg.vector.y + msg.vector.z*msg.vector.z)
-        yaw = math.atan2( msg.vector.y , msg.vector.x )
-        pitch = math.atan2( -msg.vector.z , math.sqrt( msg.vector.x**2 + msg.vector.y**2 ) )
-        q=quaternion_from_euler(0,pitch,yaw)
+        transform = self.tf_buffer.lookup_transform("map","cgo3_camera_optical_link",rospy.Time(),rospy.Duration(1.0))
+        vector_t = tf2_geometry_msgs.do_transform_vector3(msg, transform)
+        yaw = math.atan2( vector_t.vector.y , vector_t.vector.x )
+        pitch = math.atan2( -vector_t.vector.z , math.sqrt( vector_t.vector.x**2 + vector_t.vector.y**2 ) )
+        q=quaternion_from_euler(0,pitch-math.pi/2,yaw)
         self.t.transform.rotation.x = q[0]
         self.t.transform.rotation.y = q[1]
         self.t.transform.rotation.z = q[2]
