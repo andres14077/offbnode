@@ -15,13 +15,10 @@ class procesado_plc:
         rospy.init_node('procesado_plc', anonymous=True)
         self.rate=rospy.Rate(20)
         self.point_cloud_sub=rospy.Subscriber("offbnode/points2", PointCloud2, self.point_cloud_cb)
-        self.distancia_z=[]
-        self.t=[]
         self.point_pub=rospy.Publisher('offbnode/point_in_plane', PointStamped, queue_size=10)
         self.vector_pub=rospy.Publisher('offbnode/vector_in_plane', Vector3Stamped, queue_size=10)
     def point_cloud_cb(self,msg):
         vector_normal=Vector3Stamped()
-        vectorN=Vector3()
         point_plane=PointStamped()
         z=[]
         x=[]
@@ -30,9 +27,6 @@ class procesado_plc:
             z.append(p[2])
             x.append(p[0])
             y.append(p[1])
-        # st_dev = statistics.pstdev(z)
-        # if (st_dev > 30):
-        #     return
         X = np.array([x,y])
         X = np.insert(X, 0, np.array((np.ones(len(X[0])))), 0).T
         Z = np.array(z)
@@ -50,17 +44,7 @@ class procesado_plc:
         self.point_pub.publish(point_plane)
         self.vector_pub.publish(vector_normal)
 
-        dist=b[0]
-        rospy.loginfo("z_mean : %f",dist)
-        # self.distancia_z.append(dist)
-        # tnow=rospy.Time.now()
-        # self.t.append(tnow.secs)
-
 if __name__ == '__main__':
-    
+
     nodo=procesado_plc()
-    while(not rospy.is_shutdown()):
-        
-        # plt.plot(nodo.distancia_z)
-        # plt.pause(0.0001)
-        nodo.rate.sleep()
+    rospy.spin()

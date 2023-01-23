@@ -12,7 +12,6 @@ from tf.transformations import quaternion_from_euler
 
 class procesado_plc_2:
     def __init__(self):
-        rospy.init_node('procesado_plc_2', anonymous=True)
         self.rate=rospy.Rate(20)
         self.point_sub=rospy.Subscriber('offbnode/point_in_plane', PointStamped, self.point_cb )
         self.vector_sub=rospy.Subscriber('offbnode/vector_in_plane', Vector3Stamped, self.vector_cb)
@@ -45,7 +44,7 @@ class procesado_plc_2:
         self.br.sendTransform(self.t)
 
 if __name__ == '__main__':
-    
+    rospy.init_node('procesado_plc_2', anonymous=True)
     nodo=procesado_plc_2()
     while(not rospy.is_shutdown()):
         nodo.update()
