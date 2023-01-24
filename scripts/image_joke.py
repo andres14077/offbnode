@@ -6,6 +6,8 @@ import rospy
 from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import Image,CameraInfo
 from mavros_msgs.msg import MountControl
+from std_msgs.msg import Bool
+from std_srvs.srv import Trigger,TriggerRequest,TriggerResponse
 from mavros_msgs.srv import CommandBool,CommandBoolRequest,CommandBoolResponse
 from tf.transformations import quaternion_from_euler
 from cv_bridge import CvBridge
@@ -79,6 +81,10 @@ class Image_Joke:
         self.image_raw_sub=rospy.Subscriber("iris_gimbal/usb_cam/image_raw", Image, self.image_cb)
         self.local_pose_sub=rospy.Subscriber("mavros/local_position/pose", PoseStamped, self.local_pose_cb)
         self.set_pose_sub=rospy.Subscriber("offbnode/set_pose_cmd", PoseStamped, self.set_pose_cb)
+        self.procesado_completed_sub=rospy.Subscriber('offbnode/procesado_completed', Bool, self.procesado_completed_cb )
+
+
+        self.procesado_on_pub=rospy.Publisher("offbnode/procesado_on", Bool, queue_size=10)
 
         self.local_poss_pub = rospy.Publisher("offbnode/pose_local_cmd", PoseStamped, queue_size=10)
         self.camera_pose_pub=rospy.Publisher('mavros/mount_control/command', MountControl, queue_size=10)
@@ -97,6 +103,12 @@ class Image_Joke:
         offboard_cmd.value = True
         while(offboard_client.call(offboard_cmd).success == False):
             self.rate.sleep()
+        # iniciando servicio de medida de plano
+        self.tomar_medida_service = rospy.Service("offbnode/tomar_medida", Trigger,self.tomar_medida_cb)
+        self.tomar_medida=False
+        self.procesado_completed=False
+    def procesado_completed_cb(self,msg):
+        self.procesado_completed=msg.data
     def image_cb(self,msg):
         if (self.toma_imagen_l==True):
             self.toma_imagen_l = False
@@ -108,6 +120,14 @@ class Image_Joke:
         self.current_local_pose = msg
     def set_pose_cb(self,msg):
         self.set_pose = msg
+    def tomar_medida_cb(self,req):
+        self.tomar_medida=True
+        while(self.tomar_medida):
+            self.update()
+            self.rate.sleep()
+        response=TriggerResponse()
+        response.success=True
+        return response
     def distancia_to_setpoint(self,pose):
         d= (self.current_local_pose.pose.position.x-pose.pose.position.x)*(self.current_local_pose.pose.position.x-pose.pose.position.x)
         d+=(self.current_local_pose.pose.position.y-pose.pose.position.y)*(self.current_local_pose.pose.position.y-pose.pose.position.y)
@@ -155,8 +175,7 @@ class Image_Joke:
                 self.control_stade+=1
         elif(self.control_stade==6):
             self.control_stade+=1
-        elif(self.control_stade==7):
-            self.control_stade=0
+            rospy.loginfo("Escalando imagenes")
             image_rl=self._cv_bridge.imgmsg_to_cv2(self.image_rg, "bgr8")
             image_rl=cv2.resize(image_rl,(self.width, self.height))
             image_r2=self._cv_bridge.cv2_to_imgmsg(image_rl, "bgr8")
@@ -165,6 +184,14 @@ class Image_Joke:
             image_l2=self._cv_bridge.cv2_to_imgmsg(image_ll, "bgr8")
             self.image_l=copy(image_l2)
             self.image_r=copy(image_r2)
+            procesado_on_cmd=Bool()
+            self.procesado_completed=False
+            self.procesado_on_pub.publish(procesado_on_cmd)
+            rospy.loginfo("Procesando imagenes")
+        elif(self.control_stade==7):
+            if(self.procesado_completed):
+                self.control_stade=0
+                self.tomar_medida=False
 
 if __name__ == "__main__":
     rospy.init_node("image_joke_py")
@@ -172,9 +199,10 @@ if __name__ == "__main__":
     # Setpoint publishing MUST be faster than 2Hz
     rate = rospy.Rate(20)
     nodo=Image_Joke()
-    while(not rospy.is_shutdown()):
-        nodo.update()
-        nodo.rate.sleep()
+    rospy.spin()
+    # while(not rospy.is_shutdown()):
+    #     nodo.update()
+    #     nodo.rate.sleep()
 
 
 

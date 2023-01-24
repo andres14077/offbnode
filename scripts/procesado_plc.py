@@ -16,11 +16,10 @@ class procesado_plc:
         self.cmd_sub=rospy.Subscriber("offbnode/procesado_on", Bool, self.cmd_cb)
         self.point_pub=rospy.Publisher('offbnode/pose_in_plane', PoseStamped, queue_size=10)
     def cmd_cb(self,msg):
-        self.point_cloud_sub=rospy.Subscriber("offbnode/points2", PointCloud2, self.point_cloud_cb)
+        self.point_cloud_sub=rospy.Subscriber("offbnode/points2", PointCloud2, self.point_cloud_cb,queue_size=1)
     def point_cloud_cb(self,msg):
-        self.cmd_sub.unregister()
+        self.point_cloud_sub.unregister()
         point_plane=PoseStamped()
-        self.numero.data+=1
         z=[]
         x=[]
         y=[]
