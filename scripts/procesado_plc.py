@@ -2,11 +2,9 @@
 # -*- coding: utf-8 -*-
 import rospy
 import sensor_msgs.point_cloud2 as pc2
+from std_msgs.msg import Bool
 from sensor_msgs.msg import PointCloud2
-from geometry_msgs.msg import Vector3Stamped
-from geometry_msgs.msg import Vector3
-from geometry_msgs.msg import PointStamped
-from std_msgs.msg import Int32
+from geometry_msgs.msg import PoseStamped
 # import matplotlib.pyplot as plt
 # import statistics
 import numpy as np
@@ -15,14 +13,13 @@ class procesado_plc:
     def __init__(self):
         rospy.init_node('procesado_plc', anonymous=True)
         self.rate=rospy.Rate(20)
-        self.numero=Int32()
+        self.cmd_sub=rospy.Subscriber("offbnode/procesado_on", Bool, self.cmd_cb)
+        self.point_pub=rospy.Publisher('offbnode/pose_in_plane', PoseStamped, queue_size=10)
+    def cmd_cb(self,msg):
         self.point_cloud_sub=rospy.Subscriber("offbnode/points2", PointCloud2, self.point_cloud_cb)
-        self.point_pub=rospy.Publisher('offbnode/point_in_plane', PointStamped, queue_size=10)
-        self.int_pub=rospy.Publisher('offbnode/num_of_plane', Int32, queue_size=10)
-        self.vector_pub=rospy.Publisher('offbnode/vector_in_plane', Vector3Stamped, queue_size=10)
     def point_cloud_cb(self,msg):
-        vector_normal=Vector3Stamped()
-        point_plane=PointStamped()
+        self.cmd_sub.unregister()
+        point_plane=PoseStamped()
         self.numero.data+=1
         z=[]
         x=[]
@@ -37,16 +34,13 @@ class procesado_plc:
         b = np.linalg.inv(X.T @ X) @ X.T @ Z
         point_plane.header.frame_id="cgo3_camera_optical_link"
         point_plane.header.stamp = rospy.Time.now()
-        point_plane.point.z = b[0]
+        point_plane.pose.position.z = b[0]
 
-        vector_normal.header.frame_id="cgo3_camera_optical_link"
-        vector_normal.header.stamp = rospy.Time.now()
-        vector_normal.vector.x = b[1]*-1
-        vector_normal.vector.y = b[2]*-1
-        vector_normal.vector.z = 1
-        self.int_pub.publish(self.numero)
+        point_plane.pose.orientation.x = b[1]*-1
+        point_plane.pose.orientation.y = b[2]*-1
+        point_plane.pose.orientation.z = 1
+
         self.point_pub.publish(point_plane)
-        self.vector_pub.publish(vector_normal)
 
 if __name__ == '__main__':
 
