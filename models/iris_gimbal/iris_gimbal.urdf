@@ -66,7 +66,7 @@
   <joint name="cgo3_camera_optical_joint" type="fixed">
     <parent link="cgo3_camera_link"/>
     <child link="cgo3_camera_optical_link"/>
-    <origin xyz="0   -0.03  0" rpy="0       1.57079 -3.14159"/>
+    <origin xyz="0   -0.03  0" rpy="-1.57079  0  1.57079"/>
     <axis xyz="0 0 1"/>
     <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0"/>
   </joint>

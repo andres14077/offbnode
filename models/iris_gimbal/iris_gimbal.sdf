@@ -650,7 +650,7 @@
     </joint>
 
     <link name='cgo3_camera_optical_link'>
-      <pose frame=''>0.015  0    -0.136 0 1.5707963 0</pose>
+      <pose frame=''>0.015  0    -0.136 -1.5707963 0 -1.5707963</pose>
       <inertial>
         <pose frame=''>0 0 0 0 0 0</pose>
         <mass>1e-9</mass>
