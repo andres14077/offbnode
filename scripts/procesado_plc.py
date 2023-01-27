@@ -11,7 +11,6 @@ import numpy as np
 
 class procesado_plc:
     def __init__(self):
-        rospy.init_node('procesado_plc', anonymous=True)
         self.rate=rospy.Rate(20)
         self.cmd_sub=rospy.Subscriber("offbnode/procesado_on", Bool, self.cmd_cb)
         self.point_pub=rospy.Publisher('offbnode/pose_in_plane', PoseStamped, queue_size=10)
@@ -42,6 +41,6 @@ class procesado_plc:
         self.point_pub.publish(point_plane)
 
 if __name__ == '__main__':
-
+    rospy.init_node('procesado_plc', anonymous=True)
     nodo=procesado_plc()
     rospy.spin()
