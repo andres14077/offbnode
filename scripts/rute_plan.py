@@ -27,7 +27,7 @@ class rute_plan:
         self.H=50                             # en m
         self.translape_lateral=70             # en %
         self.translape_longitudinal=70        # en %
-        self.angulo_entrada=120               # en grados
+        angulo_entrada=120               # en grados
         self.distancia_respuesta=20           # en m
         self.gradiente_x=0                    # en m
         self.gradiente_y=0                    # en m
@@ -143,23 +143,23 @@ class rute_plan:
     def local_pose_cb(self,msg):
         self.current_local_pose = msg
     def ruta_plane_service_cb(self,req):
-        self.angulo_entrada = req.data
+        angulo_entrada = req.data
         #calculo de variables de vuelo
-        self.GSD=(self.Width_sensor*self.H*100)/(self.Focal_length*self.Image_pix_Width)             # en cm/pix
-        self.ancho_huella=(self.GSD*self.Image_pix_Width)/100                              # en m
-        self.alto_huella=(self.GSD*self.Image_pix_Height)/100                              # en m
-        self.separacion_lineas_vuelo=self.ancho_huella*(1-(self.translape_lateral/100))    # en m
-        self.base_en_aire=self.alto_huella*(1-(self.translape_longitudinal/100))           # en m
+        GSD=(self.Width_sensor*self.H*100)/(self.Focal_length*self.Image_pix_Width)             # en cm/pix
+        ancho_huella=(GSD*self.Image_pix_Width)/100                              # en m
+        alto_huella=(GSD*self.Image_pix_Height)/100                              # en m
+        separacion_lineas_vuelo=ancho_huella*(1-(self.translape_lateral/100))    # en m
+        base_en_aire=alto_huella*(1-(self.translape_longitudinal/100))           # en m
 
-        self.min_cerca_x=self.min_x-self.distancia_respuesta
-        self.min_cerca_y=self.min_y-self.distancia_respuesta
-        self.max_cerca_x=self.max_x+self.distancia_respuesta
-        self.max_cerca_y=self.max_y+self.distancia_respuesta
+        min_cerca_x=self.min_x-self.distancia_respuesta
+        min_cerca_y=self.min_y-self.distancia_respuesta
+        max_cerca_x=self.max_x+self.distancia_respuesta
+        max_cerca_y=self.max_y+self.distancia_respuesta
 
         rospy.loginfo("Parametros de vuelo:\n-Configuracion de camara:\n  Ancho del sensor        = %.3f mm\n  Altura del sensor       = %.3f mm\n  Pixeles por ancho       = %.0f pix\n  Pixeles por alto        = %.0f pix\n  Longitud focal          = %.2f mm\n-Configuracion de vuelo:\n  Altura de vuelo         = %.2f m\n  GSD                     = %.2f cm/pix\n  Translape lateral       = %.2f %%\n  Translape longitudinal  = %.2f %%\n  Angulo entrada          = %.2f \n",
             self.Width_sensor,self.self.Height_sensor,self.Image_pix_Width,self.Image_pix_Height,
-            self.Focal_length,self.H,self.GSD,self.translape_lateral,self.translape_longitudinal,
-            self.angulo_entrada)
+            self.Focal_length,self.H,GSD,self.translape_lateral,self.translape_longitudinal,
+            angulo_entrada)
         ###/cercas de vuelo 
         cerca = PolygonStamped()
         cerca_max = PolygonStamped()
@@ -186,7 +186,7 @@ class rute_plan:
         p1.z=self.H
         cerca.polygon.points.append(p1)
 
-        cerca_max.header.stamp=ros::Time::now()
+        cerca_max.header.stamp=rospy.Time.now()
         cerca_max.header.frame_id="map"
 
         p1.x=self.max_cerca_x
@@ -231,145 +231,127 @@ class rute_plan:
         punto_linea_x_min.z=self.H
     ### calculo de lineas de vuelo planas
 
-        angulo_entrada=angulo_en_rango(angulo_entrada)
-        geometry_msgs::Vector3 vector_avance=Normalizar_vector(cos(angulo_entrada*G_to_R),sin(angulo_entrada*G_to_R),0)
+        angulo_entrada=self.angulo_en_rango(angulo_entrada)
+        vector_avance=self.Normalizar_vector(math.cos(angulo_entrada*G_to_R),math.sin(angulo_entrada*G_to_R),0)
         vector_avance.x=vector_avance.x*base_en_aire
         vector_avance.y=vector_avance.y*base_en_aire
-        geometry_msgs::Point punto_arranque,dis_entre_lineas
-        dis_entre_lineas.x=separacion_lineas_vuelo*sin(angulo_entrada*G_to_R)
-        dis_entre_lineas.y=separacion_lineas_vuelo*cos(angulo_entrada*G_to_R)
+        punto_arranque = Point()
+        dis_entre_lineas = Point()
+        dis_entre_lineas.x=separacion_lineas_vuelo*math.sin(angulo_entrada*G_to_R)
+        dis_entre_lineas.y=separacion_lineas_vuelo*math.cos(angulo_entrada*G_to_R)
         #punto de arranque
         if(angulo_entrada<180 and angulo_entrada>90):
-            ROS_INFO("ang1")
+            rospy.loginfo("ang1")
             dis_entre_lineas.x*=-1
             dis_entre_lineas.y*=-1
             punto_arranque.x= max_cerca_x
             punto_arranque.y= max_cerca_y
-            punto_arranque.z= H
+            punto_arranque.z= self.H
             punto_arranque.x= punto_arranque.x+dis_entre_lineas.x
             punto_arranque.y= punto_arranque.y-dis_entre_lineas.y
-            punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x)
-            if(not Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
-                punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y)
-            
+            punto_arranque=self.y_en_recta(vector_avance,punto_arranque,max_cerca_x)
+            if(not self.Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
+                punto_arranque=self.x_en_recta(vector_avance,punto_arranque,min_cerca_y)
         elif(angulo_entrada<90 and angulo_entrada>0):
-            ROS_INFO("ang2")
+            rospy.loginfo("ang2")
             punto_arranque.x= min_cerca_x
             punto_arranque.y= max_cerca_y
-            punto_arranque.z= H
+            punto_arranque.z= self.H
             punto_arranque.x= punto_arranque.x+dis_entre_lineas.x
             punto_arranque.y= punto_arranque.y-dis_entre_lineas.y
-            punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x)
-            if(not Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
-                punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y)
-            
+            punto_arranque=self.y_en_recta(vector_avance,punto_arranque,min_cerca_x)
+            if(not self.Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
+                punto_arranque=self.x_en_recta(vector_avance,punto_arranque,min_cerca_y)
         elif(angulo_entrada<0 and angulo_entrada>-90):
-            ROS_INFO("ang3")
+            rospy.loginfo("ang3")
             dis_entre_lineas.x*=-1
             dis_entre_lineas.y*=-1
             punto_arranque.x= min_cerca_x
             punto_arranque.y= min_cerca_y
-            punto_arranque.z= H
+            punto_arranque.z= self.H
             punto_arranque.x= punto_arranque.x+dis_entre_lineas.x
             punto_arranque.y= punto_arranque.y-dis_entre_lineas.y
-            punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x)
-            if(not Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
-                punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y)
-            
+            punto_arranque=self.y_en_recta(vector_avance,punto_arranque,min_cerca_x)
+            if(not self.Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
+                punto_arranque=self.x_en_recta(vector_avance,punto_arranque,max_cerca_y)
         elif(angulo_entrada<-90 and angulo_entrada>-180):
-            ROS_INFO("ang4")
+            rospy.loginfo("ang4")
             punto_arranque.x= max_cerca_x
             punto_arranque.y= min_cerca_y
-            punto_arranque.z= H
+            punto_arranque.z= self.H
             punto_arranque.x= punto_arranque.x+dis_entre_lineas.x
             punto_arranque.y= punto_arranque.y-dis_entre_lineas.y
-            punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x)
-            if(not Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
-                punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y)
-            
-        
+            punto_arranque=self.y_en_recta(vector_avance,punto_arranque,max_cerca_x)
+            if(not self.Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
+                punto_arranque=self.x_en_recta(vector_avance,punto_arranque,max_cerca_y)
 
-        nav_msgs::Path path
-        path.header.stamp = ros::Time::now()
+        path = Path()
+        path.header.stamp = rospy.Time.now()
         path.header.frame_id= "map"
 
-        ROS_INFO("path")
-        for (int i = 0 i < 1000 ++i):
-            geometry_msgs::PoseStamped pose
-            pose.header.stamp = ros::Time::now()
+        rospy.loginfo("path")
+        for i in range(1000):
+            pose = PoseStamped()
+            pose.header.stamp = rospy.Time.now()
             pose.header.frame_id = "map"
 
-            geometry_msgs::Point px=Recta(vector_avance,punto_arranque,i)
-            if(not Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)):
-                px=Recta(vector_avance,punto_arranque,i-1)
-                double d1,d2,d3,d4
-                d1=distancia_punto_recta(vector_linea_x_max,punto_linea_x_max,px)
-                d2=distancia_punto_recta(vector_linea_x_min,punto_linea_x_min,px)
-                d3=distancia_punto_recta(vector_linea_y_max,punto_linea_y_max,px)
-                d4=distancia_punto_recta(vector_linea_y_min,punto_linea_y_min,px)
+            px=self.Recta(vector_avance,punto_arranque,i)
+            if(not self.Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,px)):
+                px=self.Recta(vector_avance,punto_arranque,i-1)
+                d1=self.distancia_punto_recta(vector_linea_x_max,punto_linea_x_max,px)
+                d2=self.distancia_punto_recta(vector_linea_x_min,punto_linea_x_min,px)
+                d3=self.distancia_punto_recta(vector_linea_y_max,punto_linea_y_max,px)
+                d4=self.distancia_punto_recta(vector_linea_y_min,punto_linea_y_min,px)
                 # cambio a siguiente recta
                 punto_arranque.x= punto_arranque.x+dis_entre_lineas.x
                 punto_arranque.y= punto_arranque.y-dis_entre_lineas.y
                 vector_avance.x=vector_avance.x*(-1)
                 vector_avance.y=vector_avance.y*(-1)
                 if( d1<=d2 and d1<=d3 and d1<=d4):
-                    punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x)
-                    if(not Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
+                    punto_arranque=self.y_en_recta(vector_avance,punto_arranque,max_cerca_x)
+                    if(not self.Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
                         if(d3<d4):
-                            punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y)
+                            punto_arranque=self.x_en_recta(vector_avance,punto_arranque,max_cerca_y)
                         else:
-                            punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y)
-                        
-                    
+                            punto_arranque=self.x_en_recta(vector_avance,punto_arranque,min_cerca_y)
                 elif( d2<=d3 and d2<=d4 ):
-                    punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x)
-                    if(not Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
+                    punto_arranque=self.y_en_recta(vector_avance,punto_arranque,min_cerca_x)
+                    if(not self.Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
                         if(d3<d4):
-                            punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y)
+                            punto_arranque=self.x_en_recta(vector_avance,punto_arranque,max_cerca_y)
                         else:
-                            punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y)
-                        
-                    
+                            punto_arranque=self.x_en_recta(vector_avance,punto_arranque,min_cerca_y)
                 elif( d3<=d4 ):
-                    punto_arranque=x_en_recta(vector_avance,punto_arranque,max_cerca_y)
-                    if(not Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
+                    punto_arranque=self.x_en_recta(vector_avance,punto_arranque,max_cerca_y)
+                    if(not self.Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
                         if(d1<d2):
-                            punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x)
+                            punto_arranque=self.y_en_recta(vector_avance,punto_arranque,max_cerca_x)
                         else:
-                            punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x)
-                        
-                    
+                            punto_arranque=self.y_en_recta(vector_avance,punto_arranque,min_cerca_x)
                 else:
-                    punto_arranque=x_en_recta(vector_avance,punto_arranque,min_cerca_y)
-                    if(not Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
+                    punto_arranque=self.x_en_recta(vector_avance,punto_arranque,min_cerca_y)
+                    if(not self.Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
                         if(d1<d2):
-                            punto_arranque=y_en_recta(vector_avance,punto_arranque,max_cerca_x)
+                            punto_arranque=self.y_en_recta(vector_avance,punto_arranque,max_cerca_x)
                         else:
-                            punto_arranque=y_en_recta(vector_avance,punto_arranque,min_cerca_x)
-                        
-                    
-                
+                            punto_arranque=self.y_en_recta(vector_avance,punto_arranque,min_cerca_x)
                 i=0
-                px=Recta(vector_avance,punto_arranque,i)
-                if(not Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
+                px=self.Recta(vector_avance,punto_arranque,i)
+                if(not self.Dentro_de_Cerca(max_cerca_x,min_cerca_x,max_cerca_y,min_cerca_y,punto_arranque)):
                     i=1000
                     px.x=0
                     px.y=0
-                
-            
-            #ROS_INFO("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z)
+            #rospy.loginfo("punto en recta x=[%f],y=[%f],z=[%f]",px.x, px.y, px.z)
             pose.pose.position.x = px.x
             pose.pose.position.y = px.y
             pose.pose.position.z = px.z
-            pose.pose.orientation=tf::createQuaternionMsgFromYaw(atan2(vector_avance.y,vector_avance.x))
+            pose.pose.orientation = quaternion_from_euler(0,0,math.atan2(vector_avance.y,vector_avance.x))
             path.poses.append(pose)
         
-        for (int i = 0 i < 5 ++i) :
-            nav_pos_pub.publish(path)
-            cerca_pub.publish(cerca)
-            cerca_max_pub.publish(cerca_max)
-            ros::spinOnce()
-            rate.sleep()
+        self.nav_pos_pub.publish(path)
+        self.cerca_pub.publish(cerca)
+        self.cerca_max_pub.publish(cerca_max)
+        return
 
 if __name__ == '__main__':
 
