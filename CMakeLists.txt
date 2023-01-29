@@ -20,6 +20,7 @@ find_package(catkin REQUIRED
       stereo_image_proc
       tf2_geometry_msgs
       tf2_ros
+      dynamic_reconfigure
       #OpenCV
       )
   include_directories(${OpenCV_INCLUDE_DIRS})
@@ -97,11 +98,10 @@ find_package(catkin REQUIRED
 ##   * uncomment the "generate_dynamic_reconfigure_options" section below
 ##     and list every .cfg file to be processed
 
-## Generate dynamic reconfigure parameters in the 'cfg' folder
-# generate_dynamic_reconfigure_options(
-#   cfg/DynReconf1.cfg
-#   cfg/DynReconf2.cfg
-# )
+# Generate dynamic reconfigure parameters in the 'cfg' folder
+generate_dynamic_reconfigure_options(
+  cfg/rute_plan.cfg
+)
 
 ###################################
 ## catkin specific configuration ##

@@ -14,8 +14,10 @@ from tf.transformations import quaternion_from_euler
 class procesado_plc_2:
     def __init__(self):
         self.rate=rospy.Rate(20)
-        self.point_sub=rospy.Subscriber('offbnode/pose_in_plane', PoseStamped, self.point_cb )
+        self.pose_sub=rospy.Subscriber('offbnode/pose_in_plane', PoseStamped, self.point_cb )
         self.procesado_completed_pub=rospy.Publisher('offbnode/procesado_completed', Bool, queue_size=10 )
+        self.point_pub=rospy.Publisher('offbnode/point_in_plane', PointStamped, queue_size=10)
+        self.vector_pub=rospy.Publisher('offbnode/vector_in_plane', Vector3Stamped, queue_size=10)
         self.tf_buffer = tf2_ros.Buffer(rospy.Duration(100.0))  # tf buffer length
         self.tf_listener = tf2_ros.TransformListener(self.tf_buffer)
         self.br = tf2_ros.TransformBroadcaster()
@@ -35,6 +37,7 @@ class procesado_plc_2:
         t.transform.translation.x = point_t.point.x
         t.transform.translation.y = point_t.point.y
         t.transform.translation.z = point_t.point.z
+        self.point_pub.publish(point_t)
         # Armando vector
         vector=Vector3Stamped()
         vector.header.frame_id=msg.header.frame_id
@@ -49,9 +52,11 @@ class procesado_plc_2:
         t.transform.rotation.y = q[1]
         t.transform.rotation.z = q[2]
         t.transform.rotation.w = q[3]
+        self.vector_pub.publish(vector_t)
         self.t.append(t)
         procesado_completed=Bool(True)
         self.procesado_completed_pub.publish(procesado_completed)
+        
     def update(self):
         for i in range(len(self.t)):
             self.t[i].header.stamp = rospy.Time.now()

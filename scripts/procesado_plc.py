@@ -13,7 +13,7 @@ class procesado_plc:
     def __init__(self):
         self.rate=rospy.Rate(20)
         self.cmd_sub=rospy.Subscriber("offbnode/procesado_on", Bool, self.cmd_cb)
-        self.point_pub=rospy.Publisher('offbnode/pose_in_plane', PoseStamped, queue_size=10)
+        self.pose_pub=rospy.Publisher('offbnode/pose_in_plane', PoseStamped, queue_size=10)
     def cmd_cb(self,msg):
         self.point_cloud_sub=rospy.Subscriber("offbnode/points2", PointCloud2, self.point_cloud_cb,queue_size=1)
     def point_cloud_cb(self,msg):
@@ -38,7 +38,7 @@ class procesado_plc:
         point_plane.pose.orientation.y = b[2]*-1
         point_plane.pose.orientation.z = 1
 
-        self.point_pub.publish(point_plane)
+        self.pose_pub.publish(point_plane)
 
 if __name__ == '__main__':
     rospy.init_node('procesado_plc', anonymous=True)
