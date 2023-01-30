@@ -80,7 +80,7 @@ class Image_Joke:
         #suscribtores y publicadores
         self.image_raw_sub=rospy.Subscriber("iris_gimbal/usb_cam/image_raw", Image, self.image_cb)
         self.local_pose_sub=rospy.Subscriber("mavros/local_position/pose", PoseStamped, self.local_pose_cb)
-        self.set_pose_sub=rospy.Subscriber("offbnode/set_pose_cmd", PoseStamped, self.set_pose_cb)
+        self.set_pose_sub=rospy.Subscriber("offbnode/set_point_to_measure_cmd", PoseStamped, self.set_pose_cb)
         self.procesado_completed_sub=rospy.Subscriber('offbnode/procesado_completed', Bool, self.procesado_completed_cb )
 
 

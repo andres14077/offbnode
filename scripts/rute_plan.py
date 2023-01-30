@@ -10,22 +10,22 @@ from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Vector3Stamped,Vector3
 from geometry_msgs.msg import PointStamped,Point,Point32
 from geometry_msgs.msg import PolygonStamped
+from offbnode.msg import PlaneStamped
 from mavros_msgs.msg import WaypointReached,MountControl
 from tf.transformations import quaternion_from_euler,euler_from_quaternion
 from dynamic_reconfigure.server import Server
 from offbnode.cfg import rute_planConfig
 
-G_to_R=0.01745329251
-R_to_G=57.29577951
+G_to_R=math.pi/180.0
+R_to_G=180.0/math.pi
 class rute_plan:
     def __init__(self):
 
         self.rate=rospy.Rate(2)
 
         self.current_local_pose=PoseStamped()
-        self.vector_in_plane = Vector3Stamped()
-        self.vector_in_plane.vector.z = 1
-        self.point_in_plane = PointStamped()
+        self.plane_in_map = PlaneStamped()
+        self.plane_in_map.vector.vector.z = 1
 
         self.nav_pos_pub = rospy.Publisher("offboard/nav", Path,queue_size=10)
         self.nav_z_pos_pub = rospy.Publisher("offboard/nav_z", Path,queue_size=10)
@@ -39,8 +39,7 @@ class rute_plan:
         self.kill_ros_pub = rospy.Publisher("kill_ROS", Bool,queue_size=10)
 
         self.local_pose_sub = rospy.Subscriber("mavros/local_position/pose", PoseStamped, self.local_pose_cb)
-        self.point_sub=rospy.Subscriber('offbnode/point_in_plane', PointStamped, self.point_in_plane_cb)
-        self.vector_sub=rospy.Subscriber('offbnode/vector_in_plane', Vector3Stamped, self.vector_in_plane_cb)
+        self.point_sub=rospy.Subscriber('offbnode/plane_in_map', PlaneStamped, self.plane_in_map_cb)
 
         self.calcular_ruta_service = rospy.Service("offbnode/calcular_y_seguir_ruta", Trigger,self.ruta_plane_service_cb)
         self.reconfigure_params_server = Server(rute_planConfig, self.reconfigure_params_cb)
@@ -132,8 +131,8 @@ class rute_plan:
         return Punto_Recta
 
     def Plano_Z(self,p_x_y ):
-        v=self.vector_in_plane.vector
-        p=self.point_in_plane.point
+        v=self.plane_in_map.vector.vector
+        p=self.plane_in_map.point.point
         Punto_Plano = Point()
         Punto_Plano.x=p_x_y.x
         Punto_Plano.y=p_x_y.y
@@ -366,11 +365,8 @@ class rute_plan:
     def local_pose_cb(self,msg):
         self.current_local_pose = msg
 
-    def point_in_plane_cb(self,msg):
-        self.point_in_plane = msg
-
-    def vector_in_plane_cb(self,msg):
-        self.vector_in_plane = msg
+    def plane_in_map_cb(self,msg):
+        self.plane_in_map = msg
 
     def reconfigure_params_cb(self,config, level):
 

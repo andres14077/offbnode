@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import rospy
+import copy
 import sensor_msgs.point_cloud2 as pc2
 from std_msgs.msg import Bool
 from sensor_msgs.msg import PointCloud2
-from geometry_msgs.msg import PoseStamped
+from offbnode.msg import PlaneStamped
 # import matplotlib.pyplot as plt
 # import statistics
 import numpy as np
@@ -12,13 +13,24 @@ import numpy as np
 class procesado_plc:
     def __init__(self):
         self.rate=rospy.Rate(20)
+        self.planos=[]
+
         self.cmd_sub=rospy.Subscriber("offbnode/procesado_on", Bool, self.cmd_cb)
-        self.pose_pub=rospy.Publisher('offbnode/pose_in_plane', PoseStamped, queue_size=10)
+        self.plane_sub=rospy.Subscriber('offbnode/plane_local_in_map', PlaneStamped, self.plane_local_in_map_cb)
+
+        self.pose_pub=rospy.Publisher('offbnode/pose_in_plane', PlaneStamped, queue_size=10)
+        self.procesado_completed_pub=rospy.Publisher('offbnode/procesado_completed', Bool, queue_size=10 )
+        self.plane_pub=rospy.Publisher('offbnode/plane_in_map', PlaneStamped, queue_size=10)
+
     def cmd_cb(self,msg):
         self.point_cloud_sub=rospy.Subscriber("offbnode/points2", PointCloud2, self.point_cloud_cb,queue_size=1)
+
+    def Plano_Z(self,p,v,x,y):
+        return p.z-(v.x*(x-p.x)+v.y*(y-p.y))/v.z
+
     def point_cloud_cb(self,msg):
         self.point_cloud_sub.unregister()
-        point_plane=PoseStamped()
+        plane=PlaneStamped()
         z=[]
         x=[]
         y=[]
@@ -30,15 +42,39 @@ class procesado_plc:
         X = np.insert(X, 0, np.array((np.ones(len(X[0])))), 0).T
         Z = np.array(z)
         b = np.linalg.inv(X.T @ X) @ X.T @ Z
-        point_plane.header.frame_id="cgo3_camera_optical_link"
-        point_plane.header.stamp = rospy.Time.now()
-        point_plane.pose.position.z = b[0]
+        plane.header.frame_id="cgo3_camera_optical_link"
+        plane.header.stamp = rospy.Time.now()
+        plane.point.point.z = b[0]
+        plane.vector.vector.x = b[1]*-1
+        plane.vector.vector.y = b[2]*-1
+        plane.vector.vector.z = 1
+        self.pose_pub.publish(plane)
 
-        point_plane.pose.orientation.x = b[1]*-1
-        point_plane.pose.orientation.y = b[2]*-1
-        point_plane.pose.orientation.z = 1
-
-        self.pose_pub.publish(point_plane)
+    def plane_local_in_map_cb(self,msg):
+        self.planos.append(copy.deepcopy(msg))
+        plane=PlaneStamped()
+        z=[]
+        x=[]
+        y=[]
+        for i in self.planos:
+            for j in range(-20,20):
+                for k in range(-20,20):
+                    x.append(j)
+                    y.append(k)
+                    z.append(self.Plano_Z(i.point.point,i.vector.vector,j,k))
+        X = np.array([x,y])
+        X = np.insert(X, 0, np.array((np.ones(len(X[0])))), 0).T
+        Z = np.array(z)
+        b = np.linalg.inv(X.T @ X) @ X.T @ Z
+        plane.header.frame_id="map"
+        plane.header.stamp = rospy.Time.now()
+        plane.point.point.z = b[0]
+        plane.vector.vector.x = b[1]*-1
+        plane.vector.vector.y = b[2]*-1
+        plane.vector.vector.z = 1
+        self.plane_pub.publish(plane)
+        procesado_completed=Bool(True)
+        self.procesado_completed_pub.publish(procesado_completed)
 
 if __name__ == '__main__':
     rospy.init_node('procesado_plc', anonymous=True)
