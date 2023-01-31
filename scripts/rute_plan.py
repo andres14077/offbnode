@@ -140,7 +140,12 @@ class rute_plan:
         return Punto_Plano
 
     def calcular_ruta(self):
-        angulo_entrada = self.angulo_entrada
+        if(self.angulo_automatico and self.plane_in_map.vector.vector.x !=0 and self.plane_in_map.vector.vector.y !=0):
+            angulo_entrada = math.atan2(self.plane_in_map.vector.vector.y,self.plane_in_map.vector.vector.x)
+            angulo_entrada *= R_to_G
+            angulo_entrada += 90
+        else:
+            angulo_entrada = self.angulo_entrada
         #calculo de variables de vuelo
         GSD=(self.Width_sensor*self.H*100.0)/(self.Focal_length * self.Image_pix_Width)             # en cm/pix
         ancho_huella=(GSD*self.Image_pix_Width)/100.0                              # en m
@@ -379,6 +384,7 @@ class rute_plan:
         self.H=config['Altura_vuelo']                               # en m
         self.translape_lateral=config['Translape_lateral']          # en %
         self.translape_longitudinal=config['Translape_longitudinal']# en %
+        self.angulo_automatico=config['Angulo_automatico']          # boolean
         self.angulo_entrada=config['Angulo_entrada']                # en grados
         self.distancia_respuesta=config['Turnaround_dist']          # en m
         # cerca de vuelo

@@ -193,19 +193,96 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: rviz/TF
-      Enabled: false
+      Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        base_link:
+          Value: true
+        base_link_frd:
+          Value: true
+        cgo3_camera_link:
+          Value: true
+        cgo3_camera_optical_link:
+          Value: true
+        cgo3_horizontal_arm_link:
+          Value: true
+        cgo3_mount_link:
+          Value: true
+        cgo3_vertical_arm_link:
+          Value: true
+        imu_link:
+          Value: true
+        left_leg:
+          Value: true
+        map:
+          Value: true
+        map_ned:
+          Value: true
+        odom:
+          Value: true
+        odom_ned:
+          Value: true
+        plano_promedio:
+          Value: true
+        plano_terreno_1:
+          Value: true
+        plano_terreno_2:
+          Value: true
+        plano_terreno_3:
+          Value: true
+        right_leg:
+          Value: true
+        rotor_0:
+          Value: true
+        rotor_1:
+          Value: true
+        rotor_2:
+          Value: true
+        rotor_3:
+          Value: true
       Marker Scale: 10
       Name: TF
       Show Arrows: false
       Show Axes: true
       Show Names: false
       Tree:
-        {}
+        map:
+          base_link:
+            base_link_frd:
+              {}
+            cgo3_mount_link:
+              cgo3_vertical_arm_link:
+                cgo3_horizontal_arm_link:
+                  cgo3_camera_link:
+                    cgo3_camera_optical_link:
+                      {}
+            imu_link:
+              {}
+            left_leg:
+              {}
+            right_leg:
+              {}
+            rotor_0:
+              {}
+            rotor_1:
+              {}
+            rotor_2:
+              {}
+            rotor_3:
+              {}
+          map_ned:
+            {}
+          plano_promedio:
+            {}
+          plano_terreno_1:
+            {}
+          plano_terreno_2:
+            {}
+          plano_terreno_3:
+            {}
       Update Interval: 0
-      Value: false
+      Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -388,7 +465,7 @@ Visualization Manager:
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 20
+      Plane Cell Count: 200
       Reference Frame: plano_promedio
       Value: true
   Enabled: true
@@ -419,25 +496,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 130.93722534179688
+      Distance: 211.52291870117188
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 5.1468400955200195
-        Y: 0.4448738694190979
-        Z: -2.2044506072998047
+        X: -0.19360584020614624
+        Y: -3.844902753829956
+        Z: -15.62543773651123
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.76979660987854
+      Pitch: 0.5497962236404419
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 6.1836137771606445
+      Yaw: 3.438596725463867
     Saved: ~
 Window Geometry:
   Displays:
