@@ -8,7 +8,7 @@
     <!-- An asphalt plane -->
     <include>
       <pose>0 0 -30 0 0 0</pose>
-      <uri>model://asphalt_plane_2</uri>
+      <uri>model://asphalt_plane</uri>
     </include>
     <!-- A ground plane -->
     <!-- <include>

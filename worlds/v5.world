@@ -8,11 +8,12 @@
     </include>
     <!-- A ground plane -->
     <include>
+        <pose>0 0 41.2 0 0 0</pose>
         <uri>model://v5</uri>
     </include>
 
     <include>
-        <pose>0 0 113 0 0 0</pose>
+        <pose>0 0 -0.1 0 0 0</pose>
         <static>true</static>
         <uri>model://europallet</uri>
     </include>
@@ -40,17 +41,7 @@
       <magnetic_field>6.0e-6 2.3e-5 -4.2e-5</magnetic_field>
     </physics>
 
-    <gui fullscreen='0'>
-      <camera name='user_camera'>
-        <pose>-7.5 -1.2 118 0 0.5 0.15</pose>
-        <!-- <view_controller>orbit</view_controller>
-        <projection_type>perspective</projection_type>
-        <track_visual>
-          <name>if750a</name>
-          <use_model_frame>1</use_model_frame>
-        </track_visual> -->
-      </camera>
-    </gui>
+
     <spherical_coordinates>
       <latitude_deg>4.722919</latitude_deg>
       <longitude_deg>-73.9901342</longitude_deg>

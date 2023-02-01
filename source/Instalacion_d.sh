@@ -172,3 +172,8 @@ catkin_make
 cd ~/catkin_ws/src/offbnode
 source source/Copiar_modelos_y_configuraciones.sh
 
+echo "pushd ~/Firmware" >> ~/.bashrc
+echo "source Tools/setup_gazebo.bash $(pwd) $(pwd)/build/px4_sitl_default" >> ~/.bashrc
+echo "export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)" >> ~/.bashrc
+echo "export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)/Tools/sitl_gazebo" >> ~/.bashrc
+echo "popd" >> ~/.bashrc
