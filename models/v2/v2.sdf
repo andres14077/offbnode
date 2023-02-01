@@ -6,13 +6,13 @@
 	  <pose>0 0 0 0 0 0</pose>
 	    <collision name="my_collision">
 		<geometry>
-                   <mesh><uri>untitled.dae</uri></mesh>
+                   <mesh><uri>model://v2/untitled.dae</uri></mesh>
 		 </geometry>
 	    </collision>
 
 	    <visual name="my_visual">
 		<geometry>
-                   <mesh><uri>untitled.dae</uri></mesh>
+                   <mesh><uri>model://v2/untitled.dae</uri></mesh>
 		 </geometry>
 	    </visual>
 	</link>
