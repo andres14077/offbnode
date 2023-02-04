@@ -165,6 +165,10 @@ DONT_RUN=1 make px4_sitl_default gazebo
 
 mv ~/offbnode ~/catkin_ws/src/
 cd ~/catkin_ws
+# Verificar dependencias faltantes :
+rosdep check --from-paths . --ignore-src --rosdistro melodic
+# Instalar dependencias faltantes :
+rosdep install --from-paths . --ignore-src --rosdistro melodic -y
 catkin_make
 catkin_make
 catkin_make
