@@ -10,18 +10,21 @@ sudo apt-get install -y curl
 curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 sudo apt-get update
 
-sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest python3-rospkg python3-catkin_pkg
+sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest
+sudo apt install python3-pip
 sudo apt-get install -y ros-melodic-desktop
 
 sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
 
 
 ## Instalacion de librerias sobre las que open -cv depnede
-sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libpng12-dev libjasper-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config
+sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config
 
 sudo apt-get install -y python-dev python-numpy python-py python-pytest python-pip python-jinja2
 
 sudo pip install numpy toml
+pip3 install catkin_pkg rospkg
+sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
 
 sudo apt-get install -y git
 #echo "export SVGA_VGPU10=0" >> ~/.bashrc
@@ -71,7 +74,6 @@ make -j7
 sudo make install
 
 cd ~/catkin_ws/src
-sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
 git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git -b melodic-devel
 cd gazebo_ros_pkgs
 git checkout 6ce46e3
@@ -178,7 +180,7 @@ source source/Descargar_models.sh
 source source/Copiar_modelos_y_configuraciones.sh
 
 echo "pushd ~/Firmware" >> ~/.bashrc
-echo "source Tools/setup_gazebo.bash $(pwd) $(pwd)/build/px4_sitl_default" >> ~/.bashrc
-echo "export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)" >> ~/.bashrc
-echo "export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)/Tools/sitl_gazebo" >> ~/.bashrc
+echo "source Tools/setup_gazebo.bash \$(pwd) \$(pwd)/build/px4_sitl_default" >> ~/.bashrc
+echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$(pwd)" >> ~/.bashrc
+echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$(pwd)/Tools/sitl_gazebo" >> ~/.bashrc
 echo "popd" >> ~/.bashrc
