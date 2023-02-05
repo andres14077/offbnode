@@ -12,6 +12,7 @@ sudo apt-get update
 
 sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest
 sudo apt install python3-pip
+curl -sSL http://get.gazebosim.org | sh
 sudo apt-get install -y ros-melodic-desktop
 
 sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
@@ -73,21 +74,21 @@ make -j7
 ## Instalar librerias
 sudo make install
 
-cd ~/catkin_ws/src
-git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git -b melodic-devel
-cd gazebo_ros_pkgs
-git checkout 6ce46e3
-cd ..
-rosdep update
-# Verificar dependencias faltantes :
-rosdep check --from-paths . --ignore-src --rosdistro melodic
-# Instalar dependencias faltantes :
-rosdep install --from-paths . --ignore-src --rosdistro melodic -y
-cd ~/catkin_ws/
-catkin_make
-catkin_make
-catkin_make
-sudo apt-get update
+# cd ~/catkin_ws/src
+# git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git -b melodic-devel
+# cd gazebo_ros_pkgs
+# git checkout 6ce46e3
+# cd ..
+# rosdep update
+# # Verificar dependencias faltantes :
+# rosdep check --from-paths . --ignore-src --rosdistro melodic
+# # Instalar dependencias faltantes :
+# rosdep install --from-paths . --ignore-src --rosdistro melodic -y
+# cd ~/catkin_ws/
+# catkin_make
+# catkin_make
+# catkin_make
+# sudo apt-get update
 
 # clonar paquete image_common
 cd ~/catkin_ws/src

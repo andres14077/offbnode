@@ -22,6 +22,7 @@ find_package(catkin REQUIRED
       tf2_ros
       dynamic_reconfigure
       message_generation
+      gazebo_ros
       #OpenCV
       )
   include_directories(${OpenCV_INCLUDE_DIRS})
