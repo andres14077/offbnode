@@ -8,6 +8,6 @@ else
 	exit 1
 fi
 cd $dic
-wget -c --no-check-certificate 'https://drive.google.com/uc?export=download&id=1x_1SKbk1qCJp0v7YT7D5XzSQGnussz4i&confirm=t' -O modelos.tar.gz
-tar -xzvf modelos.tar.gz
-rm -f modelos.tar.gz
+wget -c --no-check-certificate 'https://drive.google.com/uc?export=download&id=1Jek71VO0AhEsq4dGM9NalkFbJyFQfCmB&confirm=t' -O textura.tar.gz
+tar -xzvf textura.tar.gz
+rm -f textura.tar.gz
