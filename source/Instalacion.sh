@@ -1,8 +1,7 @@
 #!/bin/bash -x
 #
 cd
-mkdir catkin_ws/
-mkdir catkin_ws/src
+mkdir -p catkin_ws/src
 sudo apt-get update
 sudo apt-get --fix-broken install -y
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -11,7 +10,7 @@ curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo ap
 sudo apt-get update
 
 sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest
-sudo apt install python3-pip
+sudo apt-get install -y python3-pip
 curl -sSL http://get.gazebosim.org | sh
 sudo apt-get install -y ros-melodic-desktop
 
@@ -24,8 +23,8 @@ sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcod
 sudo apt-get install -y python-dev python-numpy python-py python-pytest python-pip python-jinja2
 
 sudo pip install numpy toml
-pip3 install catkin_pkg rospkg
-sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
+sudo pip3 install catkin_pkg rospkg
+sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav* ros-melodic-gazebo-ros
 
 sudo apt-get install -y git
 #echo "export SVGA_VGPU10=0" >> ~/.bashrc
@@ -91,49 +90,49 @@ sudo make install
 # sudo apt-get update
 
 # clonar paquete image_common
-cd ~/catkin_ws/src
-git clone https://github.com/ros-perception/image_common.git -b noetic-devel
-cd image_common
-git checkout e9c8c32
-cd ..
-rosdep update
-# Verificar dependencias faltantes :
-rosdep check --from-paths . --ignore-src --rosdistro  melodic
-# Instalar dependencias faltantes :
-rosdep install --from-paths . --ignore-src --rosdistro melodic -y
-cd ~/catkin_ws/
-catkin_make
-catkin_make
-catkin_make
+# cd ~/catkin_ws/src
+# git clone https://github.com/ros-perception/image_common.git -b noetic-devel
+# cd image_common
+# git checkout e9c8c32
+# cd ..
+# rosdep update
+# # Verificar dependencias faltantes :
+# rosdep check --from-paths . --ignore-src --rosdistro  melodic
+# # Instalar dependencias faltantes :
+# rosdep install --from-paths . --ignore-src --rosdistro melodic -y
+# cd ~/catkin_ws/
+# catkin_make
+# catkin_make
+# catkin_make
 # clonar el paquete image_geometry de vision_opencv . No se clona el repositorio
 # directamente en el workspace , pues ya se tiene el paquete de cv_bridge que
 # compila con soporte para GPU.
 
-mkdir ~/Documents
-cd ~/Documents
-git clone https://github.com/ros-perception/vision_opencv.git -b noetic
-cd vision_opencv
-git checkout e9c8c32
-cp -r ~/Documents/vision_opencv/image_geometry  ~/catkin_ws/src/image_geometry
-sudo apt-get update
-cd ~/catkin_ws/src
-git clone https://github.com/ros-visualization/rqt_image_view.git
-cd rqt_image_view
-git checkout f6abb6a
-cd ..
-cd rqt_common_plugins
-git clone https://github.com/ros-visualization/rqt_common_plugins.git
-git checkout 0.4.9
-cd ..
-rosdep update
-# Verificar dependencias faltantes :
-rosdep check --from-paths . --ignore-src --rosdistro melodic
-# Instalar dependencias faltantes :
-rosdep install --from-paths . --ignore-src --rosdistro melodic -y
-cd ~/catkin_ws/
-catkin_make
-catkin_make
-catkin_make
+# mkdir ~/Documents
+# cd ~/Documents
+# git clone https://github.com/ros-perception/vision_opencv.git -b noetic
+# cd vision_opencv
+# git checkout e9c8c32
+# cp -r ~/Documents/vision_opencv/image_geometry  ~/catkin_ws/src/image_geometry
+# sudo apt-get update
+# cd ~/catkin_ws/src
+# git clone https://github.com/ros-visualization/rqt_image_view.git
+# cd rqt_image_view
+# git checkout f6abb6a
+# cd ..
+# cd rqt_common_plugins
+# git clone https://github.com/ros-visualization/rqt_common_plugins.git
+# git checkout 0.4.9
+# cd ..
+# rosdep update
+# # Verificar dependencias faltantes :
+# rosdep check --from-paths . --ignore-src --rosdistro melodic
+# # Instalar dependencias faltantes :
+# rosdep install --from-paths . --ignore-src --rosdistro melodic -y
+# cd ~/catkin_ws/
+# catkin_make
+# catkin_make
+# catkin_make
 #Instalacion Geographic-Lib y mavros
 cd
 git clone git://git.code.sourceforge.net/p/geographiclib/code geographiclib
@@ -148,11 +147,11 @@ sudo make install
 wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh
 sudo bash ./install_geographiclib_datasets.sh
 
-sudo apt-get install -y ros-melodic-mav*
-cd ~/catkin_ws/
-catkin_make
-catkin_make
-catkin_make
+# sudo apt-get install -y ros-melodic-mav*
+# cd ~/catkin_ws/
+# catkin_make
+# catkin_make
+# catkin_make
 
 
 #Firmware

@@ -1,8 +1,7 @@
 #!/bin/bash -x
 #
 cd
-mkdir catkin_ws/
-mkdir catkin_ws/src
+mkdir -p catkin_ws/src
 sudo apt-get update
 sudo apt-get --fix-broken install -y
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -10,21 +9,27 @@ sudo apt-get install -y curl
 curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 sudo apt-get update
 
-sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest python3-rospkg python3-catkin_pkg
+sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest
+sudo apt install -y python3-pip
+
 sudo apt-get install -y ros-melodic-desktop
 
-sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential python-jinja2
+sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
 
 
 ## Instalacion de librerias sobre las que open -cv depnede
-sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libpng12-dev libjasper-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config
+sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config
 
 sudo apt-get install -y python-dev python-numpy python-py python-pytest python-pip python-jinja2
 
 sudo pip install numpy toml
+sudo pip3 install catkin_pkg rospkg
+sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
 
 sudo apt-get install -y git
-echo "export SVGA_VGPU10=0" >> ~/.bashrc
+
+
+#echo "export SVGA_VGPU10=0" >> ~/.bashrc
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 echo "export ROS_WORKSPACE=~/catkin_ws" >> ~/.bashrc
@@ -70,22 +75,21 @@ make -j7
 ## Instalar librerias
 sudo make install
 
-cd ~/catkin_ws/src
-sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
-git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git -b melodic-devel
-cd gazebo_ros_pkgs
-git checkout 6ce46e3
-cd ..
-rosdep update
-# Verificar dependencias faltantes :
-rosdep check --from-paths . --ignore-src --rosdistro melodic
-# Instalar dependencias faltantes :
-rosdep install --from-paths . --ignore-src --rosdistro melodic -y
-cd ~/catkin_ws/
-catkin_make
-catkin_make
-catkin_make
-sudo apt-get update
+# cd ~/catkin_ws/src
+# git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git -b melodic-devel
+# cd gazebo_ros_pkgs
+# git checkout 6ce46e3
+# cd ..
+# rosdep update
+# # Verificar dependencias faltantes :
+# rosdep check --from-paths . --ignore-src --rosdistro melodic
+# # Instalar dependencias faltantes :
+# rosdep install --from-paths . --ignore-src --rosdistro melodic -y
+# cd ~/catkin_ws/
+# catkin_make
+# catkin_make
+# catkin_make
+# sudo apt-get update
 
 # clonar paquete image_common
 cd ~/catkin_ws/src
@@ -132,7 +136,7 @@ catkin_make
 catkin_make
 catkin_make
 #Instalacion Geographic-Lib y mavros
-cd 
+cd
 git clone git://git.code.sourceforge.net/p/geographiclib/code geographiclib
 cd geographiclib
 mkdir BUILD
@@ -145,8 +149,18 @@ sudo make install
 wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh
 sudo bash ./install_geographiclib_datasets.sh
 
-sudo apt-get install -y ros-melodic-mav*
 cd ~/catkin_ws/
+catkin_make
+catkin_make
+catkin_make
+
+
+mv ~/offbnode ~/catkin_ws/src/
+cd ~/catkin_ws
+# Verificar dependencias faltantes :
+rosdep check --from-paths . --ignore-src --rosdistro melodic
+# Instalar dependencias faltantes :
+rosdep install --from-paths . --ignore-src --rosdistro melodic -y
 catkin_make
 catkin_make
 catkin_make
@@ -163,17 +177,18 @@ DONT_RUN=1 make px4_sitl_default gazebo
 cp ~/offbnode/src/gazebo_gimbal_controller_plugin.cpp ~/Firmware/Tools/sitl_gazebo/src/gazebo_gimbal_controller_plugin.cpp
 DONT_RUN=1 make px4_sitl_default gazebo
 
-mv ~/offbnode ~/catkin_ws/src/
-cd ~/catkin_ws
-catkin_make
-catkin_make
-catkin_make
+
 
 cd ~/catkin_ws/src/offbnode
+#source source/Descargar_models.sh
 source source/Copiar_modelos_y_configuraciones.sh
 
+
+curl -sSL http://get.gazebosim.org | sh
+
+
 echo "pushd ~/Firmware" >> ~/.bashrc
-echo "source Tools/setup_gazebo.bash $(pwd) $(pwd)/build/px4_sitl_default" >> ~/.bashrc
-echo "export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)" >> ~/.bashrc
-echo "export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)/Tools/sitl_gazebo" >> ~/.bashrc
+echo "source Tools/setup_gazebo.bash \$(pwd) \$(pwd)/build/px4_sitl_default" >> ~/.bashrc
+echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$(pwd)" >> ~/.bashrc
+echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$(pwd)/Tools/sitl_gazebo" >> ~/.bashrc
 echo "popd" >> ~/.bashrc
