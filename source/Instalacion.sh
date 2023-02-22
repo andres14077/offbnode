@@ -11,7 +11,6 @@ sudo apt-get update
 
 sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest
 sudo apt-get install -y python3-pip
-curl -sSL http://get.gazebosim.org | sh
 sudo apt-get install -y ros-melodic-desktop
 
 sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
@@ -27,6 +26,8 @@ sudo pip3 install catkin_pkg rospkg
 sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav* ros-melodic-gazebo-ros
 
 sudo apt-get install -y git
+
+curl -sSL http://get.gazebosim.org | sh
 #echo "export SVGA_VGPU10=0" >> ~/.bashrc
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
