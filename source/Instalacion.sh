@@ -133,7 +133,7 @@ sudo make install
 # catkin_make
 # catkin_make
 # catkin_make
-#Instalacion Geographic-Lib y mavros
+### Instalacion Geographic-Lib y mavros
 cd
 git clone git://git.code.sourceforge.net/p/geographiclib/code geographiclib
 cd geographiclib
@@ -154,7 +154,7 @@ sudo bash ./install_geographiclib_datasets.sh
 # catkin_make
 
 
-#Firmware
+###Firmware
 
 cd
 git clone https://github.com/PX4/Firmware.git
