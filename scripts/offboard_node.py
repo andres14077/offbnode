@@ -4,7 +4,7 @@ import rospy
 from geometry_msgs.msg import PoseStamped
 from mavros_msgs.msg import State
 from mavros_msgs.srv import CommandBool, CommandBoolRequest,CommandBoolResponse, SetMode, SetModeRequest
-from roscpp import SetLoggerLevel
+from roscpp.srv import SetLoggerLevel
 
 current_state = State()
 pose = PoseStamped()
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     rospy.wait_for_service("mavros/set_logger_level")
     log_mavros_level_client = rospy.ServiceProxy("mavros/set_logger_level", SetLoggerLevel)
 
-    log_mavros_level=SetLoggerLevel
+    log_mavros_level_client("ros.mavros_extras","error")
 
     offboard_service = rospy.Service("offbnode/master_ok", CommandBool,offboard_service_cb)
 
