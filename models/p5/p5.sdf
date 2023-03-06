@@ -3,7 +3,7 @@
   <model name="p5">
 	<static>true</static>
 	<link name="link">
-	  <pose>0 0 0 0 0 0</pose>
+	  <pose>0 0 0.6 0 0 0</pose>
 	    <collision name="my_collision">
 		<geometry>
                    <mesh><uri>model://p5/untitled.dae</uri></mesh>

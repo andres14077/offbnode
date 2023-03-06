@@ -3,7 +3,7 @@
   <model name="v2">
 	<static>true</static>
 	<link name="link">
-	  <pose>0 0 0 0 0 0</pose>
+	  <pose>0 0 20.5 0 0 0</pose>
 	    <collision name="my_collision">
 		<geometry>
                    <mesh><uri>model://v2/untitled.dae</uri></mesh>

@@ -8,7 +8,7 @@
     <arg name="carpeta_imagenes" default="$(arg mundo)/"/>
 
     <!-- vehicle model and world -->
-    <arg name="gui" default="true"/>
+    <arg name="gui" default="false"/>
     <arg name="vehicle" default="iris_gimbal"/>
     <arg name="world" default="$(find offbnode)/worlds/$(arg mundo).world"/>
     <!-- MAVROS configs -->
