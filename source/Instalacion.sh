@@ -23,11 +23,11 @@ sudo apt-get install -y python-dev python-numpy python-py python-pytest python-p
 
 sudo pip install numpy toml
 sudo pip3 install catkin_pkg rospkg
-sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav* ros-melodic-gazebo-ros
+sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
 
 sudo apt-get install -y git
 
-curl -sSL http://get.gazebosim.org | sh
+# curl -sSL http://get.gazebosim.org | sh
 #echo "export SVGA_VGPU10=0" >> ~/.bashrc
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
@@ -148,7 +148,6 @@ sudo make install
 wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh
 sudo bash ./install_geographiclib_datasets.sh
 
-# sudo apt-get install -y ros-melodic-mav*
 # cd ~/catkin_ws/
 # catkin_make
 # catkin_make

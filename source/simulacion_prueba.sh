@@ -10,7 +10,7 @@ rm parameters
 
 
 cd ~/Firmware
-export PX4_SIM_SPEED_FACTOR=8
+# export PX4_SIM_SPEED_FACTOR=8
 DONT_RUN=1 make px4_sitl_default gazebo_iris
 #////////
 #para solo lanzar sim

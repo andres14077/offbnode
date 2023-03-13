@@ -36,6 +36,6 @@
 
     <!-- <node type="capture_for_px4.py" name="capture_for_px4" pkg="offbnode" output="screen" args="$(env HOME)/Capture_px4/$(arg carpeta_imagenes)" />
     <node type="offb_node_rute_square" name="offb_node_rute_square" pkg="offbnode" output="screen" args="$(arg angulo_entrada)" /> -->
-    <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" /> -->
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" />
 
 </launch>
