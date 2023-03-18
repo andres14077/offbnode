@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -x
 ##copiar achivos
 cp -r ~/catkin_ws/src/offbnode/models/iris_gimbal ~/Firmware/Tools/sitl_gazebo/models
 cp -r ~/catkin_ws/src/offbnode/worlds ~/Firmware/Tools/sitl_gazebo

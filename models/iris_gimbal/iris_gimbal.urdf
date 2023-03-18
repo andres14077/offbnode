@@ -85,11 +85,11 @@
     <limit lower="0.0" upper="1.0" effort="100.0" velocity="-1.0"/>
   </joint>
   <link name="base_link">
-    <inertial>
+    <!-- <inertial>
       <mass value="1.5"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="0.0347563" ixy="0" ixz="0" iyy="0.0458929" iyz="0" izz="0.0977"/>
-    </inertial>
+    </inertial> -->
     <collision name="base_link_inertia_collision">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>

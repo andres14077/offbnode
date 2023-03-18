@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -x
 if [[ -n $(ls ~/catkin_ws/src/offbnode 2>/dev/null) ]]; then
 	dic=~/catkin_ws/src/offbnode
 elif [[ -n $(ls ~/offbnode 2>/dev/null) ]]; then

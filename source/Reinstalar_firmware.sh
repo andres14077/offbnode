@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -x
 cd
 sudo rm -r ~/Firmware
 git clone https://github.com/PX4/Firmware.git
