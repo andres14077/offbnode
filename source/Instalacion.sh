@@ -34,6 +34,8 @@ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 echo "export ROS_WORKSPACE=~/catkin_ws" >> ~/.bashrc
 echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$ROS_WORKSPACE" >> ~/.bashrc
 echo "export ROSCONSOLE_FORMAT='[\${severity}] [\${time}]:\${message}'" >> ~/.bashrc
+echo "export ROS_IP=\$(hostname -I| awk '{print \$1}')" >> ~/.bashrc
+echo "export ROS_MASTER_URI=http://\$(echo \$ROS_IP):11311/" >> ~/.bashrc
 source ~/.bashrc
 source /opt/ros/melodic/setup.bash
 cd ~/catkin_ws/
