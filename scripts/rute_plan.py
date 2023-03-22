@@ -26,6 +26,8 @@ class rute_plan:
         self.current_local_pose=PoseStamped()
         self.plane_in_map = PlaneStamped()
         self.plane_in_map.vector.vector.z = 1
+        self.planos_individuales=[]
+        self.is_valley=False
 
         self.nav_pos_pub = rospy.Publisher("offboard/nav", Path,queue_size=10)
         self.nav_z_pos_pub = rospy.Publisher("offboard/nav_z", Path,queue_size=10)
@@ -39,7 +41,9 @@ class rute_plan:
         self.kill_ros_pub = rospy.Publisher("kill_ROS", Bool,queue_size=10)
 
         self.local_pose_sub = rospy.Subscriber("mavros/local_position/pose", PoseStamped, self.local_pose_cb)
-        self.point_sub=rospy.Subscriber('offbnode/plane_in_map', PlaneStamped, self.plane_in_map_cb)
+        self.point_sub=rospy.Subscriber('offbnode/plano_promedio_in_map', PlaneStamped, self.plane_in_map_cb)
+        self.is_valle_sub=rospy.Subscriber('offbnode/is_valle', Bool, self.is_valle_cb)
+        self.plane_sub=rospy.Subscriber('offbnode/plane_individual_in_map', PlaneStamped, self.plane_individual_in_map_cb)
 
         self.calcular_ruta_service = rospy.Service("offbnode/calcular_y_seguir_ruta", Trigger,self.ruta_plane_service_cb)
         self.reconfigure_params_server = Server(rute_planConfig, self.reconfigure_params_cb)
@@ -131,12 +135,20 @@ class rute_plan:
         return Punto_Recta
 
     def Plano_Z(self,p_x_y ):
-        v=self.plane_in_map.vector.vector
-        p=self.plane_in_map.point.point
         Punto_Plano = Point()
         Punto_Plano.x=p_x_y.x
         Punto_Plano.y=p_x_y.y
-        Punto_Plano.z=p.z-(v.x*(p_x_y.x-p.x)+v.y*(p_x_y.y-p.y))/v.z + self.H
+        if(self.is_valle):
+            j=[]
+            for i in self.planos_individuales:
+                v=i.vector.vector
+                p=i.point.point
+                j.append(p.z-(v.x*(p_x_y.x-p.x)+v.y*(p_x_y.y-p.y))/v.z + self.H)
+            Punto_Plano.z=max(j)
+        else:
+            v=self.plane_in_map.vector.vector
+            p=self.plane_in_map.point.point
+            Punto_Plano.z=p.z-(v.x*(p_x_y.x-p.x)+v.y*(p_x_y.y-p.y))/v.z + self.H
         return Punto_Plano
 
     def calcular_ruta(self):
@@ -366,6 +378,12 @@ class rute_plan:
         self.nav_z_pos_pub.publish(path_z)
         self.cerca_pub.publish(cerca)
         self.cerca_max_pub.publish(cerca_max)
+
+    def is_valle_cb(self,msg):
+        self.is_valle=msg.data
+
+    def plane_individual_in_map_cb(self,msg):
+        self.planos_individuales.append(copy.deepcopy(msg))
 
     def local_pose_cb(self,msg):
         self.current_local_pose = msg

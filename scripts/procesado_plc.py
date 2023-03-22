@@ -16,11 +16,11 @@ class procesado_plc:
         self.planos=[]
 
         self.cmd_sub=rospy.Subscriber("offbnode/procesado_on", Bool, self.cmd_cb)
-        self.plane_sub=rospy.Subscriber('offbnode/plane_local_in_map', PlaneStamped, self.plane_local_in_map_cb)
+        self.plane_sub=rospy.Subscriber('offbnode/plane_individual_in_map', PlaneStamped, self.plane_individual_in_map_cb)
 
-        self.pose_pub=rospy.Publisher('offbnode/pose_in_plane', PlaneStamped, queue_size=10)
+        self.plano_in_local_pub=rospy.Publisher('offbnode/plano_in_local', PlaneStamped, queue_size=10)
         self.procesado_completed_pub=rospy.Publisher('offbnode/procesado_completed', Bool, queue_size=10 )
-        self.plane_pub=rospy.Publisher('offbnode/plane_in_map', PlaneStamped, queue_size=10)
+        self.plane_pub=rospy.Publisher('offbnode/plano_promedio_in_map', PlaneStamped, queue_size=10)
 
     def cmd_cb(self,msg):
         self.point_cloud_sub=rospy.Subscriber("offbnode/points2", PointCloud2, self.point_cloud_cb,queue_size=1)
@@ -48,9 +48,9 @@ class procesado_plc:
         plane.vector.vector.x = b[1]*-1
         plane.vector.vector.y = b[2]*-1
         plane.vector.vector.z = 1
-        self.pose_pub.publish(plane)
+        self.plano_in_local_pub.publish(plane)
 
-    def plane_local_in_map_cb(self,msg):
+    def plane_individual_in_map_cb(self,msg):
         self.planos.append(copy.deepcopy(msg))
         plane=PlaneStamped()
         z=[]

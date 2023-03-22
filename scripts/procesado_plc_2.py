@@ -14,10 +14,10 @@ from tf.transformations import quaternion_from_euler
 class procesado_plc_2:
     def __init__(self):
         self.rate=rospy.Rate(20)
-        self.pose_sub=rospy.Subscriber('offbnode/pose_in_plane', PlaneStamped, self.point_cb )
-        self.plane_promedio_sub=rospy.Subscriber('offbnode/plane_in_map', PlaneStamped, self.plane_promedio_cb )
+        self.pose_sub=rospy.Subscriber('offbnode/plano_in_local', PlaneStamped, self.point_cb )
+        self.plane_promedio_sub=rospy.Subscriber('offbnode/plano_promedio_in_map', PlaneStamped, self.plane_promedio_cb )
         self.procesado_completed_pub=rospy.Publisher('offbnode/procesado_completed', Bool, queue_size=10 )
-        self.plane_pub=rospy.Publisher('offbnode/plane_local_in_map', PlaneStamped, queue_size=10)
+        self.plane_pub=rospy.Publisher('offbnode/plane_individual_in_map', PlaneStamped, queue_size=10)
         self.tf_buffer = tf2_ros.Buffer(rospy.Duration(100.0))  # tf buffer length
         self.tf_listener = tf2_ros.TransformListener(self.tf_buffer)
         self.br = tf2_ros.TransformBroadcaster()
