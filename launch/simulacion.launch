@@ -31,7 +31,10 @@
     <node type="image_joke.py" name="image_joke_cal" pkg="offbnode" output="screen" />
     <node type="procesado_plc_2.py" name="procesado_plc_2" pkg="offbnode" output="screen" />
     <node type="procesado_plc.py" name="procesado_plc" pkg="offbnode" output="screen" />
-    <node ns="offbnode" type="stereo_image_proc" name="stereo_image_proc" pkg="stereo_image_proc" output="screen" respawn="true" />
+    <node ns="offbnode" type="stereo_image_proc" name="stereo_image_proc" pkg="stereo_image_proc" 
+            output="screen" respawn="true">
+        <param name="speckle_size" value="400" />
+    </node>
     <node type="rute_plan.py" name="rute_plan" pkg="offbnode" output="screen" />
 
     <!-- <node type="capture_for_px4.py" name="capture_for_px4" pkg="offbnode" output="screen" args="$(env HOME)/Capture_px4/$(arg carpeta_imagenes)" />
