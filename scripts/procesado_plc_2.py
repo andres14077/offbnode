@@ -29,6 +29,7 @@ class procesado_plc_2:
         self.t.append(t)
 
     def point_cb(self,msg):
+        rospy.loginfo("transformando plano a frame map")
         plane=PlaneStamped()
         plane.header.frame_id = "map"
         t=TransformStamped()
@@ -65,6 +66,7 @@ class procesado_plc_2:
         self.plane_pub.publish(plane)
 
     def plane_promedio_cb(self,msg):
+        rospy.loginfo("tf plano promedio")
         t=TransformStamped()
         t.header.frame_id = self.t[0].header.frame_id
         t.child_frame_id = self.t[0].child_frame_id

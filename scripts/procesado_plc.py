@@ -29,6 +29,7 @@ class procesado_plc:
         return p.z-(v.x*(x-p.x)+v.y*(y-p.y))/v.z
 
     def point_cloud_cb(self,msg):
+        rospy.loginfo("regresion lineal de nube de puntos")
         self.point_cloud_sub.unregister()
         plane=PlaneStamped()
         z=[]
@@ -42,6 +43,8 @@ class procesado_plc:
         X = np.insert(X, 0, np.array((np.ones(len(X[0])))), 0).T
         Z = np.array(z)
         b = np.linalg.inv(X.T @ X) @ X.T @ Z
+        rospy.logdebug("resultado de regresion lineal")
+        rospy.logdebug(b)
         plane.header.frame_id="cgo3_camera_optical_link"
         plane.header.stamp = rospy.Time.now()
         plane.point.point.z = b[0]
@@ -51,6 +54,7 @@ class procesado_plc:
         self.plano_in_local_pub.publish(plane)
 
     def plane_individual_in_map_cb(self,msg):
+        rospy.loginfo("regresion lineal de planos adquiridos, plano promedio")
         self.planos.append(copy.deepcopy(msg))
         plane=PlaneStamped()
         z=[]
