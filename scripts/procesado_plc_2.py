@@ -27,6 +27,7 @@ class procesado_plc_2:
         t.child_frame_id = "plano_promedio"
         t.transform.rotation.w = 1
         self.t.append(t)
+        rospy.loginfo("procesado plc_2 init")
 
     def point_cb(self,msg):
         rospy.loginfo("transformando plano a frame map")

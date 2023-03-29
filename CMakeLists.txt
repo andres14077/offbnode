@@ -183,14 +183,6 @@ catkin_install_python(PROGRAMS
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 catkin_install_python(PROGRAMS
-  scripts/image_joke_cal_2.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-catkin_install_python(PROGRAMS
-  scripts/image_joke_cal.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-catkin_install_python(PROGRAMS
   scripts/image_joke.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
@@ -212,10 +204,6 @@ catkin_install_python(PROGRAMS
 )
 catkin_install_python(PROGRAMS
   scripts/servicio_de_kill_ros.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-catkin_install_python(PROGRAMS
-  scripts/tf2_pub.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 ## Mark executables for installation

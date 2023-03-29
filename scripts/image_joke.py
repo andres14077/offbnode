@@ -96,7 +96,7 @@ class Image_Joke:
         self.camera_info_right_pub = rospy.Publisher("offbnode/right/camera_info", CameraInfo, queue_size=10)
 
         # sincronizacion con servicio
-        rospy.loginfo("Esperando servicio offboard")
+        rospy.logdebug("Esperando servicio offboard")
         rospy.wait_for_service("offbnode/master_ok")
         offboard_client = rospy.ServiceProxy("offbnode/master_ok", CommandBool)
         offboard_cmd = CommandBoolRequest()
@@ -107,6 +107,7 @@ class Image_Joke:
         self.tomar_medida_service = rospy.Service("offbnode/tomar_medida", Trigger,self.tomar_medida_cb)
         self.tomar_medida=False
         self.procesado_completed=False
+        rospy.loginfo("image joke init")
     def procesado_completed_cb(self,msg):
         self.procesado_completed=msg.data
     def image_cb(self,msg):

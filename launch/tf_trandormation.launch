@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-    <param name="robot_description" textfile="$(find mavlink_sitl_gazebo)/models/iris_gimbal/iris_gimbal.urdf" />
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
-    <node name="tf2_pub" pkg="offbnode" type="tf2_pub.py"/>
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" />
-    <node ns="offbnode" type="stereo_image_proc" name="stereo_image_proc" pkg="stereo_image_proc" output="screen" />
-</launch>

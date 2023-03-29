@@ -48,6 +48,8 @@ class rute_plan:
         self.calcular_ruta_service = rospy.Service("offbnode/calcular_y_seguir_ruta", Trigger,self.ruta_plane_service_cb)
         self.reconfigure_params_server = Server(rute_planConfig, self.reconfigure_params_cb)
 
+        rospy.loginfo("Rute plan init")
+
     def producto_cruz(self,v1,v2):
         v3 = Vector3()
         v3.x=v1.y*v2.z-v1.z*v2.y
