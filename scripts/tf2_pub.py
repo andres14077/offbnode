@@ -25,11 +25,4 @@ def tf_callback(msg):
 if __name__ == '__main__':
     rospy.init_node('tf2_pub')
     rospy.Subscriber("mavros/global_position/local", Odometry, tf_callback, queue_size=5)
-    try:
-        rospy.spin()
-    except rospy.ROSInterruptException:
-        rospy.loginfo("Interrupcion")
-        exit()
-    except:
-        rospy.loginfo("error")
-        exit()
+    rospy.spin()
