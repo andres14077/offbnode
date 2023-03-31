@@ -1,5 +1,6 @@
 #!/bin/bash -x
 #
+xhost local:root
 pushd ~/offbnode
 export GAZEBO_MASTER_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker-compose ps -q ros_melodic_px4))
 #export GAZEBO_MASTER_IP=192.168.1.101

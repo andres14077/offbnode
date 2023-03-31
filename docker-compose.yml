@@ -11,3 +11,6 @@ services:
     #   - "443:443/udp"
     volumes:
       - ./:/root/catkin_ws/src/offbnode
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      - DISPLAY
