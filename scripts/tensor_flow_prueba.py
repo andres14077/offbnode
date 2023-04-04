@@ -4,32 +4,26 @@ import rospy
 from mavros_msgs.msg import WaypointReached
 from mavros_msgs.msg import MountControl
 from sensor_msgs.msg import Image
-from cv_bridge import CvBridge
+from std_msgs.msg import Empty
 import cv2
 import tensorflow as tf
 import tensorflow_hub as hub
 import matplotlib.pyplot as plt
-import sys
-import os
 
 
 class Cap_imag:
 
     def __init__(self):
         rospy.loginfo("init node capture images for offboard")
-        rospy.Subscriber("/iris_gimbal/usb_cam/image_raw", Image, self.Image_Calback)
-        self._cv_bridge=CvBridge()
         self.module = hub.load("https://tfhub.dev/intel/midas/v2/2", tags=['serve'])
+        rospy.Subscriber("offbnode/tensor_flow_start", Empty, self.Tensor_Callback)
 
-        self.image_directory=sys.argv[1]
 
-        if not (os.path.exists(self.image_directory)):
-            rospy.logerr("Carpeta no encontrada:"+self.image_directory)
-            exit()
-
-    def Image_Calback(self,image):
-        cv_image=self._cv_bridge.imgmsg_to_cv2(image, "bgr8")
-        img_resized = tf.image.resize(cv_image, [384,384], method='bicubic', preserve_aspect_ratio=False)
+    def Tensor_Callback(self,msg):
+        rospy.loginfo("leer foto")
+        img=cv2.imread("/tmp/image_msg.png")
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) / 255.0
+        img_resized = tf.image.resize(img, [384,384], method='bicubic', preserve_aspect_ratio=False)
         img_resized = tf.transpose(img_resized, [2, 0, 1])
         img_input = img_resized.numpy()
         reshape_img = img_input.reshape(1,3,384,384)
@@ -39,8 +33,7 @@ class Cap_imag:
         prediction = output['default'].numpy()
         prediction = prediction.reshape(384, 384)
 
-        prediction = cv2.resize(prediction, (cv_image.shape[1], cv_image.shape[0]), interpolation=cv2.INTER_CUBIC)
-        print(" Write image to: output.png")
+        prediction = cv2.resize(prediction, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_CUBIC)
         depth_min = prediction.min()
         depth_max = prediction.max()
         img_out = (255 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint8")
