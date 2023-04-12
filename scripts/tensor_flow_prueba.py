@@ -1,52 +1,61 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import rospy
-from mavros_msgs.msg import WaypointReached
-from mavros_msgs.msg import MountControl
-from sensor_msgs.msg import Image
-from std_msgs.msg import Empty
+from std_srvs.srv import Empty,EmptyResponse
 import cv2
 import tensorflow as tf
 import tensorflow_hub as hub
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class Cap_imag:
 
     def __init__(self):
-        rospy.loginfo("init node capture images for offboard")
-        self.module = hub.load("https://tfhub.dev/intel/midas/v2/2", tags=['serve'])
-        rospy.Subscriber("offbnode/tensor_flow_start", Empty, self.Tensor_Callback)
+        rospy.loginfo("initializing tf")
+        # self.module = hub.load("https://tfhub.dev/intel/midas/v2/2", tags=['serve'])
+        self.interpreter = tf.lite.Interpreter(model_path="/root/catkin_ws/src/offbnode/scripts/model_opt.tflite")
+        self.interpreter.allocate_tensors()
+        self.input_details  = self.interpreter.get_input_details()
+        self.output_details = self.interpreter.get_output_details()
+        self.input_shape = self.input_details[0]['shape']
+        self.tensor_service = rospy.Service("offbnode/tensor_flow_start", Empty, self.Tensor_Callback)
 
 
     def Tensor_Callback(self,msg):
         rospy.loginfo("leer foto")
         img=cv2.imread("/tmp/image_msg.png")
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) / 255.0
-        img_resized = tf.image.resize(img, [384,384], method='bicubic', preserve_aspect_ratio=False)
-        img_resized = tf.transpose(img_resized, [2, 0, 1])
+        # print(img)
+
+        img_resized = tf.image.resize(img, [256,256], method='bicubic', preserve_aspect_ratio=False)
         img_input = img_resized.numpy()
-        reshape_img = img_input.reshape(1,3,384,384)
+        mean=[0.485, 0.456, 0.406]
+        std=[0.229, 0.224, 0.225]
+        img_input = (img_input - mean) / std
+        reshape_img = img_input.reshape(1,256,256,3)
         tensor = tf.convert_to_tensor(reshape_img, dtype=tf.float32)
 
-        output = self.module.signatures['serving_default'](tensor)
-        prediction = output['default'].numpy()
-        prediction = prediction.reshape(384, 384)
+        self.interpreter.set_tensor(self.input_details[0]['index'], tensor)
+        self.interpreter.invoke()
+        output = self.interpreter.get_tensor(self.output_details[0]['index'])
+        output = output.reshape(256, 256)
 
-        prediction = cv2.resize(prediction, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_CUBIC)
+
+        prediction = cv2.resize(output, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_CUBIC)
         depth_min = prediction.min()
         depth_max = prediction.max()
-        img_out = (255 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint8")
-
+        # img_out = (255 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint8")
+        img_out = (65535 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint16")
         print(depth_min)
         print(depth_max)
-        # cv2.imwrite("output.png", img_out)
-        plt.imshow(img_out)
-
-        # cv_image=cv2.resize(cv_image,(227,227))
-        # name=self.image_directory+"/Captura_No_"+str(self.last_id)+".png"
-        # cv2.imwrite(name,cv_image)
-        # rospy.loginfo("captura de imagen "+str(self.last_id))
+        # print(prediction)
+        cv2.imwrite("/tmp/output.png", img_out)
+        # print (prediction)
+        # np.savetxt("/tmp/output.txt",prediction)
+        # plt.imshow(img_out)
+        # plt.show()
+        return EmptyResponse()
 
 
 

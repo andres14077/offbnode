@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import rospy
-from mavros_msgs.msg import WaypointReached
-from mavros_msgs.msg import MountControl
 from sensor_msgs.msg import Image
-from std_msgs.msg import Empty
+from std_srvs.srv import Empty
 from cv_bridge import CvBridge
+import numpy as np
 import cv2
 import sys
 import os
@@ -14,21 +13,25 @@ import os
 class Cap_imag:
 
     def __init__(self):
-        rospy.loginfo("init node capture images for offboard")
-        rospy.Subscriber("/iris_gimbal/usb_cam/image_raw", Image, self.Image_Calback)
-        self.tensor_pub = rospy.Publisher("offbnode/tensor_flow_start", Empty,queue_size=10)
+        rospy.loginfo("initializing tf_2")
         self._cv_bridge=CvBridge()
+        rospy.wait_for_service("offbnode/tensor_flow_start")
+        self.tensor_client = rospy.ServiceProxy("offbnode/tensor_flow_start", Empty)
+        self.image_sub=rospy.Subscriber("iris_gimbal/usb_cam/image_raw", Image, self.Image_Calback)
+        self.depth_image_pub = rospy.Publisher("offbnode/depth_image", Image,queue_size=10)
 
 
-    def Image_Calback(self,image):
-        cv_image=self._cv_bridge.imgmsg_to_cv2(image, "bgr8")
-        # cv2.imwrite("output.png", img_out)
-        # cv_image=cv2.resize(cv_image,(227,227))
-        # name=self.image_directory+"/Captura_No_"+str(self.last_id)+".png"
+    def Image_Calback(self,msg):
+        cv_image=self._cv_bridge.imgmsg_to_cv2(msg, "rgb8")
+        # print(cv_image)
         cv2.imwrite("/tmp/image_msg.png",cv_image)
-        self.tensor_pub.publish()
         rospy.loginfo("Foto guardada")
-        # rospy.loginfo("captura de imagen "+str(self.last_id))
+        self.tensor_client()
+        img=cv2.imread("/tmp/output.png")
+        # print(img)
+        msg_image=self._cv_bridge.cv2_to_imgmsg(img)
+        msg_image.header.frame_id=msg.header.frame_id
+        self.depth_image_pub.publish(msg_image)
 
 
 
