@@ -2,17 +2,20 @@
 # -*- coding: utf-8 -*-
 import rospy
 from std_srvs.srv import Empty,EmptyResponse
+from sensor_msgs.msg import Image,CameraInfo
+from cv_bridge import CvBridge
 import cv2
 import tensorflow as tf
 import tensorflow_hub as hub
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 class Cap_imag:
 
     def __init__(self):
         rospy.loginfo("initializing tf")
+        self._cv_bridge=CvBridge()
+        self.camera_info=CameraInfo()
         # self.module = hub.load("https://tfhub.dev/intel/midas/v2/2", tags=['serve'])
         self.interpreter = tf.lite.Interpreter(model_path="/root/catkin_ws/src/offbnode/scripts/model_opt.tflite")
         self.interpreter.allocate_tensors()
@@ -20,13 +23,17 @@ class Cap_imag:
         self.output_details = self.interpreter.get_output_details()
         self.input_shape = self.input_details[0]['shape']
         self.tensor_service = rospy.Service("offbnode/tensor_flow_start", Empty, self.Tensor_Callback)
+        self.image_raw_sub=rospy.Subscriber("iris_gimbal/resized/camera_info", CameraInfo, self.camera_info_cb)
+        self.depth_image_pub = rospy.Publisher("offbnode/depth/image_raw", Image,queue_size=10)
+        self.depth_camera_info_pub = rospy.Publisher("offbnode/depth/camera_info", CameraInfo,queue_size=10)
 
+    def camera_info_cb(self,msg):
+        self.camera_info=msg
 
     def Tensor_Callback(self,msg):
-        rospy.loginfo("leer foto")
+        # rospy.loginfo("leer foto")
         img=cv2.imread("/tmp/image_msg.png")
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) / 255.0
-        # print(img)
 
         img_resized = tf.image.resize(img, [256,256], method='bicubic', preserve_aspect_ratio=False)
         img_input = img_resized.numpy()
@@ -43,20 +50,12 @@ class Cap_imag:
 
 
         prediction = cv2.resize(output, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_CUBIC)
-        depth_min = prediction.min()
-        depth_max = prediction.max()
-        # img_out = (255 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint8")
-        img_out = (65535 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint16")
-        print(depth_min)
-        print(depth_max)
-        # print(prediction)
-        cv2.imwrite("/tmp/output.png", img_out)
-        # print (prediction)
-        # np.savetxt("/tmp/output.txt",prediction)
-        # plt.imshow(img_out)
-        # plt.show()
-        return EmptyResponse()
 
+        msg_image=self._cv_bridge.cv2_to_imgmsg(prediction)
+        msg_image.header.frame_id="iris_gimbal/cgo3_camera_optical_link"
+        self.depth_image_pub.publish(msg_image)
+        self.depth_camera_info_pub.publish(self.camera_info)
+        return EmptyResponse()
 
 
 
