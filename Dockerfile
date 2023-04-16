@@ -2,12 +2,12 @@ FROM ros:melodic-perception AS build
 SHELL ["/bin/bash", "-c"]
 WORKDIR /root
 RUN mkdir -p catkin_ws/src
-RUN sudo apt-get update;sudo apt-get upgrade;sudo apt-get --fix-broken install -y;sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list';sudo apt-get install -y curl;curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -;sudo apt-get update
+RUN sudo apt-get update;sudo apt-get -y upgrade;sudo apt-get --fix-broken install -y;sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list';sudo apt-get install -y curl;curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -;sudo apt-get update
 
-RUN sudo apt-get install -y git python3-dev python3-numpy python3-py python3-pytest python3-pip python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential ros-melodic-desktop libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config python-dev python-numpy python-py python-pytest python-pip python-jinja2 ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
+RUN sudo apt-get install -y git python3-dev python3-numpy python3-py python3-pytest python3-opencv python3-pip python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential ros-melodic-desktop libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config python-dev python-numpy python-py python-pytest python-pip python-jinja2 ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
 
 RUN pip install numpy toml
-RUN pip3 install --upgrade pip; pip3 install catkin_pkg rospkg tensorflow tensorflow_hub
+RUN pip3 install --upgrade pip; pip3 install catkin_pkg rospkg tensorflow
 
 RUN echo "source /opt/ros/melodic/setup.bash" >> /root/.bashrc;echo "source /root/catkin_ws/devel/setup.bash" >> /root/.bashrc;echo "export ROS_WORKSPACE=/root/catkin_ws" >> /root/.bashrc;echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$ROS_WORKSPACE" >> /root/.bashrc;echo "export ROSCONSOLE_FORMAT='[\${severity}] [\${time}]:\${message}'" >> /root/.bashrc;echo "export ROS_IP=\$(hostname -I| awk '{print \$1}')" >> ~/.bashrc;echo "export ROS_MASTER_URI=http://\$(echo \$ROS_IP):11311/" >> ~/.bashrc
 RUN source /opt/ros/melodic/setup.bash;cd /root/catkin_ws/;sudo rosdep init;rosdep update;catkin_make

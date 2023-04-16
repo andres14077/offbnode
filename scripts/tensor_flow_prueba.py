@@ -4,11 +4,9 @@ import rospy
 from std_srvs.srv import Empty,EmptyResponse
 from sensor_msgs.msg import Image,CameraInfo
 from cv_bridge import CvBridge
+import rospkg
 import cv2
 import tensorflow as tf
-import tensorflow_hub as hub
-import matplotlib.pyplot as plt
-import numpy as np
 
 class Cap_imag:
 
@@ -16,8 +14,9 @@ class Cap_imag:
         rospy.loginfo("initializing tf")
         self._cv_bridge=CvBridge()
         self.camera_info=CameraInfo()
+        rospack = rospkg.RosPack()
         # self.module = hub.load("https://tfhub.dev/intel/midas/v2/2", tags=['serve'])
-        self.interpreter = tf.lite.Interpreter(model_path="/root/catkin_ws/src/offbnode/scripts/model_opt.tflite")
+        self.interpreter = tf.lite.Interpreter(model_path=rospack.get_path('offbnode')+"/scripts/model_opt.tflite")
         self.interpreter.allocate_tensors()
         self.input_details  = self.interpreter.get_input_details()
         self.output_details = self.interpreter.get_output_details()
