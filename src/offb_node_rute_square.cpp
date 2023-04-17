@@ -174,13 +174,13 @@ int main(int argc, char **argv)
 
 
     ros::Publisher nav_pos_pub = nh.advertise<nav_msgs::Path>
-            ("offboard/nav", 10);
+            ("offbnode/nav", 10);
     ros::Publisher cerca_pub = nh.advertise<geometry_msgs::PolygonStamped>
-            ("offboard/cerca", 10);
+            ("offbnode/cerca", 10);
     ros::Publisher cerca_max_pub = nh.advertise<geometry_msgs::PolygonStamped>
-            ("offboard/cerca_extra", 10);
+            ("offbnode/cerca_extra", 10);
     ros::Publisher mensaje_camara_pub = nh.advertise<mavros_msgs::WaypointReached>
-            ("offboard/mission/reached", 10);
+            ("offbnode/mission/reached", 10);
 
     ros::Publisher kill_ros_pub = nh.advertise<std_msgs::Bool>
             ("kill_ROS", 10);

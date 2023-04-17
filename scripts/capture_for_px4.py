@@ -16,7 +16,7 @@ class Cap_imag:
 
     def __init__(self):
         rospy.loginfo("init node capture images for offboard")
-        rospy.Subscriber("/offboard/mission/reached",WaypointReached,self.Waypoint_Reached_Calback)
+        rospy.Subscriber("/offbnode/mission/reached",WaypointReached,self.Waypoint_Reached_Calback)
         rospy.Subscriber("/iris_gimbal/usb_cam/image_raw", Image, self.Image_Calback)
         self._cv_bridge=CvBridge()
         self.last_id=0

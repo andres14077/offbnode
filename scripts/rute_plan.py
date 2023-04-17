@@ -29,14 +29,14 @@ class rute_plan:
         self.planos_individuales=[]
         self.is_valley=False
 
-        self.nav_pos_pub = rospy.Publisher("offboard/nav", Path,queue_size=10)
-        self.nav_z_pos_pub = rospy.Publisher("offboard/nav_z", Path,queue_size=10)
-        self.cerca_pub = rospy.Publisher("offboard/cerca", PolygonStamped,queue_size=10)
-        self.cerca_max_pub = rospy.Publisher("offboard/cerca_extra", PolygonStamped,queue_size=10)
+        self.nav_pos_pub = rospy.Publisher("offbnode/nav", Path,queue_size=10)
+        self.nav_z_pos_pub = rospy.Publisher("offbnode/nav_z", Path,queue_size=10)
+        self.cerca_pub = rospy.Publisher("offbnode/cerca", PolygonStamped,queue_size=10)
+        self.cerca_max_pub = rospy.Publisher("offbnode/cerca_extra", PolygonStamped,queue_size=10)
 
         self.local_poss_pub = rospy.Publisher("offbnode/pose_local_cmd", PoseStamped, queue_size=10)
         self.camera_pose_pub=rospy.Publisher('mavros/mount_control/command', MountControl, queue_size=10)
-        self.mensaje_camara_pub = rospy.Publisher("offboard/mission/reached", WaypointReached,queue_size=10)
+        self.mensaje_camara_pub = rospy.Publisher("offbnode/mission/reached", WaypointReached,queue_size=10)
 
         self.kill_ros_pub = rospy.Publisher("kill_ROS", Bool,queue_size=10)
 

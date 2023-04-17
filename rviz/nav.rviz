@@ -73,7 +73,7 @@ Visualization Manager:
       Radius: 0.029999999329447746
       Shaft Diameter: 1
       Shaft Length: 7
-      Topic: /offboard/nav
+      Topic: /offbnode/nav
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -97,7 +97,7 @@ Visualization Manager:
       Radius: 0.029999999329447746
       Shaft Diameter: 1
       Shaft Length: 7
-      Topic: /offboard/nav_z
+      Topic: /offbnode/nav_z
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -106,7 +106,7 @@ Visualization Manager:
       Enabled: true
       Name: Polygon
       Queue Size: 10
-      Topic: /offboard/cerca
+      Topic: /offbnode/cerca
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -115,7 +115,7 @@ Visualization Manager:
       Enabled: true
       Name: Polygon
       Queue Size: 10
-      Topic: /offboard/cerca_extra
+      Topic: /offbnode/cerca_extra
       Unreliable: false
       Value: true
     - Alpha: 1
