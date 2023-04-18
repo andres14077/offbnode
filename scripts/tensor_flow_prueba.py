@@ -48,9 +48,13 @@ class Cap_imag:
         output = output.reshape(256, 256)
 
 
-        prediction = cv2.resize(output, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_CUBIC)
+        img_inversa = cv2.resize(output, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_CUBIC)
 
-        msg_image=self._cv_bridge.cv2_to_imgmsg(prediction)
+        # depth_min = img_inversa.min()
+        depth_max = img_inversa.max()
+        img_profundidad = depth_max - img_inversa
+        # img_out = (65535 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint16")
+        msg_image=self._cv_bridge.cv2_to_imgmsg(img_profundidad)
         msg_image.header.frame_id="iris_gimbal/cgo3_camera_optical_link"
         self.depth_image_pub.publish(msg_image)
         self.depth_camera_info_pub.publish(self.camera_info)
