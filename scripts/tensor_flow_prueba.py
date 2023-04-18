@@ -56,6 +56,8 @@ class Cap_imag:
         # img_out = (65535 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint16")
         msg_image=self._cv_bridge.cv2_to_imgmsg(img_profundidad)
         msg_image.header.frame_id="iris_gimbal/cgo3_camera_optical_link"
+        msg_image.header.stamp = rospy.Time.now()
+        self.camera_info.header.stamp = rospy.Time.now()
         self.depth_image_pub.publish(msg_image)
         self.depth_camera_info_pub.publish(self.camera_info)
         return EmptyResponse()
