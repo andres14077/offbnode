@@ -52,7 +52,7 @@ class Cap_imag:
 
         # depth_min = img_inversa.min()
         depth_max = img_inversa.max()
-        img_profundidad = depth_max - img_inversa
+        img_profundidad = (depth_max - img_inversa)/100
         # img_out = (65535 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint16")
         msg_image=self._cv_bridge.cv2_to_imgmsg(img_profundidad)
         msg_image.header.frame_id="iris_gimbal/cgo3_camera_optical_link"
