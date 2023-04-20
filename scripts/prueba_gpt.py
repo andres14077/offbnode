@@ -9,9 +9,9 @@ def publish_marker():
     marker.header.stamp = rospy.Time.now()
     marker.type = marker.MESH_RESOURCE
     marker.action = marker.ADD
-    marker.pose.position.x = 5.0
+    marker.pose.position.x = 0.0
     marker.pose.position.y = 0.0
-    marker.pose.position.z = 0.739546
+    marker.pose.position.z = -63.0
     marker.pose.orientation.x = 0.0
     marker.pose.orientation.y = 0.0
     marker.pose.orientation.z = 0.0
@@ -23,7 +23,7 @@ def publish_marker():
     marker.color.g = 1.0
     marker.color.b = 1.0
     marker.color.a = 1.0
-    marker.mesh_resource = "package://mavlink_sitl_gazebo/models/big_box/meshes/big_box.dae"  # Ruta al archivo del modelo 3D
+    marker.mesh_resource = "package://mavlink_sitl_gazebo/models/l1/untitled.dae"  # Ruta al archivo del modelo 3D
     marker.id = 0
 
     marker_publisher = rospy.Publisher("/big_box", Marker, queue_size=10)

@@ -23,6 +23,7 @@ find_package(catkin REQUIRED
       dynamic_reconfigure
       message_generation
       gazebo_ros
+      depth_image_proc
       #OpenCV
       )
   include_directories(${OpenCV_INCLUDE_DIRS})
