@@ -28,7 +28,7 @@
         <arg name="gcs_url" value="$(arg gcs_url)"/>
         <arg name="gui" default="$(arg gui)"/>
     </include>
-    <node type="procesado_plc.py" name="procesado_plc" pkg="offbnode" output="screen" />
+    <node type="esclavo_3.py" name="esclavo_3" pkg="offbnode" output="screen" />
     <node type="maestro.py" name="maestro" pkg="offbnode" output="screen" />
     <node ns="offbnode" type="stereo_image_proc" name="stereo_image_proc" pkg="stereo_image_proc"
             output="screen" respawn="true">
@@ -53,8 +53,8 @@
         <remap from="camera_info" to="/offbnode/depth/camera_info" />
         <remap from="points" to="/offbnode/depth/points" />
     </node>
-    <node type="tensor_flow_prueba.py" name="tensor_flow_prueba" pkg="offbnode" output="screen" />
-    <node type="tensor_flow_prueba2.py" name="tensor_flow_prueba2" pkg="offbnode" output="screen" />
+    <!-- <node type="tensor_flow_prueba.py" name="tensor_flow_prueba" pkg="offbnode" output="screen" />
+    <node type="tensor_flow_prueba2.py" name="tensor_flow_prueba2" pkg="offbnode" output="screen" /> -->
 
 
 </launch>

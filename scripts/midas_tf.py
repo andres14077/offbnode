@@ -8,10 +8,10 @@ import rospkg
 import cv2
 import tensorflow as tf
 
-class Cap_imag:
+class Midas_tf:
 
     def __init__(self):
-        rospy.loginfo("initializing tf")
+        rospy.loginfo("initializing Midas_tf")
         self._cv_bridge=CvBridge()
         self.camera_info=CameraInfo()
         rospack = rospkg.RosPack()
@@ -67,6 +67,6 @@ class Cap_imag:
 
 if __name__ == '__main__':
     rospy.init_node('tensor_flow', anonymous=True)
-    cap=Cap_imag()
+    cap=Midas_tf()
     rospy.spin()
 
