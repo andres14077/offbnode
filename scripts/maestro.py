@@ -5,6 +5,7 @@ from image_joke import Image_Joke
 from offboard_node import Offboard_Master
 from procesado_plc_2 import procesado_plc_2
 from rute_plan import rute_plan
+from depth_image_to_midas import Depth_image_to_midas
 from geometry_msgs.msg import PoseStamped
 from std_srvs.srv import Trigger,TriggerRequest,TriggerResponse
 from std_msgs.msg import Bool
@@ -52,6 +53,7 @@ if __name__ == '__main__':
     nodo2=Image_Joke()
     nodo3=procesado_plc_2()
     nodo4=rute_plan()
+    nodo5=Depth_image_to_midas()
     nodo=Maestro()
     while(not rospy.is_shutdown()):
         nodo1.update()
