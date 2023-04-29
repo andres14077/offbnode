@@ -28,12 +28,18 @@
         <arg name="gcs_url" value="$(arg gcs_url)"/>
         <arg name="gui" default="$(arg gui)"/>
     </include>
+
+<!-- Navegacion -->
     <node type="esclavo_3.py" name="esclavo_3" pkg="offbnode" output="screen" />
     <node type="maestro.py" name="maestro" pkg="offbnode" output="screen" />
+
+<!-- imagen stereo a nube de puntos -->
     <node ns="offbnode" type="stereo_image_proc" name="stereo_image_proc" pkg="stereo_image_proc"
             output="screen" respawn="true">
         <param name="speckle_size" value="1000" />
     </node>
+
+<!-- redimenzionamiento de imagen para imagen de profundidad -->
     <node ns="iris_gimbal" name="resized" pkg="nodelet" type="nodelet" args="standalone image_proc/resize" output="screen">
         <remap from="image" to="/iris_gimbal/usb_cam/image_raw" />
         <remap from="camera_info" to="/iris_gimbal/usb_cam/camera_info" />
@@ -41,20 +47,20 @@
         <param name="width" type="int" value="460" />
         <param name="height" type="int" value="345" />
     </node>
-    <!-- <node type="capture_for_px4.py" name="capture_for_px4" pkg="offbnode" output="screen" args="$(env HOME)/Capture_px4/$(arg carpeta_imagenes)" />
-    <node type="offb_node_rute_square" name="offb_node_rute_square" pkg="offbnode" output="screen" args="$(arg angulo_entrada)" /> -->
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" />
-    <node type="prueba_gpt.py" name="prueba_gpt" pkg="offbnode" output="screen" />
 
-
+<!-- imagen de profundidad a nuve de puntos -->
     <node pkg="nodelet" type="nodelet" name="depth_image_proc_manager" args="manager" output="screen"  />
     <node pkg="nodelet" type="nodelet" name="point_cloud_xyz" args="load depth_image_proc/point_cloud_xyz depth_image_proc_manager" output="screen">
         <remap from="image_rect" to="/offbnode/depth/image_raw" />
         <remap from="camera_info" to="/offbnode/depth/camera_info" />
         <remap from="points" to="/offbnode/depth/points" />
     </node>
-    <!-- <node type="tensor_flow_prueba.py" name="tensor_flow_prueba" pkg="offbnode" output="screen" />
-    <node type="tensor_flow_prueba2.py" name="tensor_flow_prueba2" pkg="offbnode" output="screen" /> -->
+
+    <!-- <node type="capture_for_px4.py" name="capture_for_px4" pkg="offbnode" output="screen" args="$(env HOME)/Capture_px4/$(arg carpeta_imagenes)" />
+    <node type="offb_node_rute_square" name="offb_node_rute_square" pkg="offbnode" output="screen" args="$(arg angulo_entrada)" /> -->
+
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" />
+    <node type="prueba_gpt.py" name="prueba_gpt" pkg="offbnode" output="screen" />
 
 
 </launch>
