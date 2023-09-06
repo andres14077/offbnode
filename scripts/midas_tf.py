@@ -7,6 +7,9 @@ from cv_bridge import CvBridge
 import rospkg
 import cv2
 import tensorflow as tf
+gpu_devices = tf.config.experimental.list_physical_devices('GPU')
+for device in gpu_devices:
+    tf.config.experimental.set_memory_growth(device, True)
 
 class Midas_tf:
 
@@ -53,6 +56,9 @@ class Midas_tf:
         # depth_min = img_inversa.min()
         depth_max = img_inversa.max()
         img_profundidad = (depth_max - img_inversa)/100
+
+        rospy.logdebug("valor maximo depth_max")
+        rospy.logdebug(img_profundidad.max())
         # img_out = (65535 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint16")
         msg_image=self._cv_bridge.cv2_to_imgmsg(img_profundidad)
         msg_image.header.frame_id="iris_gimbal/cgo3_camera_optical_link"

@@ -22,7 +22,7 @@ sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcod
 sudo apt-get install -y python-dev python-numpy python-py python-pytest python-pip python-jinja2
 
 sudo pip install numpy toml
-sudo pip3 install catkin_pkg rospkg
+sudo pip3 install catkin_pkg rospkg tensorflow scikit-learn seaborn
 sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
 
 sudo apt-get install -y git

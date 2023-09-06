@@ -5,6 +5,7 @@ import copy
 import math
 from nav_msgs.msg import Path
 from std_msgs.msg import Bool
+from std_msgs.msg import Empty
 from std_srvs.srv import Trigger,TriggerResponse
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Vector3Stamped,Vector3
@@ -15,6 +16,7 @@ from mavros_msgs.msg import WaypointReached,MountControl
 from tf.transformations import quaternion_from_euler,euler_from_quaternion
 from dynamic_reconfigure.server import Server
 from offbnode.cfg import rute_planConfig
+from offbnode.msg import TypePlane
 
 G_to_R=math.pi/180.0
 R_to_G=180.0/math.pi
@@ -27,7 +29,7 @@ class rute_plan:
         self.plane_in_map = PlaneStamped()
         self.plane_in_map.vector.vector.z = 1
         self.planos_individuales=[]
-        self.is_valley=False
+        self.is_valle=False
 
         self.nav_pos_pub = rospy.Publisher("offbnode/nav", Path,queue_size=10)
         self.nav_z_pos_pub = rospy.Publisher("offbnode/nav_z", Path,queue_size=10)
@@ -38,14 +40,21 @@ class rute_plan:
         self.camera_pose_pub=rospy.Publisher('mavros/mount_control/command', MountControl, queue_size=10)
         self.mensaje_camara_pub = rospy.Publisher("offbnode/mission/reached", WaypointReached,queue_size=10)
 
+        self.enviando_ruta_pub=rospy.Publisher("/offbnode/enviando_tipo_terreno", Empty,queue_size=10)
+        self.set_pose_pub=rospy.Publisher("offbnode/set_point_to_measure_cmd", PoseStamped, queue_size=10)
+
         self.kill_ros_pub = rospy.Publisher("kill_ROS", Bool,queue_size=10)
 
         self.local_pose_sub = rospy.Subscriber("mavros/local_position/pose", PoseStamped, self.local_pose_cb)
         self.point_sub=rospy.Subscriber('offbnode/plano_promedio_in_map', PlaneStamped, self.plane_in_map_cb)
         self.is_valle_sub=rospy.Subscriber('offbnode/is_valle', Bool, self.is_valle_cb)
         self.plane_sub=rospy.Subscriber('offbnode/plane_individual_in_map', PlaneStamped, self.plane_individual_in_map_cb)
+        self.resultado_tipo_plano_sub=rospy.Subscriber('offbnode/tipo_plano', TypePlane, self.resultado_tipo_plano_cb)
+
+        self.tomar_medida_client = rospy.ServiceProxy("offbnode/tomar_medida", Trigger)
 
         self.calcular_ruta_service = rospy.Service("offbnode/calcular_y_seguir_ruta", Trigger,self.ruta_plane_service_cb)
+        self.tomar_medidas_terreno_service = rospy.Service("offbnode/tomar_medidas_terreno", Trigger,self.tomar_medidas_terreno_cb)
         self.reconfigure_params_server = Server(rute_planConfig, self.reconfigure_params_cb)
 
         rospy.loginfo("Rute plan init")
@@ -152,6 +161,24 @@ class rute_plan:
             p=self.plane_in_map.point.point
             Punto_Plano.z=p.z-(v.x*(p_x_y.x-p.x)+v.y*(p_x_y.y-p.y))/v.z + self.H
         return Punto_Plano
+
+    def punto_medio_unica_funcion(self, angulo,incremento=0.01):
+        p1=(self.min_x, self.min_y)
+        p2=(self.max_x, self.max_y)
+        # Convertir angulo a radianes
+        theta = math.radians(angulo)
+        # Parametrizar la recta: x = t * cos(theta), y = t * sin(theta)
+        cos_theta = math.cos(theta)
+        sin_theta = math.sin(theta)
+        t = 0
+        while True:
+            x = t * cos_theta
+            y = t * sin_theta
+            # Si el punto (x, y) está fuera del cuadrilátero, regresar ese punto
+            if x < p1[0] or x > p2[0] or y < p1[1] or y > p2[1]:
+                rospy.loginfo("interseccion : x=%f, y=%f", x, y)
+                return (x*0.9, y*0.9)
+            t += incremento
 
     def calcular_ruta(self):
         if(self.angulo_automatico and self.plane_in_map.vector.vector.x !=0 and self.plane_in_map.vector.vector.y !=0):
@@ -394,7 +421,6 @@ class rute_plan:
         self.plane_in_map = msg
 
     def reconfigure_params_cb(self,config, level):
-
         self.Width_sensor=config['Ancho_sensor']                    # en mm
         self.Height_sensor=config['Altura_sensor']                  # en mm
         self.Image_pix_Width=config['Ancho_imagen_pix']             # en pixeles
@@ -449,6 +475,61 @@ class rute_plan:
         response.success=True
         return response
 
+    def resultado_tipo_plano_cb(self,msg):
+        self.posiciones_toma_de_altura = []
+        if(msg.type=="pradera"):
+            rospy.logdebug("Sin toma de medidas de altura")
+            self.is_valle=False
+        elif(msg.type=="ladera"):
+            rospy.logdebug("Toma de 2 medidas de altura")
+            rospy.logdebug(msg.max)
+            self.is_valle=True
+            # primer punto
+            punto_de_medida =PoseStamped()
+            punto_de_medida.pose.position.x=0
+            punto_de_medida.pose.position.y=0
+            punto_de_medida.pose.position.z=self.H
+            self.posiciones_toma_de_altura.append(punto_de_medida)
+            # segundo punto
+            punto_de_medida =PoseStamped()
+            punto_de_medida.pose.position.x , punto_de_medida.pose.position.y = self.punto_medio_unica_funcion(msg.max[0]*15)
+            punto_de_medida.pose.position.z=self.H
+            self.posiciones_toma_de_altura.append(punto_de_medida)
+        elif(msg.type=="valle"):
+            rospy.logdebug("Toma de 3 medidas de altura")
+            rospy.logdebug(msg.max)
+            self.is_valle=True
+            # primer punto
+            plane=PlaneStamped()
+            plane.header.frame_id = "map"
+            plane.vector.vector.z=1
+            self.planos_individuales.append(plane)
+
+            # punto_de_medida =PoseStamped()
+            # punto_de_medida.pose.position.x=0
+            # punto_de_medida.pose.position.y=0
+            # punto_de_medida.pose.position.z=self.H
+            # self.posiciones_toma_de_altura.append(punto_de_medida)
+            # segundo punto
+            punto_de_medida =PoseStamped()
+            punto_de_medida.pose.position.x , punto_de_medida.pose.position.y = self.punto_medio_unica_funcion(msg.max[0]*15)
+            punto_de_medida.pose.position.z=self.H
+            self.posiciones_toma_de_altura.append(punto_de_medida)
+            # tercer punto
+            punto_de_medida =PoseStamped()
+            punto_de_medida.pose.position.x , punto_de_medida.pose.position.y = self.punto_medio_unica_funcion(msg.max[1]*15)
+            punto_de_medida.pose.position.z=self.H
+            self.posiciones_toma_de_altura.append(punto_de_medida)
+        rospy.logdebug(self.posiciones_toma_de_altura)
+        self.enviando_ruta_pub.publish()
+
+    def tomar_medidas_terreno_cb(self,req):
+        for i in self.posiciones_toma_de_altura:
+            self.set_pose_pub.publish(i)
+            self.tomar_medida_client()
+        response=TriggerResponse()
+        response.success=True
+        return response
 
 if __name__ == '__main__':
 

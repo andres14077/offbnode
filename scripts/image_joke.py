@@ -150,7 +150,7 @@ class Image_Joke:
         # Actualizar estado del controlador
         if(self.control_stade==0):
             self.control_stade+=1
-            rospy.loginfo("Ir a posicion 1")
+            rospy.loginfo("Toma de imagen para camara estereo 1")
             self.pose_local.pose.position.x = 0 + self.set_pose.pose.position.x
             self.pose_local.pose.position.y = 2 + self.set_pose.pose.position.y
             self.pose_local.pose.position.z = 0 + self.set_pose.pose.position.z
@@ -163,7 +163,7 @@ class Image_Joke:
                 self.control_stade+=1
         elif(self.control_stade==3):
             self.control_stade+=1
-            rospy.loginfo("Ir a posicion 2")
+            rospy.loginfo("Toma de imagen para camara estereo 2")
             self.pose_local.pose.position.x = 0 + self.set_pose.pose.position.x
             self.pose_local.pose.position.y = 0 + self.set_pose.pose.position.y
             self.pose_local.pose.position.z = 0 + self.set_pose.pose.position.z

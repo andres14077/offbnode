@@ -6,45 +6,27 @@ from offboard_node import Offboard_Master
 from procesado_plc_2 import procesado_plc_2
 from rute_plan import rute_plan
 from depth_image_to_midas import Depth_image_to_midas
+from detector_valle import Detector_valle
 from geometry_msgs.msg import PoseStamped
-from std_srvs.srv import Trigger,TriggerRequest,TriggerResponse
-from std_msgs.msg import Bool
+from std_srvs.srv import Trigger,Empty
 
 
 class Maestro:
     def __init__(self):
         self.rate=rospy.Rate(40)
-        self.set_pose_pub=rospy.Publisher("offbnode/set_point_to_measure_cmd", PoseStamped, queue_size=10)
-        self.accion_sub=rospy.Subscriber('offbnode/iniciar_toma', Bool, self.accion_cb)
-        rospy.wait_for_service("offbnode/tomar_medida")
-        self.tomar_medida_client = rospy.ServiceProxy("offbnode/tomar_medida", Trigger)
-    def accion_cb(self,msg):
-        punto_de_medida =PoseStamped()
-        punto_de_medida.pose.position.x=0
-        punto_de_medida.pose.position.y=0
-        punto_de_medida.pose.position.z=50
-        self.set_pose_pub.publish(punto_de_medida)
-        self.tomar_medida_client()
-        punto_de_medida.pose.position.x=40
-        punto_de_medida.pose.position.y=40
-        punto_de_medida.pose.position.z=50
-        self.set_pose_pub.publish(punto_de_medida)
-        self.tomar_medida_client()
-        punto_de_medida.pose.position.x=-40
-        punto_de_medida.pose.position.y=40
-        punto_de_medida.pose.position.z=50
-        self.set_pose_pub.publish(punto_de_medida)
-        self.tomar_medida_client()
-        punto_de_medida.pose.position.x=40
-        punto_de_medida.pose.position.y=-40
-        punto_de_medida.pose.position.z=50
-        self.set_pose_pub.publish(punto_de_medida)
-        self.tomar_medida_client()
-        punto_de_medida.pose.position.x=-40
-        punto_de_medida.pose.position.y=-40
-        punto_de_medida.pose.position.z=50
-        self.set_pose_pub.publish(punto_de_medida)
-        self.tomar_medida_client()
+        self.accion_service=rospy.Service('offbnode/iniciar_toma', Empty, self.accion_cb)
+        self.identificar_terreno_client = rospy.ServiceProxy("offbnode/identificar_terreno", Trigger)
+        self.tomar_medidas_terreno_client = rospy.ServiceProxy("offbnode/tomar_medidas_terreno", Trigger)
+        self.calcular_ruta_client = rospy.ServiceProxy("offbnode/calcular_y_seguir_ruta", Trigger)
+        self.Iniciar_Evaluacion_Altura_pub = rospy.Publisher("/evaluar_medida/start", Empty, queue_size=10)
+        self.Terminar_Evaluacion_Altura_pub = rospy.Publisher("/evaluar_medida/fin", Empty, queue_size=10)
+
+    def accion_cb(self,req):
+        self.identificar_terreno_client()
+        self.tomar_medidas_terreno_client()
+        self.Iniciar_Evaluacion_Altura_pub()
+        self.calcular_ruta_client()
+        self.Terminar_Evaluacion_Altura_pub()
 
 
 if __name__ == '__main__':
@@ -54,6 +36,7 @@ if __name__ == '__main__':
     nodo3=procesado_plc_2()
     nodo4=rute_plan()
     nodo5=Depth_image_to_midas()
+    nodo6=Detector_valle()
     nodo=Maestro()
     while(not rospy.is_shutdown()):
         nodo1.update()

@@ -23,6 +23,7 @@ find_package(catkin REQUIRED
       dynamic_reconfigure
       message_generation
       gazebo_ros
+      gazebo
       depth_image_proc
       #OpenCV
       )
@@ -64,6 +65,7 @@ find_package(catkin REQUIRED
 add_message_files(
   FILES
   PlaneStamped.msg
+  TypePlane.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -132,7 +134,11 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${GAZEBO_INCLUDE_DIRS}
 )
+
+link_directories(${GAZEBO_LIBRARY_DIRS})
+
 #catkin_install_python(PROGRAMS scripts/cap_imag_for_px4.py
 #  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 #)
@@ -140,6 +146,13 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/offbnode.cpp
 # )
+
+add_library(
+  distance_to_ground_plugin SHARED plugins/distance_to_ground_plugin.cpp
+)
+target_link_libraries(
+  distance_to_ground_plugin ${GAZEBO_LIBRARIES} ${roscpp_LIBRARIES}
+  )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

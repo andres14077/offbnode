@@ -21,11 +21,6 @@ class Cap_imag:
         self._cv_bridge=CvBridge()
         self.last_id=0
         self.capture_image=0
-        self.pub=rospy.Publisher('/mavros/mount_control/command', MountControl, queue_size=10)
-        self.cmd=MountControl()
-        self.cmd.header.frame_id="map"
-        self.cmd.mode=2
-        self.cmd.pitch=0
 
         self.image_directory=sys.argv[1]
 
@@ -46,28 +41,13 @@ class Cap_imag:
         if((self.last_id!=waypoint.wp_seq) and (self.capture_image==0)):
             self.last_id=waypoint.wp_seq
             self.capture_image=1
-    def upload(self):
-        self.cmd.header.stamp=rospy.Time.now()
-        self.pub.publish(self.cmd)
-
-def capture_for_px4():
-    rospy.init_node('capture_for_px4', anonymous=True)
-    cap=Cap_imag()
-    rate=rospy.Rate(1)
-    while not rospy.is_shutdown():
-        cap.upload()
-        rate.sleep()
 
 
 if __name__ == '__main__':
-    try:
-        capture_for_px4()
-    except rospy.ROSInterruptException:
-        rospy.loginfo("Interrupcion")
-        exit()
-    except:
-        rospy.logerr("Error desconocido")
-        exit()
+    rospy.init_node('capture_for_px4', anonymous=True)
+    cap=Cap_imag()
+    rate=rospy.Rate(1)
+    rospy.spin()
 
 
 

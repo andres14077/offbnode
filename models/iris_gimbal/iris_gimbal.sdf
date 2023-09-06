@@ -1180,6 +1180,9 @@
                   right_leg_joint
         </jointName>
     </plugin>
+    <plugin name="distance_to_ground_plugin" filename="libdistance_to_ground_plugin.so">
+      <robot_name>nombre_del_robot</robot_name>
+    </plugin>
     <!--<include>
       <uri>model://fpv_cam</uri>
       <pose>0 0 0 0 0 0</pose>

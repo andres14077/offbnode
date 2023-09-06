@@ -56,11 +56,14 @@
         <remap from="points" to="/offbnode/depth/points" />
     </node>
 
-    <!-- <node type="capture_for_px4.py" name="capture_for_px4" pkg="offbnode" output="screen" args="$(env HOME)/Capture_px4/$(arg carpeta_imagenes)" />
-    <node type="offb_node_rute_square" name="offb_node_rute_square" pkg="offbnode" output="screen" args="$(arg angulo_entrada)" /> -->
+<!-- evaluar resultado -->
+    <node type="evaluar_recorrido.py" name="evaluar_recorrido" pkg="offbnode" output="screen" />
 
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" />
-    <node type="prueba_gpt.py" name="prueba_gpt" pkg="offbnode" output="screen" />
+<!-- capturar imagenes de vuelo fotogrametrico -->
+    <!-- <node type="capture_for_px4.py" name="capture_for_px4" pkg="offbnode" output="screen" args="$(env HOME)/Capture_px4/$(arg carpeta_imagenes)" /> -->
+
+    <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" />
+    <node type="model_to_rviz.py" name="model_to_rviz" pkg="offbnode" output="screen" args="$(arg mundo)" /> -->
 
 
 </launch>
