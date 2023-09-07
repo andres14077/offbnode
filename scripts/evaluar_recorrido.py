@@ -30,7 +30,7 @@ class EvaluarRecorrido:
 
     def Terminar_cb(self,msg):
         H= rospy.get_param("/maestro/Altura_vuelo")
-        error=np.mean((self.tomas - H)**2)
+        error=np.mean(([(n - H)**2 for n in self.tomas]))
         rospy.logwarn("Error cuadratico medio de altura: %f",error)
         rospy.logwarn("desviacion estandar de altura: %f",np.std(self.tomas))
         rospy.logwarn("Promedio de altura: %f",np.mean(self.tomas))
