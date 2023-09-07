@@ -24,9 +24,9 @@ class Maestro:
     def accion_cb(self,req):
         self.identificar_terreno_client()
         self.tomar_medidas_terreno_client()
-        self.Iniciar_Evaluacion_Altura_pub()
+        self.Iniciar_Evaluacion_Altura_pub.publish()
         self.calcular_ruta_client()
-        self.Terminar_Evaluacion_Altura_pub()
+        self.Terminar_Evaluacion_Altura_pub.publish()
 
 
 if __name__ == '__main__':

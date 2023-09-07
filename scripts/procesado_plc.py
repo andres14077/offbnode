@@ -153,7 +153,7 @@ class procesado_plc:
         X_tensor = tf.convert_to_tensor(X_tensor, dtype=tf.float32)
         y_pred = self.clasificador(X_tensor)
         y_pred_classes = tf.argmax(y_pred, axis=1).numpy()
-        rospy.logdebug(self.class_labels[y_pred_classes[0]])
+        rospy.loginfo("Terrno identificado como: "+self.class_labels[y_pred_classes[0]])
 
         respuesta.header.frame_id="map"
         respuesta.header.stamp = rospy.Time.now()
