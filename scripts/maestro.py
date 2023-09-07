@@ -9,7 +9,7 @@ from depth_image_to_midas import Depth_image_to_midas
 from detector_valle import Detector_valle
 from geometry_msgs.msg import PoseStamped
 from std_srvs.srv import Trigger,Empty
-
+import std_msgs.msg as std_msgs
 
 class Maestro:
     def __init__(self):
@@ -18,8 +18,8 @@ class Maestro:
         self.identificar_terreno_client = rospy.ServiceProxy("offbnode/identificar_terreno", Trigger)
         self.tomar_medidas_terreno_client = rospy.ServiceProxy("offbnode/tomar_medidas_terreno", Trigger)
         self.calcular_ruta_client = rospy.ServiceProxy("offbnode/calcular_y_seguir_ruta", Trigger)
-        self.Iniciar_Evaluacion_Altura_pub = rospy.Publisher("/evaluar_medida/start", Empty, queue_size=10)
-        self.Terminar_Evaluacion_Altura_pub = rospy.Publisher("/evaluar_medida/fin", Empty, queue_size=10)
+        self.Iniciar_Evaluacion_Altura_pub = rospy.Publisher("/evaluar_medida/start", std_msgs.Empty, queue_size=10)
+        self.Terminar_Evaluacion_Altura_pub = rospy.Publisher("/evaluar_medida/fin", std_msgs.Empty, queue_size=10)
 
     def accion_cb(self,req):
         self.identificar_terreno_client()
