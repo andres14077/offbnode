@@ -3,6 +3,7 @@
 import rospy
 import copy
 import math
+import numpy as np
 from nav_msgs.msg import Path
 from std_msgs.msg import Bool
 from std_msgs.msg import Empty
@@ -29,6 +30,7 @@ class rute_plan:
         self.plane_in_map = PlaneStamped()
         self.plane_in_map.vector.vector.z = 1
         self.planos_individuales=[]
+        self.Uso_varios_planos=False
         self.is_valle=False
 
         self.nav_pos_pub = rospy.Publisher("offbnode/nav", Path,queue_size=10)
@@ -47,7 +49,7 @@ class rute_plan:
 
         self.local_pose_sub = rospy.Subscriber("mavros/local_position/pose", PoseStamped, self.local_pose_cb)
         self.point_sub=rospy.Subscriber('offbnode/plano_promedio_in_map', PlaneStamped, self.plane_in_map_cb)
-        self.is_valle_sub=rospy.Subscriber('offbnode/is_valle', Bool, self.is_valle_cb)
+        self.Uso_varios_planos_sub=rospy.Subscriber('offbnode/Uso_varios_planos', Bool, self.Uso_varios_planos_cb)
         self.plane_sub=rospy.Subscriber('offbnode/plane_individual_in_map', PlaneStamped, self.plane_individual_in_map_cb)
         self.resultado_tipo_plano_sub=rospy.Subscriber('offbnode/tipo_plano', TypePlane, self.resultado_tipo_plano_cb)
 
@@ -149,7 +151,7 @@ class rute_plan:
         Punto_Plano = Point()
         Punto_Plano.x=p_x_y.x
         Punto_Plano.y=p_x_y.y
-        if(self.is_valle):
+        if(self.Uso_varios_planos):
             j=[]
             for i in self.planos_individuales:
                 v=i.vector.vector
@@ -176,15 +178,26 @@ class rute_plan:
             y = t * sin_theta
             # Si el punto (x, y) está fuera del cuadrilátero, regresar ese punto
             if x < p1[0] or x > p2[0] or y < p1[1] or y > p2[1]:
-                rospy.loginfo("interseccion : x=%f, y=%f", x, y)
+                rospy.logdebug("Punto de medida : x=%f, y=%f", x, y)
                 return (x*0.9, y*0.9)
             t += incremento
 
     def calcular_ruta(self):
-        if(self.angulo_automatico and self.plane_in_map.vector.vector.x !=0 and self.plane_in_map.vector.vector.y !=0):
+        if(self.angulo_automatico and not(self.Uso_varios_planos) and self.plane_in_map.vector.vector.x !=0 and self.plane_in_map.vector.vector.y !=0):
             angulo_entrada = math.atan2(self.plane_in_map.vector.vector.y,self.plane_in_map.vector.vector.x)
             angulo_entrada *= R_to_G
             angulo_entrada += 90
+        if(self.angulo_automatico and self.Uso_varios_planos and len(self.planos_individuales)>2):
+            normal1 = np.array([self.planos_individuales[1].vector.vector.x,
+                                self.planos_individuales[1].vector.vector.y,
+                                self.planos_individuales[1].vector.vector.z])
+            normal2 = np.array([self.planos_individuales[2].vector.vector.x,
+                                self.planos_individuales[2].vector.vector.y,
+                                self.planos_individuales[2].vector.vector.z])
+            direction = np.cross(normal1, normal2)
+            angulo_entrada = math.atan2(direction[1],direction[0])
+            angulo_entrada *= R_to_G
+            # angulo_entrada += 90
         else:
             angulo_entrada = self.angulo_entrada
         #calculo de variables de vuelo
@@ -408,8 +421,8 @@ class rute_plan:
         self.cerca_pub.publish(cerca)
         self.cerca_max_pub.publish(cerca_max)
 
-    def is_valle_cb(self,msg):
-        self.is_valle=msg.data
+    def Uso_varios_planos_cb(self,msg):
+        self.Uso_varios_planos=msg.data
 
     def plane_individual_in_map_cb(self,msg):
         self.planos_individuales.append(copy.deepcopy(msg))
@@ -479,11 +492,13 @@ class rute_plan:
         self.posiciones_toma_de_altura = []
         if(msg.type=="pradera"):
             rospy.logdebug("Sin toma de medidas de altura")
+            self.Uso_varios_planos=False
             self.is_valle=False
         elif(msg.type=="ladera"):
             rospy.logdebug("Toma de 2 medidas de altura")
             rospy.logdebug(msg.max)
-            self.is_valle=True
+            self.Uso_varios_planos=True
+            self.is_valle=False
             # primer punto
             punto_de_medida =PoseStamped()
             punto_de_medida.pose.position.x=0
@@ -498,18 +513,13 @@ class rute_plan:
         elif(msg.type=="valle"):
             rospy.logdebug("Toma de 3 medidas de altura")
             rospy.logdebug(msg.max)
+            self.Uso_varios_planos=True
             self.is_valle=True
             # primer punto
             plane=PlaneStamped()
             plane.header.frame_id = "map"
             plane.vector.vector.z=1
             self.planos_individuales.append(plane)
-
-            # punto_de_medida =PoseStamped()
-            # punto_de_medida.pose.position.x=0
-            # punto_de_medida.pose.position.y=0
-            # punto_de_medida.pose.position.z=self.H
-            # self.posiciones_toma_de_altura.append(punto_de_medida)
             # segundo punto
             punto_de_medida =PoseStamped()
             punto_de_medida.pose.position.x , punto_de_medida.pose.position.y = self.punto_medio_unica_funcion(msg.max[0]*15)
