@@ -9,23 +9,12 @@ sudo apt-get install -y curl
 curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 sudo apt-get update
 
-sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest
-sudo apt-get install -y python3-pip
-sudo apt-get install -y ros-melodic-desktop
-
-sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+sudo apt-get install -y git python3-dev python3-numpy python3-py python3-pytest python3-opencv python3-pip ros-melodic-desktop-full python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential ros-melodic-desktop libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config python-dev python-numpy python-py python-pytest python-pip python-jinja2 ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
 
 
-## Instalacion de librerias sobre las que open -cv depnede
-sudo apt-get install -y libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config
-
-sudo apt-get install -y python-dev python-numpy python-py python-pytest python-pip python-jinja2
-
-sudo pip install numpy toml
-sudo pip3 install catkin_pkg rospkg tensorflow scikit-learn seaborn
-sudo apt-get install -y ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
-
-sudo apt-get install -y git
+pip install numpy toml
+pip3 install --upgrade pip
+pip3 install catkin_pkg rospkg tensorflow scikit-learn seaborn
 
 # curl -sSL http://get.gazebosim.org | sh
 #echo "export SVGA_VGPU10=0" >> ~/.bashrc
