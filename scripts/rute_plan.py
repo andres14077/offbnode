@@ -192,7 +192,7 @@ class rute_plan:
             angulo_entrada = math.atan2(self.plane_in_map.vector.vector.y,self.plane_in_map.vector.vector.x)
             angulo_entrada *= R_to_G
             angulo_entrada += 90
-        if(self.angulo_automatico and self.Uso_varios_planos and self.is_valle and len(self.planos_individuales)>2):
+        elif(self.angulo_automatico and self.Uso_varios_planos and self.is_valle and len(self.planos_individuales)>2):
             normal1 = np.array([self.planos_individuales[1].vector.vector.x,
                                 self.planos_individuales[1].vector.vector.y,
                                 self.planos_individuales[1].vector.vector.z])
