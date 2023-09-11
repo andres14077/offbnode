@@ -183,10 +183,10 @@ class rute_plan:
             t += incremento
 
     def calcular_ruta(self):
-        rospy.rospy.loginfo(self.angulo_automatico)
-        rospy.rospy.loginfo(self.Uso_varios_planos)
-        rospy.rospy.loginfo(self.is_valle)
-        rospy.rospy.loginfo(not(self.is_valle))
+        rospy.loginfo(self.angulo_automatico)
+        rospy.loginfo(self.Uso_varios_planos)
+        rospy.loginfo(self.is_valle)
+        rospy.loginfo(not(self.is_valle))
 
         if(self.angulo_automatico and self.Uso_varios_planos and not(self.is_valle) and self.plane_in_map.vector.vector.x !=0 and self.plane_in_map.vector.vector.y !=0):
             angulo_entrada = math.atan2(self.plane_in_map.vector.vector.y,self.plane_in_map.vector.vector.x)
