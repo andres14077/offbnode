@@ -4,6 +4,11 @@ services:
   ros_melodic_px4:
     build:
       context: .
+    # mem_limit: 12g
+    # cpus: 12
+    # devices:
+    #   - '/dev/kfd'
+    #   - '/dev/dri'
     # restart: unless-stopped
     # ports:
     #   - "80:80"

@@ -2,7 +2,8 @@ FROM ros:melodic-perception AS build
 SHELL ["/bin/bash", "-c"]
 WORKDIR /root
 RUN mkdir -p catkin_ws/src
-RUN sudo apt-get update;sudo apt-get -y upgrade;sudo apt-get --fix-broken install -y;sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list';sudo apt-get install -y curl;curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -;sudo apt-get update
+RUN sudo apt-get update;sudo apt-get -y upgrade;sudo apt-get --fix-broken install -y;sudo apt-get install -y curl;sudo apt-get update
+RUN sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list';sudo apt-get install -y curl wget;wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add - ;sudo apt-get update;sudo apt-get upgrade
 
 RUN sudo apt-get install -y git python3-dev python3-numpy python3-py python3-pytest python3-opencv python3-pip python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential ros-melodic-desktop libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config python-dev python-numpy python-py python-pytest python-pip python-jinja2 ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav*
 
@@ -18,13 +19,15 @@ RUN source /root/.bashrc;source /opt/ros/melodic/setup.bash;cd ~/catkin_ws/src;g
 
 RUN git clone git://git.code.sourceforge.net/p/geographiclib/code geographiclib;cd geographiclib;mkdir BUILD;cd BUILD;cmake ..;cmake -D CMAKE_INSTALL_PREFIX=/usr/ -D GEOGRAPHICLIB_DATA=/usr/share/GeographicLib -D GEOGRAPHICLIB_LIB_TYPE=SHARED -D CMAKE_BUILD_TYPE=Release .;make ;make test ;sudo make install;wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh;sudo bash ./install_geographiclib_datasets.sh
 
-RUN git clone https://github.com/PX4/Firmware.git;cd ~/Firmware;git checkout v1.9.0;DONT_RUN=1 make px4_sitl_default gazebo
+RUN git clone https://github.com/PX4/Firmware.git;cd ~/Firmware;git checkout v1.9.0
+RUN cd ~/Firmware;DONT_RUN=1 make px4_sitl_default gazebo; sed -i 's/TRUE/true/g' /root/Firmware/Tools/sitl_gazebo/include/gazebo_opticalflow_plugin.h;DONT_RUN=1 make px4_sitl_default gazebo
 
 RUN echo "pushd ~/Firmware" >> ~/.bashrc;echo "source Tools/setup_gazebo.bash \$(pwd) \$(pwd)/build/px4_sitl_default" >> ~/.bashrc;echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$(pwd)" >> ~/.bashrc;echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$(pwd)/Tools/sitl_gazebo" >> ~/.bashrc;echo "popd" >> ~/.bashrc
 COPY ./ /root/catkin_ws/src/offbnode/
 RUN source /root/.bashrc;source /opt/ros/melodic/setup.bash;cd /root/catkin_ws;rosdep check --from-paths . --ignore-src --rosdistro melodic;rosdep install --from-paths . --ignore-src --rosdistro melodic -y;catkin_make;catkin_make
 RUN cd ~/Firmware;cp /root/catkin_ws/src/offbnode/src/gazebo_gimbal_controller_plugin.cpp ~/Firmware/Tools/sitl_gazebo/src/gazebo_gimbal_controller_plugin.cpp;DONT_RUN=1 make px4_sitl_default gazebo
 RUN source /root/catkin_ws/src/offbnode/source/Copiar_modelos_y_configuraciones.sh
+RUN cd ~/Firmware;DONT_RUN=1 make px4_sitl_default gazebo
 
 
 

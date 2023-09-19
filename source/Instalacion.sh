@@ -16,7 +16,15 @@ pip install numpy toml
 pip3 install --upgrade pip
 pip3 install catkin_pkg rospkg tensorflow scikit-learn seaborn
 
-# curl -sSL http://get.gazebosim.org | sh
+
+# Actualizar gazebo
+sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
+wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
+sudo apt-get update
+sudo apt-get upgrade
+
+
+
 #echo "export SVGA_VGPU10=0" >> ~/.bashrc
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
@@ -81,50 +89,6 @@ catkin_make
 catkin_make
 sudo apt-get update
 
-# clonar paquete image_common
-# cd ~/catkin_ws/src
-# git clone https://github.com/ros-perception/image_common.git -b noetic-devel
-# cd image_common
-# git checkout e9c8c32
-# cd ..
-# rosdep update
-# # Verificar dependencias faltantes :
-# rosdep check --from-paths . --ignore-src --rosdistro  melodic
-# # Instalar dependencias faltantes :
-# rosdep install --from-paths . --ignore-src --rosdistro melodic -y
-# cd ~/catkin_ws/
-# catkin_make
-# catkin_make
-# catkin_make
-# clonar el paquete image_geometry de vision_opencv . No se clona el repositorio
-# directamente en el workspace , pues ya se tiene el paquete de cv_bridge que
-# compila con soporte para GPU.
-
-# mkdir ~/Documents
-# cd ~/Documents
-# git clone https://github.com/ros-perception/vision_opencv.git -b noetic
-# cd vision_opencv
-# git checkout e9c8c32
-# cp -r ~/Documents/vision_opencv/image_geometry  ~/catkin_ws/src/image_geometry
-# sudo apt-get update
-# cd ~/catkin_ws/src
-# git clone https://github.com/ros-visualization/rqt_image_view.git
-# cd rqt_image_view
-# git checkout f6abb6a
-# cd ..
-# cd rqt_common_plugins
-# git clone https://github.com/ros-visualization/rqt_common_plugins.git
-# git checkout 0.4.9
-# cd ..
-# rosdep update
-# # Verificar dependencias faltantes :
-# rosdep check --from-paths . --ignore-src --rosdistro melodic
-# # Instalar dependencias faltantes :
-# rosdep install --from-paths . --ignore-src --rosdistro melodic -y
-# cd ~/catkin_ws/
-# catkin_make
-# catkin_make
-# catkin_make
 ### Instalacion Geographic-Lib y mavros
 cd
 git clone git://git.code.sourceforge.net/p/geographiclib/code geographiclib
@@ -138,12 +102,6 @@ make test # run some tests
 sudo make install
 wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh
 sudo bash ./install_geographiclib_datasets.sh
-
-# cd ~/catkin_ws/
-# catkin_make
-# catkin_make
-# catkin_make
-
 
 ###Firmware
 
