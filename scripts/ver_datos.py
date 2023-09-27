@@ -6,7 +6,8 @@ import pandas as pd
 import sys
 
 # define el nombre del archivo CSV
-archivo = '/home/andres/offbnode/database.csv'
+# archivo = '/home/andres/offbnode/database.csv'
+archivo = '/home/andres/catkin_ws/src/offbnode/database.csv'
 
 # carga el archivo CSV en un DataFrame de Pandas
 df = pd.read_csv(archivo)

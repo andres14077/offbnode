@@ -8,7 +8,7 @@ from rute_plan import rute_plan
 from depth_image_to_midas import Depth_image_to_midas
 from detector_valle import Detector_valle
 from geometry_msgs.msg import PoseStamped
-from std_srvs.srv import Trigger,Empty
+from std_srvs.srv import Trigger,Empty,EmptyResponse
 import std_msgs.msg as std_msgs
 
 class Maestro:
@@ -27,6 +27,7 @@ class Maestro:
         self.Iniciar_Evaluacion_Altura_pub.publish()
         self.calcular_ruta_client()
         self.Terminar_Evaluacion_Altura_pub.publish()
+        return EmptyResponse()
 
 
 if __name__ == '__main__':
