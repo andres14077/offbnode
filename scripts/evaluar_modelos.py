@@ -128,8 +128,8 @@ plt.xscale("log")
 #     plt.annotate(nombre, (tiempos[i], precisiones[i]), fontsize=9, alpha=0.7)
 
 
-plt.xlabel('FPS')
-plt.ylabel('Tamaño')
+plt.xlabel('FPS (Hz)')
+plt.ylabel('Tamaño (Kb)')
 plt.title('FPS vs Tamaño')
 # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), title='Modelos')  # Ubica la leyenda a la derecha de la gráfica
 plt.tight_layout()
