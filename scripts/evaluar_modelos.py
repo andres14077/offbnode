@@ -84,25 +84,25 @@ for i in archivos_h5:
         tamaños.append(tamaño_archivo)
         nombres_archivos.append(remove_suffix(i,'.h5'))
 
-for i in archivos_joblib:
-    ruta_modelo = carpeta + i
-    modelo_cargado = load(ruta_modelo)
-    y_pred_svm = modelo_cargado.predict(X)
-    test_acc = accuracy_score(y_encoded, y_pred_svm)
-    tamaño_archivo = os.path.getsize(ruta_modelo)
+# for i in archivos_joblib:
+#     ruta_modelo = carpeta + i
+#     modelo_cargado = load(ruta_modelo)
+#     y_pred_svm = modelo_cargado.predict(X)
+#     test_acc = accuracy_score(y_encoded, y_pred_svm)
+#     tamaño_archivo = os.path.getsize(ruta_modelo)
 
-    inicio = time.time()
-    # Ejecuta tu red neuronal aquí (por ejemplo, haciendo predicciones)
-    predicciones = modelo_cargado.predict(np.reshape(X[0],(1, 25)))
-    fin = time.time()
+#     inicio = time.time()
+#     # Ejecuta tu red neuronal aquí (por ejemplo, haciendo predicciones)
+#     predicciones = modelo_cargado.predict(np.reshape(X[0],(1, 25)))
+#     fin = time.time()
 
-    tiempo_ejecucion = fin - inicio
+#     tiempo_ejecucion = fin - inicio
 
-    if (test_acc>0.9):
-        tiempos.append(1/tiempo_ejecucion)
-        precisiones.append(test_acc)
-        tamaños.append(tamaño_archivo)
-        nombres_archivos.append(remove_suffix(i,'.joblib'))
+#     if (test_acc>0.9):
+#         tiempos.append(1/tiempo_ejecucion)
+#         precisiones.append(test_acc)
+#         tamaños.append(tamaño_archivo)
+#         nombres_archivos.append(remove_suffix(i,'.joblib'))
 
 tamaños_10=[]
 for i in tamaños:
