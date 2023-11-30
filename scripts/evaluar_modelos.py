@@ -106,7 +106,7 @@ for i in archivos_joblib:
 
 tamaños_10=[]
 for i in tamaños:
-    tamaños_10.append(i/1000000)
+    tamaños_10.append(i/1000)
 
 precisiones_10=[]
 for i in precisiones:
