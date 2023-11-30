@@ -113,13 +113,13 @@ for i in precisiones:
     precisiones_10.append(i*100)
 
 
-# colores = plt.cm.plasma(np.linspace(0, 1, len(tiempos)))
-# for i in range(len(tiempos)):
-#     plt.scatter(tiempos[i], tamaños_10[i], s=precisiones_10[i], color=colores[i], alpha=0.9,edgecolor='black', label=nombres_archivos[i])
-plt.scatter(tiempos, tamaños_10, alpha=0.9,edgecolor='black', label=nombres_archivos)
+colores = plt.cm.plasma(np.linspace(0, 1, len(tiempos)))
+for i in range(len(tiempos)):
+    plt.scatter(tiempos[i], tamaños_10[i], s=precisiones_10[i], color=colores[i], alpha=0.9,edgecolor='black', label=nombres_archivos[i])
+# plt.scatter(tiempos, tamaños_10, alpha=0.9,edgecolor='black', label=nombres_archivos)
 # Crear una leyenda con puntos de tamaño uniforme
-# legend_elements = [plt.Line2D([0], [0], marker='o', color='w', label=nombres_archivos[i], markersize=10, markerfacecolor=colores[i]) for i in range(len(tiempos))]
-# plt.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(1, 0.5), title='Modelos')
+legend_elements = [plt.Line2D([0], [0], marker='o', color='w', label=nombres_archivos[i], markersize=10, markerfacecolor=colores[i]) for i in range(len(tiempos))]
+plt.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(1, 0.5), title='Modelos')
 # Anotar cada punto con el nombre del archivo
 plt.yscale("log")
 plt.xscale("log")
