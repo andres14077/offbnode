@@ -60,9 +60,7 @@ class Midas_tf:
         depth_max = img_inversa.max()
         img_profundidad = (depth_max - img_inversa)/100
 
-        img_procesada=copy.deepcopy(img_profundidad)
-        img_procesada.append(copy.deepcopy(img_profundidad))
-        img_procesada.append(copy.deepcopy(img_profundidad))
+        img_procesada=cv2.cvtColor(img_procesada, cv2.COLOR_GRAY2RGB)
 
         for i in range(img_profundidad.shape[0]):
             for j in range(img_profundidad.shape[1]):
