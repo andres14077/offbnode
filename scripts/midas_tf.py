@@ -71,9 +71,13 @@ class Midas_tf:
         rospy.logdebug(img_profundidad.max())
         # img_out = (65535 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint16")
 
-        cv2.imwrite("/tmp/imagen_original"+str(self.numero_de_tomas)+".png",img_resized)
+        cv2.imwrite("/tmp/imagen_original"+str(self.numero_de_tomas)+".png",img)
         cv2.imwrite("/tmp/imagen_profundidad"+str(self.numero_de_tomas)+".png",img_profundidad)
         cv2.imwrite("/tmp/imagen_profundidad"+str(self.numero_de_tomas)+".png",img_procesada)
+
+        self.numero_de_tomas+=1
+
+
         msg_image=self._cv_bridge.cv2_to_imgmsg(img_profundidad)
         msg_image.header.frame_id="iris_gimbal/cgo3_camera_optical_link"
         msg_image.header.stamp = rospy.Time.now()
