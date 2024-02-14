@@ -6,6 +6,7 @@ from sensor_msgs.msg import Image,CameraInfo
 from cv_bridge import CvBridge
 import rospkg
 import cv2
+import copy
 import tensorflow as tf
 gpu_devices = tf.config.experimental.list_physical_devices('GPU')
 for device in gpu_devices:
@@ -27,7 +28,9 @@ class Midas_tf:
         self.tensor_service = rospy.Service("offbnode/tensor_flow_start", Empty, self.Tensor_Callback)
         self.image_raw_sub=rospy.Subscriber("iris_gimbal/resized/camera_info", CameraInfo, self.camera_info_cb)
         self.depth_image_pub = rospy.Publisher("offbnode/depth/image_raw", Image,queue_size=10)
+        self.depth_image_2_pub = rospy.Publisher("offbnode/depth/image_procesada", Image,queue_size=10)
         self.depth_camera_info_pub = rospy.Publisher("offbnode/depth/camera_info", CameraInfo,queue_size=10)
+        self.numero_de_tomas=0
 
     def camera_info_cb(self,msg):
         self.camera_info=msg
@@ -57,9 +60,22 @@ class Midas_tf:
         depth_max = img_inversa.max()
         img_profundidad = (depth_max - img_inversa)/100
 
+        img_procesada=copy.deepcopy(img_profundidad)
+        img_procesada.append(copy.deepcopy(img_profundidad))
+        img_procesada.append(copy.deepcopy(img_profundidad))
+
+        for i in range(img_profundidad.shape[0]):
+            for j in range(img_profundidad.shape[1]):
+                if(img_profundidad[i,j]>(depth_max*0.8)):
+                    img_procesada[i,j] = [255,100,0]
+
         rospy.logdebug("valor maximo depth_max")
         rospy.logdebug(img_profundidad.max())
         # img_out = (65535 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint16")
+
+        cv2.imwrite("/tmp/imagen_original"+self.numero_de_tomas+".png",img_resized)
+        cv2.imwrite("/tmp/imagen_profundidad"+self.numero_de_tomas+".png",img_profundidad)
+        cv2.imwrite("/tmp/imagen_profundidad"+self.numero_de_tomas+".png",img_procesada)
         msg_image=self._cv_bridge.cv2_to_imgmsg(img_profundidad)
         msg_image.header.frame_id="iris_gimbal/cgo3_camera_optical_link"
         msg_image.header.stamp = rospy.Time.now()
