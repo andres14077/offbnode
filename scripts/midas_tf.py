@@ -60,7 +60,7 @@ class Midas_tf:
         depth_max = img_inversa.max()
         img_profundidad = (depth_max - img_inversa)/100
 
-        img_procesada=cv2.cvtColor(img_profundidad, cv2.COLOR_GRAY2RGB)
+        img_procesada=cv2.cvtColor(img_profundidad/depth_max, cv2.COLOR_GRAY2RGB)
         rospy.logdebug(img_profundidad)
         rospy.logdebug(img_procesada)
         for i in range(img_profundidad.shape[0]):
@@ -73,7 +73,7 @@ class Midas_tf:
         # img_out = (65535 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint16")
 
         cv2.imwrite("/tmp/imagen_original"+str(self.numero_de_tomas)+".png",255*img)
-        cv2.imwrite("/tmp/imagen_profundidad"+str(self.numero_de_tomas)+".png",255*img_profundidad)
+        cv2.imwrite("/tmp/imagen_profundidad"+str(self.numero_de_tomas)+".png",255*img_profundidad/depth_max)
         cv2.imwrite("/tmp/imagen_procesada"+str(self.numero_de_tomas)+".png",255*img_procesada)
 
         self.numero_de_tomas+=1
