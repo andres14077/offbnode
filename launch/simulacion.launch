@@ -62,8 +62,8 @@
 <!-- capturar imagenes de vuelo fotogrametrico -->
     <!-- <node type="capture_for_px4.py" name="capture_for_px4" pkg="offbnode" output="screen" args="$(env HOME)/Capture_px4/$(arg carpeta_imagenes)" /> -->
 
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" />
-    <node type="model_to_rviz.py" name="model_to_rviz" pkg="offbnode" output="screen" args="$(arg mundo)" />
+    <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find offbnode)/rviz/nav.rviz" />
+    <node type="model_to_rviz.py" name="model_to_rviz" pkg="offbnode" output="screen" args="$(arg mundo)" /> -->
 
 
 </launch>
