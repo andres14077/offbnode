@@ -72,7 +72,7 @@ class Midas_tf:
         for i in range(img_profundidad.shape[0]):
             for j in range(img_profundidad.shape[1]):
                 if(img_profundidad[i,j]>(depth_max*0.8)):
-                    img_procesada[i,j] = [255,100,0]
+                    img_procesada[i,j] = [0,img_procesada[i,j,0]*0.5,img_procesada[i,j,0]]
 
         rospy.logdebug("valor maximo depth_max")
         rospy.logdebug(depth_max)
