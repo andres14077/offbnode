@@ -71,7 +71,9 @@ class Midas_tf:
         # rospy.logdebug(img_procesada)
         for i in range(img_profundidad.shape[0]):
             for j in range(img_profundidad.shape[1]):
+                rospy.logdebug(img_profundidad[i,j])
                 if(img_profundidad[i,j]>(depth_max*0.8)):
+                    rospy.logdebug("cambio de color")
                     img_procesada[i,j] = [255,100,0]
 
         rospy.logdebug("valor maximo depth_max")
