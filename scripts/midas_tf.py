@@ -8,6 +8,7 @@ import rospkg
 import cv2
 import copy
 import tensorflow as tf
+import numpy as np
 gpu_devices = tf.config.experimental.list_physical_devices('GPU')
 for device in gpu_devices:
     tf.config.experimental.set_memory_growth(device, True)
@@ -60,9 +61,14 @@ class Midas_tf:
         depth_max = img_inversa.max()
         img_profundidad = (depth_max - img_inversa)/100
 
-        img_procesada=cv2.cvtColor(img_profundidad/depth_max, cv2.COLOR_GRAY2RGB)
-        rospy.logdebug(img_profundidad)
-        rospy.logdebug(img_procesada)
+
+        imagen_profundidad_normalizada = cv2.normalize(img_profundidad, None, 0, 255, cv2.NORM_MINMAX)
+        # # Convertir a 8 bits
+        # imagen_profundidad_normalizada = np.uint8(imagen_profundidad_normalizada)
+
+        img_procesada=cv2.cvtColor(imagen_profundidad_normalizada, cv2.COLOR_GRAY2RGB)
+        # rospy.logdebug(img_profundidad)
+        # rospy.logdebug(img_procesada)
         for i in range(img_profundidad.shape[0]):
             for j in range(img_profundidad.shape[1]):
                 if(img_profundidad[i,j]>(depth_max*0.8)):
@@ -73,8 +79,8 @@ class Midas_tf:
         # img_out = (65535 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint16")
 
         cv2.imwrite("/tmp/imagen_original"+str(self.numero_de_tomas)+".png",255*img)
-        cv2.imwrite("/tmp/imagen_profundidad"+str(self.numero_de_tomas)+".png",255*img_profundidad/depth_max)
-        cv2.imwrite("/tmp/imagen_procesada"+str(self.numero_de_tomas)+".png",255*img_procesada)
+        cv2.imwrite("/tmp/imagen_profundidad"+str(self.numero_de_tomas)+".png",imagen_profundidad_normalizada)
+        cv2.imwrite("/tmp/imagen_procesada"+str(self.numero_de_tomas)+".png",img_procesada)
 
         self.numero_de_tomas+=1
 
