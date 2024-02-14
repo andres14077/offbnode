@@ -60,7 +60,7 @@ class Midas_tf:
         # depth_min = img_inversa.min()
         depth_max = img_inversa.max()
         img_profundidad = (depth_max - img_inversa)/100
-
+        depth_max = img_profundidad.max()
 
         imagen_profundidad_normalizada = cv2.normalize(img_profundidad, None, 0, 255, cv2.NORM_MINMAX)
         # # Convertir a 8 bits
@@ -71,13 +71,11 @@ class Midas_tf:
         # rospy.logdebug(img_procesada)
         for i in range(img_profundidad.shape[0]):
             for j in range(img_profundidad.shape[1]):
-                rospy.logdebug(img_profundidad[i,j])
                 if(img_profundidad[i,j]>(depth_max*0.8)):
-                    rospy.logdebug("cambio de color")
                     img_procesada[i,j] = [255,100,0]
 
         rospy.logdebug("valor maximo depth_max")
-        rospy.logdebug(img_profundidad.max())
+        rospy.logdebug(depth_max)
         # img_out = (65535 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint16")
 
         cv2.imwrite("/tmp/imagen_original"+str(self.numero_de_tomas)+".png",255*img)
