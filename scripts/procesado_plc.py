@@ -158,8 +158,8 @@ class procesado_plc:
         p1 =Point32()
         factor=2*np.pi/len(self.fondos)
         for i in range(len(self.fondos)):
-            p1.x=5*np.cos(i*factor)
-            p1.y=5*np.sin(i*factor)
+            p1.x=50*np.cos(i*factor)
+            p1.y=50*np.sin(i*factor)
             p1.z=100-self.fondos[i]
             poligono_fondo.polygon.points.append(copy.deepcopy(p1))
         self.poligono_fondo_pub.publish(poligono_fondo)
