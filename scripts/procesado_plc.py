@@ -6,6 +6,7 @@ import sensor_msgs.point_cloud2 as pc2
 from std_msgs.msg import Bool
 from std_msgs.msg import Empty
 from sensor_msgs.msg import PointCloud2
+from geometry_msgs.msg import PolygonStamped,Point32
 from offbnode.msg import PlaneStamped
 # import matplotlib.pyplot as plt
 # import statistics
@@ -39,6 +40,7 @@ class procesado_plc:
 
         self.point_cloud_depth_ok_pub=rospy.Publisher('offbnode/depth_ok', Empty, queue_size=10)
         self.resultado_tipo_plano_pub=rospy.Publisher('offbnode/tipo_plano', TypePlane, queue_size=10)
+        self.poligono_fondo_pub = rospy.Publisher("offbnode/poligono_fondo", PolygonStamped,queue_size=10)
 
         rospack = rospkg.RosPack()
         # self.archivo = rospack.get_path('offbnode')+'/database.csv'
@@ -148,6 +150,19 @@ class procesado_plc:
         #     writer.writerow(self.fondos)  # escribe la nueva línea al final del archivo CSV
         respuesta = TypePlane()
 
+        poligono_fondo = PolygonStamped()
+
+        poligono_fondo.header.stamp=rospy.Time.now()
+        poligono_fondo.header.frame_id="map"
+
+        p1 =Point32()
+        factor=2*np.pi/len(self.fondos)
+        for i in range(len(self.fondos)):
+            p1.x=5*np.cos(i*factor)
+            p1.y=5*np.sin(i*factor)
+            p1.z=100-self.fondos(i)
+            poligono_fondo.polygon.points.append(copy.deepcopy(p1))
+        self.poligono_fondo_pub.publish(poligono_fondo)
         rospy.logdebug(self.fondos)
         X_tensor=np.reshape(self.fondos,(1, 25))
         X_tensor = tf.convert_to_tensor(X_tensor, dtype=tf.float32)
