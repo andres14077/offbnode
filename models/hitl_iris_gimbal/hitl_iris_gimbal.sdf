@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
-  <model name='hitl_iris_gimbal'>
+  <model name='iris_gimbal'>
     <pose>0 0 0.26 0 0 0</pose>
     <link name='base_link'>
       <pose frame=''>0 0 0 0 -0 0</pose>
