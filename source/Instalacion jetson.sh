@@ -1,5 +1,21 @@
 #!/bin/bash -x
 #
+
+sudo apt-get update
+sudo apt-get install -y python3-pip pkg-config
+sudo apt-get install -y libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev liblapack-dev libblas-dev gfortran
+ln -s /usr/include/locale.h /usr/include/xlocale.h
+pip3 install --verbose 'protobuf<4' 'Cython<3'
+pip3 install pkgconfig
+git clone https://github.com/h5py/h5py.git
+cd h5py/
+git checkout 3.1.0
+git cherry-pick 3bf862daa4ebeb2eeaf3a0491e05f5415c1818e4
+H5PY_SETUP_REQUIRES=0 pip3 install . --no-deps --no-build-isolation
+sudo pip3 install -U numpy==1.19.4 future mock keras_preprocessing keras_applications gast==0.2.1 protobuf pybind11 packaging
+sudo pip3 install --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v461 tensorflow
+
+
 cd
 mkdir -p catkin_ws/src
 sudo apt-get update
