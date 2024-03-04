@@ -25,14 +25,11 @@ sudo apt-get install -y curl
 curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 sudo apt-get update
 
-sudo apt-get install -y git python3-dev python3-numpy python3-py python3-pytest python3-pip ros-melodic-base python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config python-dev python-numpy python-py python-pytest python-pip python-jinja2 ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav* libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev liblapack-dev libblas-dev gfortran
+sudo apt-get install -y git python3-dev python3-numpy python3-py python3-pytest python3-pip ros-melodic-ros-base python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config python-dev python-numpy python-py python-pytest python-pip python-jinja2 ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav* libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev liblapack-dev libblas-dev gfortran
 
 pip install numpy toml
 pip3 install --upgrade pip
 pip3 install catkin_pkg rospkg scikit-learn seaborn testresources setuptools
-sudo ln -s /usr/include/locale.h /usr/include/xlocale.h
-pip3 install -U future mock keras_preprocessing keras_applications gast protobuf pybind11 cython pkgconfig packaging
-pip3 install --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v461 tensorflow
 
 # Actualizar gazebo
 sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
