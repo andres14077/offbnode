@@ -9,7 +9,7 @@ sudo apt-get install -y curl
 curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 sudo apt-get update
 
-sudo apt-get install -y git python3-dev python3-numpy python3-py python3-pytest python3-opencv python3-pip ros-melodic-base python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config python-dev python-numpy python-py python-pytest python-pip python-jinja2 ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav* libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev liblapack-dev libblas-dev gfortran
+sudo apt-get install -y git python3-dev python3-numpy python3-py python3-pytest python3-pip ros-melodic-base python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential libglew-dev libtiff5-dev zlib1g-dev libjpeg-dev libavcodec-dev libavformat-dev libavutil-dev libpostproc-dev libswscale-dev libeigen3-dev libtbb-dev libgtk2.0-dev pkg-config python-dev python-numpy python-py python-pytest python-pip python-jinja2 ros-melodic-control* ros-melodic-transmission-interface ros-melodic-joint-limits-interface ros-melodic-mav* libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev liblapack-dev libblas-dev gfortran
 
 pip install numpy toml
 pip3 install --upgrade pip
@@ -106,14 +106,6 @@ sudo bash ./install_geographiclib_datasets.sh
 
 ###Firmware
 
-cd
-git clone https://github.com/PX4/Firmware.git
-cd ~/Firmware
-git checkout v1.9.0
-
-DONT_RUN=1 make px4_sitl_default gazebo
-cp ~/offbnode/src/gazebo_gimbal_controller_plugin.cpp ~/Firmware/Tools/sitl_gazebo/src/gazebo_gimbal_controller_plugin.cpp
-DONT_RUN=1 make px4_sitl_default gazebo
 
 mv ~/offbnode ~/catkin_ws/src/
 cd ~/catkin_ws
@@ -124,13 +116,3 @@ rosdep install --from-paths . --ignore-src --rosdistro melodic -y
 catkin_make
 catkin_make
 catkin_make
-
-cd ~/catkin_ws/src/offbnode
-# source source/Descargar_models.sh
-source source/Copiar_modelos_y_configuraciones.sh
-
-echo "pushd ~/Firmware" >> ~/.bashrc
-echo "source Tools/setup_gazebo.bash \$(pwd) \$(pwd)/build/px4_sitl_default" >> ~/.bashrc
-echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$(pwd)" >> ~/.bashrc
-echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$(pwd)/Tools/sitl_gazebo" >> ~/.bashrc
-echo "popd" >> ~/.bashrc
