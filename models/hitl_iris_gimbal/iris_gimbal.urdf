@@ -70,9 +70,9 @@
     <axis xyz="0 0 1"/>
     <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0"/>
   </joint>
-  <joint name="hitl_iris_gimbal/cgo3_camera_optical_joint" type="fixed">
+  <joint name="iris_gimbal/cgo3_camera_optical_joint" type="fixed">
     <parent link="cgo3_camera_link"/>
-    <child link="hitl_iris_gimbal/cgo3_camera_optical_link"/>
+    <child link="iris_gimbal/cgo3_camera_optical_link"/>
     <origin xyz="0   -0.03  0" rpy="-1.57079  0  1.57079"/>
     <axis xyz="0 0 1"/>
     <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0"/>
@@ -106,7 +106,7 @@
     <visual name="base_link_inertia_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://offbnode/models/hitl_iris_gimbal/meshes/iris.stl" scale="1 1 1"/>
+        <mesh filename="package://offbnode/models/iris_gimbal/meshes/iris.stl" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
@@ -132,7 +132,7 @@
     <visual name="rotor_0_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://offbnode/models/hitl_iris_gimbal/meshes/iris_prop_ccw.dae" scale="1 1 1"/>
+        <mesh filename="package://offbnode/models/iris_gimbal/meshes/iris_prop_ccw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
@@ -151,7 +151,7 @@
     <visual name="rotor_1_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://offbnode/models/hitl_iris_gimbal/meshes/iris_prop_ccw.dae" scale="1 1 1"/>
+        <mesh filename="package://offbnode/models/iris_gimbal/meshes/iris_prop_ccw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
@@ -170,7 +170,7 @@
     <visual name="rotor_2_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://offbnode/models/hitl_iris_gimbal/meshes/iris_prop_cw.dae" scale="1 1 1"/>
+        <mesh filename="package://offbnode/models/iris_gimbal/meshes/iris_prop_cw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
@@ -189,7 +189,7 @@
     <visual name="rotor_3_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://offbnode/models/hitl_iris_gimbal/meshes/iris_prop_cw.dae" scale="1 1 1"/>
+        <mesh filename="package://offbnode/models/iris_gimbal/meshes/iris_prop_cw.dae" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>
@@ -202,7 +202,7 @@
     <visual name="cgo3_mount_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://offbnode/models/hitl_iris_gimbal/meshes/cgo3_mount_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://offbnode/models/iris_gimbal/meshes/cgo3_mount_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
@@ -215,7 +215,7 @@
     <visual name="cgo3_vertical_arm_visual">
       <origin xyz="0.026 0    0.1" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://offbnode/models/hitl_iris_gimbal/meshes/cgo3_vertical_arm_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://offbnode/models/iris_gimbal/meshes/cgo3_vertical_arm_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
@@ -228,7 +228,7 @@
     <visual name="cgo3_horizontal_arm_visual">
       <origin xyz="-0.026  0     0.162" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://offbnode/models/hitl_iris_gimbal/meshes/cgo3_horizontal_arm_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://offbnode/models/iris_gimbal/meshes/cgo3_horizontal_arm_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
@@ -247,7 +247,7 @@
     <visual name="cgo3_camera_visual">
       <origin xyz="0.041 -0.03   0.162" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://offbnode/models/hitl_iris_gimbal/meshes/cgo3_camera_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://offbnode/models/iris_gimbal/meshes/cgo3_camera_remeshed_v1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
@@ -258,7 +258,7 @@
       <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
     </inertial>
   </link>
-  <link name="hitl_iris_gimbal/cgo3_camera_optical_link">
+  <link name="iris_gimbal/cgo3_camera_optical_link">
     <inertial>
       <mass value="1e-9"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -286,7 +286,7 @@
     <visual name="base_link_left_leg">
       <origin xyz="-0.00025  0.04051  0.048" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://offbnode/models/hitl_iris_gimbal/meshes/leg2_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://offbnode/models/iris_gimbal/meshes/leg2_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
@@ -311,7 +311,7 @@
     <visual name="base_link_right_leg">
       <origin xyz="-0.00025 -0.04051  0.048" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://offbnode/models/hitl_iris_gimbal/meshes/leg1_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://offbnode/models/iris_gimbal/meshes/leg1_remeshed_v3.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
   </link>
