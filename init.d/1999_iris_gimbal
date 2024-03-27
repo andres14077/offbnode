@@ -42,3 +42,6 @@ fi
 set MAV_TYPE 2
 
 set MIXER quad_w
+set MIXER_AUX mount_legs
+set AUX_MODE pwm
+set USE_IO yes

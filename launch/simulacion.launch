@@ -13,7 +13,7 @@
     <arg name="vehicle" default="iris_gimbal"/>
     <arg name="world" default="$(find offbnode)/worlds/$(arg mundo).world"/>
     <!-- MAVROS configs -->
-    <arg name="gcs_url" default="udp://:18570@localhost:14550"/>
+    <arg name="gcs_url" default=""/>
 
     <!-- Gazebo sim -->
     <arg name="verbose" default="false"/>

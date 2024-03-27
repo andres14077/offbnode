@@ -6,6 +6,8 @@ import sys
 import rospkg
 
 def publish_marker():
+    if (sys.argv[1] == "pruebas"):
+        exit(0)
     marker = Marker()
     marker.header.frame_id = "/map"  # El marco de referencia en el que se ubicará el modelo
     marker.header.stamp = rospy.Time.now()
@@ -21,9 +23,9 @@ def publish_marker():
     marker.scale.x = 1.0
     marker.scale.y = 1.0
     marker.scale.z = 1.0
-    marker.color.r = 1.0
-    marker.color.g = 1.0
-    marker.color.b = 1.0
+    marker.color.r = 0.0
+    marker.color.g = 0.8
+    marker.color.b = 0.0
     marker.color.a = 1.0
     marker.mesh_resource = "package://offbnode/models/" + sys.argv[1] + "/untitled.dae"  # Ruta al archivo del modelo 3D
     marker.id = 0
