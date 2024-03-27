@@ -27,8 +27,9 @@
     <arg name="respawn_mavros" default="false"/>
     <!-- PX4 configs -->
     <arg name="interactive" default="true"/>
+    <arg name="hitl" default="false"/>
     <!-- PX4 SITL and Gazebo -->
-    <include file="$(find px4)/launch/posix_sitl.launch">
+    <include file="$(find offbnode)/launch/posix_sitl.launch">
         <arg name="x" value="$(arg x)"/>
         <arg name="y" value="$(arg y)"/>
         <arg name="z" value="$(arg z)"/>
@@ -40,6 +41,7 @@
         <arg name="sdf" value="$(arg sdf)"/>
         <arg name="gui" value="$(arg gui)"/>
         <arg name="interactive" value="$(arg interactive)"/>
+        <arg name="hitl" value="$(arg hitl)"/>
         <arg name="debug" value="$(arg debug)"/>
         <arg name="verbose" value="$(arg verbose)"/>
         <arg name="paused" value="$(arg paused)"/>
@@ -52,7 +54,7 @@
         <arg name="fcu_url" value="$(arg fcu_url)"/>
         <arg name="respawn_mavros" value="$(arg respawn_mavros)"/>
     </include>
-    <node name="servicio_de_kill_ros" pkg="offbnode" type="servicio_de_kill_ros.py" output="screen"/>
+    <!-- <node name="servicio_de_kill_ros" pkg="offbnode" type="servicio_de_kill_ros.py" output="screen"/> -->
     <param name="robot_description" textfile="$(find mavlink_sitl_gazebo)/models/iris_gimbal/iris_gimbal.urdf" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
     <!-- <node name="tf2_pub" pkg="offbnode" type="tf2_pub.py"/> -->

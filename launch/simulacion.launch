@@ -19,6 +19,9 @@
     <arg name="verbose" default="false"/>
     <arg name="paused" default="false"/>
 
+    <!-- PX$ sim -->
+    <arg name="hitl" default="false"/>
+
 <!-- nodos -->
     <include file="$(find offbnode)/launch/mavros_posix_sitl.launch">
         <arg name="world" value="$(arg world)"/>
@@ -27,6 +30,7 @@
         <arg name="vehicle" value="$(arg vehicle)"/>
         <arg name="gcs_url" value="$(arg gcs_url)"/>
         <arg name="gui" default="$(arg gui)"/>
+        <arg name="hitl" value="$(arg hitl)"/>
     </include>
 
 <!-- Navegacion -->
