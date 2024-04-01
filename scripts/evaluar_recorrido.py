@@ -27,13 +27,22 @@ class EvaluarRecorrido:
 
     def Iniciar_cb(self,msg):
         self.tomas=[]
+        self.tiempo_inicial=rospy.Time.now()
 
     def Terminar_cb(self,msg):
-        H= rospy.get_param("/maestro/Altura_vuelo")
+        self.tiempo_final=rospy.Time.now()
+        duracion = self.tiempo_final - self.tiempo_inicial
+        H = rospy.get_param("/maestro/Altura_vuelo")
+        Width_sensor = rospy.get_param("/maestro/Ancho_sensor")
+        Focal_length = rospy.get_param("/maestro/Longitud_focal")
+        Image_pix_Width = rospy.get_param("/maestro/Ancho_imagen_pix")
+        factor_GSD=(Width_sensor *100.0)/(Focal_length * Image_pix_Width)
         error=np.sqrt(np.mean(([(n - H)**2 for n in self.tomas])))
-        rospy.logwarn("Error cuadratico medio de altura: %f",error)
-        rospy.logwarn("desviacion estandar de altura: %f",np.std(self.tomas))
-        rospy.logwarn("Promedio de altura: %f",np.mean(self.tomas))
+        rospy.logwarn("Factor GSD: %f", factor_GSD)
+        rospy.logwarn("Error cuadratico medio de altura: %f cm/pix",error * factor_GSD)
+        rospy.logwarn("desviacion estandar de altura: %f cm/pix",np.std(self.tomas) * factor_GSD)
+        rospy.logwarn("Promedio de altura: %f cm/pix",np.mean(self.tomas) * factor_GSD)
+        rospy.logwarn("tiempo: %s seg",duracion.to_sec())
         self.tomas=[]
 
 
