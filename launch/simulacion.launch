@@ -3,10 +3,8 @@
     <!-- MAVROS posix SITL environment launch script -->
     <!-- launches MAVROS, PX4 SITL, Gazebo environment, and spawns vehicle -->
 
-
     <arg name="mundo" default="pruebas"/>
     <arg name="carpeta_imagenes" default="$(arg mundo)/"/>
-    <arg name="angulo_entrada" default="0"/>
 
     <!-- vehicle model and world -->
     <arg name="gui" default="false"/>
