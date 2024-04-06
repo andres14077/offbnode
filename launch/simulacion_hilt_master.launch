@@ -3,7 +3,6 @@
     <!-- MAVROS posix SITL environment launch script -->
     <!-- launches MAVROS, PX4 SITL, Gazebo environment, and spawns vehicle -->
 
-
     <arg name="mundo" default="pruebas"/>
     <arg name="carpeta_imagenes" default="$(arg mundo)/"/>
 
@@ -19,7 +18,7 @@
     <arg name="paused" default="false"/>
 
     <!-- PX$ sim -->
-    <arg name="hitl" default="false"/>
+    <arg name="hitl" default="true"/>
 
 <!-- nodos -->
     <include file="$(find offbnode)/launch/mavros_posix_sitl.launch">
