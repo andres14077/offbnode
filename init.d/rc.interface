@@ -179,7 +179,6 @@ else
 		tune_control play -t 20
 	fi
 fi
-echo "INFO  [xx] Mixer: ${MIXER_AUX} ${AUX_MODE}" >> $LOG_FILE
 
 if [ $MIXER_AUX != none -a $AUX_MODE != none ]
 then

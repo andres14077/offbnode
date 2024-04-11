@@ -58,7 +58,7 @@ class DistanceToGroundPlugin : public ModelPlugin
     {
         // Define el punto de inicio y fin del raycast
         ignition::math::Vector3d start = this->robot->WorldPose().Pos()- ignition::math::Vector3d(0, 0, 0.18);
-        ignition::math::Vector3d end = start - ignition::math::Vector3d(0, 0, 100);  // Asumimos que 100m es suficiente
+        ignition::math::Vector3d end = start - ignition::math::Vector3d(0, 0, 500);  // Asumimos que 100m es suficiente
 
         // Realiza el raycast
         physics::RayShapePtr ray = boost::dynamic_pointer_cast<physics::RayShape>(

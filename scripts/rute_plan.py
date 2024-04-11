@@ -184,7 +184,7 @@ class rute_plan:
 
     def calcular_ruta(self):
 
-        if(self.angulo_automatico and self.Uso_varios_planos and not(self.is_valle) and self.plane_in_map.vector.vector.x !=0 and self.plane_in_map.vector.vector.y !=0):
+        if(self.angulo_automatico and not (self.Uso_varios_planos) and self.is_valle and self.plane_in_map.vector.vector.x !=0 and self.plane_in_map.vector.vector.y !=0):
             angulo_entrada = math.atan2(self.plane_in_map.vector.vector.y,self.plane_in_map.vector.vector.x)
             angulo_entrada *= R_to_G
             angulo_entrada += 90
@@ -498,8 +498,8 @@ class rute_plan:
         elif(msg.type=="ladera"):
             rospy.logdebug("Toma de 2 medidas de altura")
             rospy.logdebug(msg.max)
-            self.Uso_varios_planos=True
-            self.is_valle=False
+            self.Uso_varios_planos=False
+            self.is_valle=True
             # primer punto
             punto_de_medida =PoseStamped()
             punto_de_medida.pose.position.x=0

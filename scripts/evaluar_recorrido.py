@@ -38,11 +38,13 @@ class EvaluarRecorrido:
         Image_pix_Width = rospy.get_param("/maestro/Ancho_imagen_pix")
         factor_GSD=(Width_sensor *100.0)/(Focal_length * Image_pix_Width)
         error=np.sqrt(np.mean(([(n - H)**2 for n in self.tomas])))
-        rospy.logwarn("Factor GSD: %f", factor_GSD)
+        rospy.logwarn("Error cuadratico medio de altura: %f m",error)
+        rospy.logwarn("desviacion estandar de altura: %f m",np.std(self.tomas))
+        rospy.logwarn("Promedio de altura: %f m",np.mean(self.tomas) )
         rospy.logwarn("Error cuadratico medio de GSD: %f cm/pix",error * factor_GSD)
         rospy.logwarn("desviacion estandar de GSD: %f cm/pix",np.std(self.tomas) * factor_GSD)
         rospy.logwarn("Promedio de GSD: %f cm/pix",np.mean(self.tomas) * factor_GSD)
-        rospy.logwarn("tiempo: %s seg",duracion.to_sec())
+        rospy.logwarn("tiempo recorrido de vuelo: %s seg",duracion.to_sec())
         self.tomas=[]
 
 
