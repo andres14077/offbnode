@@ -118,7 +118,9 @@ class Detector_valle:
                     self.point_cloud_depth_finish_pub.publish()
                     self.control_stade=4
                     self.enviando_ruta=True
+                    rospy.loginfo("Reconocimiento de terreno: 100%")
                 else:
+                    rospy.loginfo("Reconocimiento de terreno: " + str(self.yaw_camera/(2*np.pi)*100) +"%")
                     self.control_stade=0
             self.intentos+=1
             # 10 segundos de espera
