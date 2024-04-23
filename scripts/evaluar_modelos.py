@@ -50,6 +50,7 @@ y_encoded = np.array(y_encoded, order='C')
 carpeta = os.path.expanduser('~/catkin_ws/src/offbnode/neural_model/')
 # Filtrar los archivos que terminen con .h5
 archivos_h5 = [f for f in os.listdir(carpeta) if os.path.isfile(os.path.join(carpeta, f)) and f.endswith('.h5')]
+archivos_h5.sort(reverse=True)
 
 archivos_joblib = [f for f in os.listdir(carpeta) if os.path.isfile(os.path.join(carpeta, f)) and f.endswith('.joblib')]
 
@@ -69,6 +70,12 @@ for i in archivos_h5:
     tamaño_archivo = modelo.count_params()
 
     # Ejecuta tu red neuronal aquí (por ejemplo, haciendo predicciones)
+    try:
+        inicio = time.time()
+        predicciones = modelo(X_test_tensor)
+    except ValueError:
+        inicio = time.time()
+        predicciones = modelo(X2_test_tensor)
     try:
         inicio = time.time()
         predicciones = modelo(X_test_tensor)
