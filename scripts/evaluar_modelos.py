@@ -66,7 +66,7 @@ for i in archivos_h5:
         test_loss, test_acc = modelo.evaluate(X_tensor, Y_tensor)
     except ValueError:
         test_loss, test_acc = modelo.evaluate(X2_tensor, Y_tensor)
-    tamaño_archivo = os.path.getsize(ruta_modelo)
+    tamaño_archivo = modelo.count_params()
 
     inicio = time.time()
     # Ejecuta tu red neuronal aquí (por ejemplo, haciendo predicciones)
@@ -78,8 +78,8 @@ for i in archivos_h5:
 
     tiempo_ejecucion = fin - inicio
 
-    if (test_acc>0.9):
-        tiempos.append(1/tiempo_ejecucion)
+    if (test_acc>0.8):
+        tiempos.append(tiempo_ejecucion)
         precisiones.append(test_acc)
         tamaños.append(tamaño_archivo)
         nombres_archivos.append(remove_suffix(i,'.h5'))
@@ -128,9 +128,9 @@ plt.xscale("log")
 #     plt.annotate(nombre, (tiempos[i], precisiones[i]), fontsize=9, alpha=0.7)
 
 
-plt.xlabel('FPS (Hz)')
-plt.ylabel('Tamaño (Kb)')
-plt.title('FPS vs Tamaño')
+plt.xlabel('Tiempo de ejecucion (seg)')
+plt.ylabel('Numero de PARAMETROS')
+plt.title('Tiempo de ejecucion vs Numero de parametros')
 # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), title='Modelos')  # Ubica la leyenda a la derecha de la gráfica
 plt.tight_layout()
 plt.savefig("comparacion.png")
