@@ -68,17 +68,18 @@ for i in archivos_h5:
         test_loss, test_acc = modelo.evaluate(X2_tensor, Y_tensor)
     tamaño_archivo = modelo.count_params()
 
-    inicio = time.time()
     # Ejecuta tu red neuronal aquí (por ejemplo, haciendo predicciones)
     try:
+        inicio = time.time()
         predicciones = modelo(X_test_tensor)
     except ValueError:
+        inicio = time.time()
         predicciones = modelo(X2_test_tensor)
     fin = time.time()
 
     tiempo_ejecucion = fin - inicio
 
-    if (test_acc>0.8):
+    if (test_acc>0.3):
         tiempos.append(tiempo_ejecucion)
         precisiones.append(test_acc)
         tamaños.append(tamaño_archivo)
@@ -115,7 +116,7 @@ for i in precisiones:
 
 colores = plt.cm.plasma(np.linspace(0, 1, len(tiempos)))
 for i in range(len(tiempos)):
-    plt.scatter(tiempos[i], tamaños_10[i], s=precisiones_10[i], color=colores[i], alpha=0.9,edgecolor='black', label=nombres_archivos[i])
+    plt.scatter(tiempos[i], tamaños[i], color=colores[i], alpha=0.9,edgecolor='black', label=nombres_archivos[i])
 # plt.scatter(tiempos, tamaños_10, alpha=0.9,edgecolor='black', label=nombres_archivos)
 # Crear una leyenda con puntos de tamaño uniforme
 legend_elements = [plt.Line2D([0], [0], marker='o', color='w', label=nombres_archivos[i], markersize=10, markerfacecolor=colores[i]) for i in range(len(tiempos))]
@@ -123,7 +124,7 @@ plt.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(1, 0.5), 
 # Anotar cada punto con el nombre del archivo
 plt.yscale("log")
 plt.xscale("log")
-
+plt.grid(True, which="both")
 # for i, nombre in enumerate(nombres_archivos):
 #     plt.annotate(nombre, (tiempos[i], precisiones[i]), fontsize=9, alpha=0.7)
 
