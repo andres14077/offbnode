@@ -86,7 +86,7 @@ for i in archivos_h5:
 
     tiempo_ejecucion = fin - inicio
 
-    if (test_acc>0.3):
+    if (test_acc>0.9):
         tiempos.append(tiempo_ejecucion)
         precisiones.append(test_acc)
         tamaños.append(tamaño_archivo)
@@ -123,22 +123,25 @@ for i in precisiones:
 
 colores = plt.cm.plasma(np.linspace(0, 1, len(tiempos)))
 for i in range(len(tiempos)):
-    plt.scatter(tiempos[i], tamaños[i], color=colores[i], alpha=0.9,edgecolor='black', label=nombres_archivos[i])
+    plt.scatter(tiempos[i], tamaños[i], color=colores[i], alpha=0.9,edgecolor='black')
 # plt.scatter(tiempos, tamaños_10, alpha=0.9,edgecolor='black', label=nombres_archivos)
 # Crear una leyenda con puntos de tamaño uniforme
-legend_elements = [plt.Line2D([0], [0], marker='o', color='w', label=nombres_archivos[i], markersize=10, markerfacecolor=colores[i]) for i in range(len(tiempos))]
-plt.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(1, 0.5), title='Modelos')
+# legend_elements = [plt.Line2D([0], [0], marker='o', color='w', label=nombres_archivos[i], markersize=10, markerfacecolor=colores[i]) for i in range(len(tiempos))]
+# plt.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(1, 0.5), title='Modelos')
 # Anotar cada punto con el nombre del archivo
 plt.yscale("log")
 plt.xscale("log")
+for i, label in enumerate(nombres_archivos):
+    plt.annotate(label, (tiempos[i], tamaños[i]), textcoords="offset points", xytext=(0,10), ha='center')
+
 plt.grid(True, which="both")
 # for i, nombre in enumerate(nombres_archivos):
 #     plt.annotate(nombre, (tiempos[i], precisiones[i]), fontsize=9, alpha=0.7)
 
 
 plt.xlabel('Tiempo de ejecucion (seg)')
-plt.ylabel('Numero de PARAMETROS')
-plt.title('Tiempo de ejecucion vs Numero de parametros')
+plt.ylabel('Numero de parametros')
+plt.title('Numero de parametros vs Tiempo de ejecucion')
 # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), title='Modelos')  # Ubica la leyenda a la derecha de la gráfica
 plt.tight_layout()
 plt.savefig("comparacion.png")
