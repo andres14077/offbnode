@@ -179,7 +179,7 @@ class rute_plan:
             # Si el punto (x, y) está fuera del cuadrilátero, regresar ese punto
             if x < p1[0] or x > p2[0] or y < p1[1] or y > p2[1]:
                 rospy.logdebug("Punto de medida : x=%f, y=%f", x, y)
-                return (x*0.9, y*0.9)
+                return (x*0.7, y*0.7)
             t += incremento
 
     def calcular_ruta(self):

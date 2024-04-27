@@ -38,7 +38,9 @@ def publish_marker():
             lines = f.readlines()
         for line in lines:
             if "pose" in line:
-                parts = line.split()
+                parts = line.replace("<pose>","").split()
+                marker.pose.position.x = float(parts[0])
+                marker.pose.position.y = float(parts[1])
                 marker.pose.position.z = float(parts[2])
                 break
     except:

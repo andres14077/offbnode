@@ -46,7 +46,7 @@ class procesado_plc:
         # self.archivo = rospack.get_path('offbnode')+'/database.csv'
         # rospy.loginfo(self.archivo)
 
-        self.clasificador = tf.keras.models.load_model(rospack.get_path('offbnode')+'/neural_model/ANN_1024.h5')
+        self.clasificador = tf.keras.models.load_model(rospack.get_path('offbnode')+'/neural_model/ANN2_1024.h5')
         self.class_labels=['ladera','pradera','valle']
 
     def cmd_cb(self,msg):
@@ -56,10 +56,10 @@ class procesado_plc:
         return p.z-(v.x*(x-p.x)+v.y*(y-p.y))/v.z
 
     def find_local_minima_with_position(self,n):
+        min_separation=6
         # Asegurarnos de que hay al menos 3 puntos para comparar
         if len(self.fondos) < 3:
             return []
-
         minima_positions = []
         # Comparar cada punto con su vecino izquierdo y derecho
         for i in range(len(self.fondos)):
@@ -69,7 +69,21 @@ class procesado_plc:
                 minima_positions.append(i)
         # Ordenar por valor y tomar los primeros n mínimos
         minima_positions.sort(key=lambda x: self.fondos[x])
-        return minima_positions[:n]
+        # Filtrar los mínimos para asegurar una separación mínima
+        filtered_minima = []
+        for pos in sorted(minima_positions, key=lambda x: self.fondos[x]):
+            too_close = False
+            for other in filtered_minima:
+                # Calcular la distancia cíclica teniendo en cuenta la naturaleza circular del vector
+                distance = min(abs(pos - other), len(self.fondos) - abs(pos - other))
+                if distance < min_separation:
+                    too_close = True
+                    break
+            if not too_close:
+                filtered_minima.append(pos)
+            if len(filtered_minima) == n:
+                break
+        return filtered_minima
 
     def point_cloud_cb(self,msg):
         rospy.loginfo("regresion lineal de nube de puntos")

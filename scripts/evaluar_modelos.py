@@ -86,11 +86,11 @@ for i in archivos_h5:
 
     tiempo_ejecucion = fin - inicio
 
-    if (test_acc>0.9):
+    if (test_acc>0.2):
         tiempos.append(tiempo_ejecucion)
         precisiones.append(test_acc)
         tamaños.append(tamaño_archivo)
-        nombres_archivos.append(remove_suffix(i,'.h5'))
+        nombres_archivos.append(remove_suffix(i,'.h5')+ " %3.2f%%" % (test_acc*100) )
 
 # for i in archivos_joblib:
 #     ruta_modelo = carpeta + i

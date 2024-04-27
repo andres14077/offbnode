@@ -124,7 +124,7 @@ class Detector_valle:
                     self.control_stade=0
             self.intentos+=1
             # 10 segundos de espera
-            if(self.intentos>200):
+            if(self.intentos>2000):
                 self.control_stade=0
                 self.tomar_medida=False
 

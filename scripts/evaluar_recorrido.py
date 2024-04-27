@@ -32,17 +32,17 @@ class EvaluarRecorrido:
     def Terminar_cb(self,msg):
         self.tiempo_final=rospy.Time.now()
         duracion = self.tiempo_final - self.tiempo_inicial
-        H = rospy.get_param("/maestro/Altura_vuelo")
+        H = 75
         Width_sensor = rospy.get_param("/maestro/Ancho_sensor")
         Focal_length = rospy.get_param("/maestro/Longitud_focal")
         Image_pix_Width = rospy.get_param("/maestro/Ancho_imagen_pix")
         factor_GSD=(Width_sensor *100.0)/(Focal_length * Image_pix_Width)
         error=np.sqrt(np.mean(([(n - H)**2 for n in self.tomas])))
-        rospy.logwarn("factor_GSD: %f",factor_GSD)
-        rospy.logwarn("Error cuadratico medio de altura: %f m",error)
-        rospy.logwarn("desviacion estandar de altura: %f m",np.std(self.tomas))
+        error_porcentual= error / H * 100
+        # rospy.logwarn("factor_GSD: %10.20f",factor_GSD)
         rospy.logwarn("Promedio de altura: %f m",np.mean(self.tomas) )
         rospy.logwarn("Error cuadratico medio de GSD: %f cm/pix",error * factor_GSD)
+        rospy.logwarn("Error cuadratico medio de GSD: %f %%", error_porcentual)
         rospy.logwarn("desviacion estandar de GSD: %f cm/pix",np.std(self.tomas) * factor_GSD)
         rospy.logwarn("Promedio de GSD: %f cm/pix",np.mean(self.tomas) * factor_GSD)
         rospy.logwarn("tiempo recorrido de vuelo: %s seg",duracion.to_sec())
