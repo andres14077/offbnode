@@ -416,7 +416,10 @@ class rute_plan:
             path_z.poses.append(copy.deepcopy(pose))
             i+=1
 
+        self.path=path
         self.path_z=path_z
+        self.cerca=cerca
+        self.cerca_max=cerca_max
         self.nav_pos_pub.publish(path)
         self.nav_z_pos_pub.publish(path_z)
         self.cerca_pub.publish(cerca)
@@ -482,6 +485,10 @@ class rute_plan:
                 tomar_foto.wp_seq=i
                 self.mensaje_camara_pub.publish(tomar_foto)
             if(rospy.Time.now() - last_view_porcentaje > rospy.Duration(5.0)):
+                self.nav_pos_pub.publish(self.path)
+                self.nav_z_pos_pub.publish(self.path_z)
+                self.cerca_pub.publish(self.cerca)
+                self.cerca_max_pub.publish(self.cerca_max)
                 rospy.loginfo("Porcentade de mision %f%%",(i*100.0/len(self.path_z.poses)))
                 last_view_porcentaje = rospy.Time.now()
             self.rate.sleep()

@@ -46,7 +46,7 @@ class procesado_plc:
         # self.archivo = rospack.get_path('offbnode')+'/database.csv'
         # rospy.loginfo(self.archivo)
 
-        self.clasificador = tf.keras.models.load_model(rospack.get_path('offbnode')+'/neural_model/ANN2_1024.h5')
+        self.clasificador = tf.keras.models.load_model(rospack.get_path('offbnode')+'/neural_model/ANN2_64.h5')
         self.class_labels=['ladera','pradera','valle']
 
     def cmd_cb(self,msg):
