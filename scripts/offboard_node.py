@@ -74,7 +74,7 @@ class Offboard_Master:
         br = tf2_ros.TransformBroadcaster()
         t = TransformStamped()
 
-        t.header.stamp = msg.header.stamp
+        t.header.stamp = rospy.Time.now()
         t.header.frame_id = msg.header.frame_id
         t.child_frame_id = msg.child_frame_id
         t.transform.translation.x = msg.pose.pose.position.x

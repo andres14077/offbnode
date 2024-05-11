@@ -13,8 +13,9 @@ import std_msgs.msg as std_msgs
 
 class Maestro:
     def __init__(self):
-        self.rate=rospy.Rate(40)
+        self.rate=rospy.Rate(20)
         self.accion_service=rospy.Service('offbnode/iniciar_toma', Empty, self.accion_cb)
+        self.accion_service_2=rospy.Service('offbnode/iniciar_sin_reconocimiento', Empty, self.accion_2_cb)
         self.identificar_terreno_client = rospy.ServiceProxy("offbnode/identificar_terreno", Trigger)
         self.tomar_medidas_terreno_client = rospy.ServiceProxy("offbnode/tomar_medidas_terreno", Trigger)
         self.calcular_ruta_client = rospy.ServiceProxy("offbnode/calcular_y_seguir_ruta", Trigger)
@@ -22,13 +23,22 @@ class Maestro:
         self.Terminar_Evaluacion_Altura_pub = rospy.Publisher("/evaluar_medida/fin", std_msgs.Empty, queue_size=10)
 
     def accion_cb(self,req):
+        tiempo_inicial=rospy.Time.now()
         self.identificar_terreno_client()
         self.tomar_medidas_terreno_client()
+        tiempo_final=rospy.Time.now()
+        duracion = tiempo_final - tiempo_inicial
+        rospy.logwarn("Tiempo calculando ruta: %s seg",duracion.to_sec())
         self.Iniciar_Evaluacion_Altura_pub.publish()
         self.calcular_ruta_client()
         self.Terminar_Evaluacion_Altura_pub.publish()
         return EmptyResponse()
 
+    def accion_2_cb(self,req):
+        self.Iniciar_Evaluacion_Altura_pub.publish()
+        self.calcular_ruta_client()
+        self.Terminar_Evaluacion_Altura_pub.publish()
+        return EmptyResponse()
 
 if __name__ == '__main__':
     rospy.init_node('maestro_nodo', anonymous=True)

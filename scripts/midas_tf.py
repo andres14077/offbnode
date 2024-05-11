@@ -6,7 +6,9 @@ from sensor_msgs.msg import Image,CameraInfo
 from cv_bridge import CvBridge
 import rospkg
 import cv2
+import copy
 import tensorflow as tf
+import numpy as np
 gpu_devices = tf.config.experimental.list_physical_devices('GPU')
 for device in gpu_devices:
     tf.config.experimental.set_memory_growth(device, True)
@@ -27,7 +29,9 @@ class Midas_tf:
         self.tensor_service = rospy.Service("offbnode/tensor_flow_start", Empty, self.Tensor_Callback)
         self.image_raw_sub=rospy.Subscriber("iris_gimbal/resized/camera_info", CameraInfo, self.camera_info_cb)
         self.depth_image_pub = rospy.Publisher("offbnode/depth/image_raw", Image,queue_size=10)
+        self.depth_image_2_pub = rospy.Publisher("offbnode/depth/image_procesada", Image,queue_size=10)
         self.depth_camera_info_pub = rospy.Publisher("offbnode/depth/camera_info", CameraInfo,queue_size=10)
+        self.numero_de_tomas=0
 
     def camera_info_cb(self,msg):
         self.camera_info=msg
@@ -56,10 +60,31 @@ class Midas_tf:
         # depth_min = img_inversa.min()
         depth_max = img_inversa.max()
         img_profundidad = (depth_max - img_inversa)/100
+        depth_max = img_profundidad.max()
+
+        imagen_profundidad_normalizada = cv2.normalize(img_profundidad, None, 0, 255, cv2.NORM_MINMAX)
+        # # Convertir a 8 bits
+        # imagen_profundidad_normalizada = np.uint8(imagen_profundidad_normalizada)
+
+        img_procesada=cv2.cvtColor(imagen_profundidad_normalizada, cv2.COLOR_GRAY2RGB)
+        # rospy.logdebug(img_profundidad)
+        # rospy.logdebug(img_procesada)
+        for i in range(img_profundidad.shape[0]):
+            for j in range(img_profundidad.shape[1]):
+                if(img_profundidad[i,j]>(depth_max*0.8)):
+                    img_procesada[i,j] = [0,img_procesada[i,j,0]*0.5,img_procesada[i,j,0]]
 
         rospy.logdebug("valor maximo depth_max")
-        rospy.logdebug(img_profundidad.max())
+        rospy.logdebug(depth_max)
         # img_out = (65535 * (prediction - depth_min) / (depth_max - depth_min)).astype("uint16")
+
+        cv2.imwrite("/tmp/imagen_original"+str(self.numero_de_tomas)+".png",255*img)
+        cv2.imwrite("/tmp/imagen_profundidad"+str(self.numero_de_tomas)+".png",imagen_profundidad_normalizada)
+        cv2.imwrite("/tmp/imagen_procesada"+str(self.numero_de_tomas)+".png",img_procesada)
+
+        self.numero_de_tomas+=1
+
+
         msg_image=self._cv_bridge.cv2_to_imgmsg(img_profundidad)
         msg_image.header.frame_id="iris_gimbal/cgo3_camera_optical_link"
         msg_image.header.stamp = rospy.Time.now()

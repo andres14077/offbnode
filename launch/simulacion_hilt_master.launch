@@ -4,17 +4,21 @@
     <!-- launches MAVROS, PX4 SITL, Gazebo environment, and spawns vehicle -->
 
     <arg name="mundo" default="pruebas"/>
+    <arg name="carpeta_imagenes" default="$(arg mundo)/"/>
 
     <!-- vehicle model and world -->
     <arg name="gui" default="false"/>
     <arg name="vehicle" default="iris_gimbal"/>
     <arg name="world" default="$(find offbnode)/worlds/$(arg mundo).world"/>
     <!-- MAVROS configs -->
-    <arg name="gcs_url" default="udp://:18570@localhost:14550"/>
+    <arg name="gcs_url" default=""/>
 
     <!-- Gazebo sim -->
     <arg name="verbose" default="false"/>
     <arg name="paused" default="false"/>
+
+    <!-- PX$ sim -->
+    <arg name="hitl" default="true"/>
 
 <!-- nodos -->
     <include file="$(find offbnode)/launch/mavros_posix_sitl.launch">
@@ -24,6 +28,7 @@
         <arg name="vehicle" value="$(arg vehicle)"/>
         <arg name="gcs_url" value="$(arg gcs_url)"/>
         <arg name="gui" default="$(arg gui)"/>
+        <arg name="hitl" value="$(arg hitl)"/>
     </include>
 
 <!-- evaluar resultado -->

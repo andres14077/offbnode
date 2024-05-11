@@ -50,6 +50,7 @@ y_encoded = np.array(y_encoded, order='C')
 carpeta = os.path.expanduser('~/catkin_ws/src/offbnode/neural_model/')
 # Filtrar los archivos que terminen con .h5
 archivos_h5 = [f for f in os.listdir(carpeta) if os.path.isfile(os.path.join(carpeta, f)) and f.endswith('.h5')]
+archivos_h5.sort(reverse=True)
 
 archivos_joblib = [f for f in os.listdir(carpeta) if os.path.isfile(os.path.join(carpeta, f)) and f.endswith('.joblib')]
 
@@ -57,7 +58,23 @@ tiempos = []
 precisiones = []
 tamaños = []
 nombres_archivos=[]
-
+archivos_h5=["ANN_8.h5",
+"ANN_16.h5",
+"ANN_32.h5",
+"ANN_64.h5",
+"ANN_128.h5",
+"ANN2_8.h5",
+"ANN2_16.h5",
+"ANN2_32.h5",
+"ANN2_64.h5",
+"ANN2_128.h5",
+"1D_CNN_8.h5",
+"1D_CNN_16.h5",
+"1D_CNN_32.h5",
+"1D_CNN_64.h5",
+"1D_CNN_128.h5"]
+acuraccy=[66.53,82.66,90.40,93.60,95.86,80.26,87.33,93.73,96.53,99.20,94.40,97.20,98.00,98.93,99.20]
+j=0
 for i in archivos_h5:
     print(i)
     ruta_modelo = carpeta + i
@@ -66,23 +83,31 @@ for i in archivos_h5:
         test_loss, test_acc = modelo.evaluate(X_tensor, Y_tensor)
     except ValueError:
         test_loss, test_acc = modelo.evaluate(X2_tensor, Y_tensor)
-    tamaño_archivo = os.path.getsize(ruta_modelo)
+    tamaño_archivo = modelo.count_params()
 
-    inicio = time.time()
     # Ejecuta tu red neuronal aquí (por ejemplo, haciendo predicciones)
     try:
+        inicio = time.time()
         predicciones = modelo(X_test_tensor)
     except ValueError:
+        inicio = time.time()
+        predicciones = modelo(X2_test_tensor)
+    try:
+        inicio = time.time()
+        predicciones = modelo(X_test_tensor)
+    except ValueError:
+        inicio = time.time()
         predicciones = modelo(X2_test_tensor)
     fin = time.time()
 
     tiempo_ejecucion = fin - inicio
 
-    if (test_acc>0.9):
-        tiempos.append(1/tiempo_ejecucion)
+    if (test_acc>0.2):
+        tiempos.append(tiempo_ejecucion)
         precisiones.append(test_acc)
         tamaños.append(tamaño_archivo)
-        nombres_archivos.append(remove_suffix(i,'.h5'))
+        nombres_archivos.append(remove_suffix(i,'.h5')+ " %3.2f%%" % (acuraccy[j]) )
+        j+=1
 
 # for i in archivos_joblib:
 #     ruta_modelo = carpeta + i
@@ -104,33 +129,31 @@ for i in archivos_h5:
 #         tamaños.append(tamaño_archivo)
 #         nombres_archivos.append(remove_suffix(i,'.joblib'))
 
-tamaños_10=[]
-for i in tamaños:
-    tamaños_10.append(i/1000)
-
-precisiones_10=[]
-for i in precisiones:
-    precisiones_10.append(i*100)
-
+print("Modelo\tTiempo\tPrecision\tTamaño")
+for i in range(len(tiempos)):
+    print("%s\t%3.2f us\t%3.2f%%\t%d" %(remove_suffix(archivos_h5[i],'.h5'),tiempos[i]*1000000,acuraccy[i],tamaños[i]))
 
 colores = plt.cm.plasma(np.linspace(0, 1, len(tiempos)))
 for i in range(len(tiempos)):
-    plt.scatter(tiempos[i], tamaños_10[i], s=precisiones_10[i], color=colores[i], alpha=0.9,edgecolor='black', label=nombres_archivos[i])
+    plt.scatter(tiempos[i], tamaños[i], color=colores[i], alpha=0.9,edgecolor='black')
 # plt.scatter(tiempos, tamaños_10, alpha=0.9,edgecolor='black', label=nombres_archivos)
 # Crear una leyenda con puntos de tamaño uniforme
-legend_elements = [plt.Line2D([0], [0], marker='o', color='w', label=nombres_archivos[i], markersize=10, markerfacecolor=colores[i]) for i in range(len(tiempos))]
-plt.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(1, 0.5), title='Modelos')
+# legend_elements = [plt.Line2D([0], [0], marker='o', color='w', label=nombres_archivos[i], markersize=10, markerfacecolor=colores[i]) for i in range(len(tiempos))]
+# plt.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(1, 0.5), title='Modelos')
 # Anotar cada punto con el nombre del archivo
 plt.yscale("log")
 plt.xscale("log")
+for i, label in enumerate(nombres_archivos):
+    plt.annotate(label, (tiempos[i], tamaños[i]), textcoords="offset points", xytext=(0,10), ha='center')
 
+plt.grid(True, which="both")
 # for i, nombre in enumerate(nombres_archivos):
 #     plt.annotate(nombre, (tiempos[i], precisiones[i]), fontsize=9, alpha=0.7)
 
 
-plt.xlabel('FPS (Hz)')
-plt.ylabel('Tamaño (Kb)')
-plt.title('FPS vs Tamaño')
+plt.xlabel('Tiempo de ejecucion (seg)')
+plt.ylabel('Numero de parametros')
+plt.title('Numero de parametros vs Tiempo de ejecucion')
 # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), title='Modelos')  # Ubica la leyenda a la derecha de la gráfica
 plt.tight_layout()
 plt.savefig("comparacion.png")

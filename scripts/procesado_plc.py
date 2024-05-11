@@ -6,6 +6,7 @@ import sensor_msgs.point_cloud2 as pc2
 from std_msgs.msg import Bool
 from std_msgs.msg import Empty
 from sensor_msgs.msg import PointCloud2
+from geometry_msgs.msg import PolygonStamped,Point32
 from offbnode.msg import PlaneStamped
 # import matplotlib.pyplot as plt
 # import statistics
@@ -39,12 +40,13 @@ class procesado_plc:
 
         self.point_cloud_depth_ok_pub=rospy.Publisher('offbnode/depth_ok', Empty, queue_size=10)
         self.resultado_tipo_plano_pub=rospy.Publisher('offbnode/tipo_plano', TypePlane, queue_size=10)
+        self.poligono_fondo_pub = rospy.Publisher("offbnode/poligono_fondo", PolygonStamped,queue_size=10)
 
         rospack = rospkg.RosPack()
         # self.archivo = rospack.get_path('offbnode')+'/database.csv'
         # rospy.loginfo(self.archivo)
 
-        self.clasificador = tf.keras.models.load_model(rospack.get_path('offbnode')+'/neural_model/ANN_1024.h5')
+        self.clasificador = tf.keras.models.load_model(rospack.get_path('offbnode')+'/neural_model/ANN2_64.h5')
         self.class_labels=['ladera','pradera','valle']
 
     def cmd_cb(self,msg):
@@ -54,10 +56,10 @@ class procesado_plc:
         return p.z-(v.x*(x-p.x)+v.y*(y-p.y))/v.z
 
     def find_local_minima_with_position(self,n):
+        min_separation=6
         # Asegurarnos de que hay al menos 3 puntos para comparar
         if len(self.fondos) < 3:
             return []
-
         minima_positions = []
         # Comparar cada punto con su vecino izquierdo y derecho
         for i in range(len(self.fondos)):
@@ -67,7 +69,21 @@ class procesado_plc:
                 minima_positions.append(i)
         # Ordenar por valor y tomar los primeros n mínimos
         minima_positions.sort(key=lambda x: self.fondos[x])
-        return minima_positions[:n]
+        # Filtrar los mínimos para asegurar una separación mínima
+        filtered_minima = []
+        for pos in sorted(minima_positions, key=lambda x: self.fondos[x]):
+            too_close = False
+            for other in filtered_minima:
+                # Calcular la distancia cíclica teniendo en cuenta la naturaleza circular del vector
+                distance = min(abs(pos - other), len(self.fondos) - abs(pos - other))
+                if distance < min_separation:
+                    too_close = True
+                    break
+            if not too_close:
+                filtered_minima.append(pos)
+            if len(filtered_minima) == n:
+                break
+        return filtered_minima
 
     def point_cloud_cb(self,msg):
         rospy.loginfo("regresion lineal de nube de puntos")
@@ -148,6 +164,19 @@ class procesado_plc:
         #     writer.writerow(self.fondos)  # escribe la nueva línea al final del archivo CSV
         respuesta = TypePlane()
 
+        poligono_fondo = PolygonStamped()
+
+        poligono_fondo.header.stamp=rospy.Time.now()
+        poligono_fondo.header.frame_id="map"
+
+        p1 =Point32()
+        factor=2*np.pi/len(self.fondos)
+        for i in range(len(self.fondos)):
+            p1.x=50*np.cos(i*factor)
+            p1.y=50*np.sin(i*factor)
+            p1.z=100-self.fondos[i]
+            poligono_fondo.polygon.points.append(copy.deepcopy(p1))
+        self.poligono_fondo_pub.publish(poligono_fondo)
         rospy.logdebug(self.fondos)
         X_tensor=np.reshape(self.fondos,(1, 25))
         X_tensor = tf.convert_to_tensor(X_tensor, dtype=tf.float32)

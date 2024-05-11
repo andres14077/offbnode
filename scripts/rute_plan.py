@@ -179,12 +179,12 @@ class rute_plan:
             # Si el punto (x, y) está fuera del cuadrilátero, regresar ese punto
             if x < p1[0] or x > p2[0] or y < p1[1] or y > p2[1]:
                 rospy.logdebug("Punto de medida : x=%f, y=%f", x, y)
-                return (x*0.9, y*0.9)
+                return (x*0.7, y*0.7)
             t += incremento
 
     def calcular_ruta(self):
 
-        if(self.angulo_automatico and self.Uso_varios_planos and not(self.is_valle) and self.plane_in_map.vector.vector.x !=0 and self.plane_in_map.vector.vector.y !=0):
+        if(self.angulo_automatico and not (self.Uso_varios_planos) and self.is_valle and self.plane_in_map.vector.vector.x !=0 and self.plane_in_map.vector.vector.y !=0):
             angulo_entrada = math.atan2(self.plane_in_map.vector.vector.y,self.plane_in_map.vector.vector.x)
             angulo_entrada *= R_to_G
             angulo_entrada += 90
@@ -416,7 +416,10 @@ class rute_plan:
             path_z.poses.append(copy.deepcopy(pose))
             i+=1
 
+        self.path=path
         self.path_z=path_z
+        self.cerca=cerca
+        self.cerca_max=cerca_max
         self.nav_pos_pub.publish(path)
         self.nav_z_pos_pub.publish(path_z)
         self.cerca_pub.publish(cerca)
@@ -482,6 +485,10 @@ class rute_plan:
                 tomar_foto.wp_seq=i
                 self.mensaje_camara_pub.publish(tomar_foto)
             if(rospy.Time.now() - last_view_porcentaje > rospy.Duration(5.0)):
+                self.nav_pos_pub.publish(self.path)
+                self.nav_z_pos_pub.publish(self.path_z)
+                self.cerca_pub.publish(self.cerca)
+                self.cerca_max_pub.publish(self.cerca_max)
                 rospy.loginfo("Porcentade de mision %f%%",(i*100.0/len(self.path_z.poses)))
                 last_view_porcentaje = rospy.Time.now()
             self.rate.sleep()
@@ -498,8 +505,8 @@ class rute_plan:
         elif(msg.type=="ladera"):
             rospy.logdebug("Toma de 2 medidas de altura")
             rospy.logdebug(msg.max)
-            self.Uso_varios_planos=True
-            self.is_valle=False
+            self.Uso_varios_planos=False
+            self.is_valle=True
             # primer punto
             punto_de_medida =PoseStamped()
             punto_de_medida.pose.position.x=0
