@@ -58,7 +58,23 @@ tiempos = []
 precisiones = []
 tamaños = []
 nombres_archivos=[]
-
+archivos_h5=["ANN_8.h5",
+"ANN_16.h5",
+"ANN_32.h5",
+"ANN_64.h5",
+"ANN_128.h5",
+"ANN2_8.h5",
+"ANN2_16.h5",
+"ANN2_32.h5",
+"ANN2_64.h5",
+"ANN2_128.h5",
+"1D_CNN_8.h5",
+"1D_CNN_16.h5",
+"1D_CNN_32.h5",
+"1D_CNN_64.h5",
+"1D_CNN_128.h5"]
+acuraccy=[66.53,82.66,90.40,93.60,95.86,80.26,87.33,93.73,96.53,99.20,94.40,97.20,98.00,98.93,99.20]
+j=0
 for i in archivos_h5:
     print(i)
     ruta_modelo = carpeta + i
@@ -90,7 +106,8 @@ for i in archivos_h5:
         tiempos.append(tiempo_ejecucion)
         precisiones.append(test_acc)
         tamaños.append(tamaño_archivo)
-        nombres_archivos.append(remove_suffix(i,'.h5')+ " %3.2f%%" % (test_acc*100) )
+        nombres_archivos.append(remove_suffix(i,'.h5')+ " %3.2f%%" % (acuraccy[j]) )
+        j+=1
 
 # for i in archivos_joblib:
 #     ruta_modelo = carpeta + i
@@ -112,14 +129,9 @@ for i in archivos_h5:
 #         tamaños.append(tamaño_archivo)
 #         nombres_archivos.append(remove_suffix(i,'.joblib'))
 
-tamaños_10=[]
-for i in tamaños:
-    tamaños_10.append(i/1000)
-
-precisiones_10=[]
-for i in precisiones:
-    precisiones_10.append(i*100)
-
+print("Modelo\tTiempo\tPrecision\tTamaño")
+for i in range(len(tiempos)):
+    print("%s\t%3.2f us\t%3.2f%%\t%d" %(remove_suffix(archivos_h5[i],'.h5'),tiempos[i]*1000000,acuraccy[i],tamaños[i]))
 
 colores = plt.cm.plasma(np.linspace(0, 1, len(tiempos)))
 for i in range(len(tiempos)):
