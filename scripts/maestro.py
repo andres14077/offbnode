@@ -16,11 +16,16 @@ class Maestro:
         self.rate=rospy.Rate(20)
         self.accion_service=rospy.Service('offbnode/iniciar_toma', Empty, self.accion_cb)
         self.accion_service_2=rospy.Service('offbnode/iniciar_sin_reconocimiento', Empty, self.accion_2_cb)
+        self.accion_service_3=rospy.Service('offbnode/iniciar_validacion_altura', Empty, self.accion_3_cb)
         self.identificar_terreno_client = rospy.ServiceProxy("offbnode/identificar_terreno", Trigger)
         self.tomar_medidas_terreno_client = rospy.ServiceProxy("offbnode/tomar_medidas_terreno", Trigger)
+        self.tomar_medida_client = rospy.ServiceProxy("offbnode/tomar_medida", Trigger)
         self.calcular_ruta_client = rospy.ServiceProxy("offbnode/calcular_y_seguir_ruta", Trigger)
         self.Iniciar_Evaluacion_Altura_pub = rospy.Publisher("/evaluar_medida/start", std_msgs.Empty, queue_size=10)
         self.Terminar_Evaluacion_Altura_pub = rospy.Publisher("/evaluar_medida/fin", std_msgs.Empty, queue_size=10)
+        self.Iniciar_Evaluacion_Altura_Stereo_pub = rospy.Publisher("/evaluar_medicion_altura/start", std_msgs.Empty, queue_size=10)
+        self.Terminar_Evaluacion_Altura_Stereo_pub = rospy.Publisher("/evaluar_medicion_altura/fin", std_msgs.Empty, queue_size=10)
+        self.set_pose_pub=rospy.Publisher("offbnode/set_point_to_measure_cmd", PoseStamped, queue_size=10)
 
     def accion_cb(self,req):
         tiempo_inicial=rospy.Time.now()
@@ -38,6 +43,17 @@ class Maestro:
         self.Iniciar_Evaluacion_Altura_pub.publish()
         self.calcular_ruta_client()
         self.Terminar_Evaluacion_Altura_pub.publish()
+        return EmptyResponse()
+
+    def accion_3_cb(self,req):
+        punto_de_medida =PoseStamped()
+        punto_de_medida.pose.position.z=50
+        self.Iniciar_Evaluacion_Altura_Stereo_pub.publish()
+        for i in range(1000):
+            self.set_pose_pub.publish(punto_de_medida)
+            self.tomar_medida_client()
+            rospy.loginfo("Numero de tomas realizadas %d" % i)
+        self.Terminar_Evaluacion_Altura_Stereo_pub.publish()
         return EmptyResponse()
 
 if __name__ == '__main__':

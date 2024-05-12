@@ -63,6 +63,7 @@
 
 <!-- evaluar resultado -->
     <node type="evaluar_recorrido.py" name="evaluar_recorrido" pkg="offbnode" output="screen" />
+    <node type="evaluar_medicion_altura.py" name="evaluar_medicion_altura" pkg="offbnode" output="screen" />
 
 <!-- capturar imagenes de vuelo fotogrametrico -->
     <!-- <node type="capture_for_px4.py" name="capture_for_px4" pkg="offbnode" output="screen" args="$(env HOME)/Capture_px4/$(arg carpeta_imagenes)" /> -->
