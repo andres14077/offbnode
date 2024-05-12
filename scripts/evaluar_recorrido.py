@@ -41,7 +41,7 @@ class EvaluarRecorrido:
         error_porcentual= error / H * 100
         # rospy.logwarn("factor_GSD: %10.20f",factor_GSD)
         rospy.logwarn("Promedio de altura: %f m",np.mean(self.tomas) )
-        rospy.logwarn("Error cuadratico medio de GSD: %f cm/pix",error * factor_GSD)
+        rospy.logwarn("RMSE GSD: %f cm/pix",error * factor_GSD)
         rospy.logwarn("Error cuadratico medio de GSD: %f %%", error_porcentual)
         rospy.logwarn("desviacion estandar de GSD: %f cm/pix",np.std(self.tomas) * factor_GSD)
         rospy.logwarn("Promedio de GSD: %f cm/pix",np.mean(self.tomas) * factor_GSD)

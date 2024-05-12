@@ -30,11 +30,11 @@ class EvaluarMedicionAltura:
     def Terminar_cb(self,msg):
         rospy.logwarn(self.tomas)
         error=np.sqrt(np.mean(([(Hm - Hr)**2 for (Hr,Hm) in self.tomas])))
-        error_porcentual= np.mean(([abs((Hm - Hr)/Hr) for (Hr,Hm) in self.tomas]))*100
+        error_porcentual= np.sqrt(np.mean(([((Hm - Hr)/Hr)**2 for (Hr,Hm) in self.tomas])))*100
         tomas_array = np.array(self.tomas)
         # rospy.logwarn("factor_GSD: %10.20f",factor_GSD)
         rospy.logwarn("RMSE altura: %f m",error)
-        rospy.logwarn("MAPE altura: %f %%", error_porcentual)
+        rospy.logwarn("RMSPE altura: %f %%", error_porcentual)
         rospy.logwarn("desviacion estandar altura: %f m",np.std(tomas_array[:,1]))
         rospy.logwarn("Promedio de altura: %f m",np.mean(tomas_array[:,1]))
         self.tomas=[]

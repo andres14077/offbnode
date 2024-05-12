@@ -99,7 +99,10 @@ class procesado_plc:
         X = np.array([x,y])
         X = np.insert(X, 0, np.array((np.ones(len(X[0])))), 0).T
         Z = np.array(z)
-        b = np.linalg.inv(X.T @ X) @ X.T @ Z
+        try:
+            b = np.linalg.inv(X.T @ X) @ X.T @ Z
+        except:
+            b = [50,0,0]
         rospy.logdebug("resultado de regresion lineal")
         rospy.logdebug(b)
         plane.header.frame_id="cgo3_camera_optical_link"
