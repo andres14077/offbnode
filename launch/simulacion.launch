@@ -23,6 +23,11 @@
     <!-- RVIZ -->
     <arg name="rviz" default="false"/>
 
+    <!-- velocidad de simulacion -->
+    <arg name="fast" default="false"/>
+
+    <env if="$(arg fast)" name="PX4_SIM_SPEED_FACTOR" value="8"/>
+
 <!-- nodos -->
     <include file="$(find offbnode)/launch/mavros_posix_sitl.launch">
         <arg name="world" value="$(arg world)"/>
