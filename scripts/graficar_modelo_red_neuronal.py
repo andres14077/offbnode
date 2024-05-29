@@ -55,7 +55,7 @@ def dibujar_red_neuronal(ax, izquierda, derecha, abajo, arriba, tamanos_de_capa,
 fig = plt.figure(figsize=(12, 8))
 ax = fig.gca()
 ax.axis('off')
-# dibujar_red_neuronal(ax, .1, .9, .1, .9, [4, 5, 3], ['blue', 'green','red', 'red'],["Input     25","Dense     N","Output    3"])  # Configura estos valores como necesites
-# dibujar_red_neuronal(ax, .1, .9, .1, .9, [4, 5,5,5,5, 3], ['blue', 'green','green', 'green','green', 'red'],["Input     25","Dense     N","Dropout","Flatten","Dense     N/2","Output    3"])  # Configura estos valores como necesites
-dibujar_red_neuronal(ax, .1, .9, .1, .9, [4, 5,5,5,5,5, 3], ['blue', 'green','green', 'green','green', 'green', 'red'],["Input     25", "Conv1D     N", "Conv1D     N","Dropout","Flatten","Dense     N/2","Output    3"])  # Configura estos valores como necesites
+dibujar_red_neuronal(ax, .1, .9, .1, .9, [4, 5, 3], ['blue', 'green','red', 'red'],["Input     24","Dense     N","Output    3"])  # Configura estos valores como necesites
+# dibujar_red_neuronal(ax, .1, .9, .1, .9, [4, 5,5,5,5, 3], ['blue', 'green','green', 'green','green', 'red'],["Input     24","Dense     N","Dropout","Flatten","Dense     N/2","Output    3"])  # Configura estos valores como necesites
+# dibujar_red_neuronal(ax, .1, .9, .1, .9, [4, 5,5,5,5,5, 3], ['blue', 'green','green', 'green','green', 'green', 'red'],["Input     24", "Conv1D     N", "Conv1D     N","Dropout","Flatten","Dense     N/2","Output    3"])  # Configura estos valores como necesites
 plt.show()
