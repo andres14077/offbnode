@@ -59,7 +59,7 @@ def entrenar_modelo_7(trainX, trainy, testX, testy , N ):
     knn_model = KNeighborsClassifier(n_neighbors=N)
     knn_model.fit(trainX, trainy)
     y_pred_svm = knn_model.predict(testX)
-    dump(knn_model, 'knn.joblib')
+    dump(knn_model, 'knn_' + str(N) + '.joblib')
 
     # Evaluar el mejor modelo en el conjunto de prueba
     test_acc = accuracy_score(testy, y_pred_svm)
@@ -78,10 +78,10 @@ def summarize_results(scores, params,patch):
     plt.xticks(rotation='vertical')
     plt.subplots_adjust(top=0.9)
     plt.subplots_adjust(bottom=0.25)
-    plt.savefig(patch)
+    plt.savefig(patch, dpi=600)
     plt.show()
 # run an experiment
-def run_experiment(trainX, trainy, testX, testy, repeats=10):
+def run_experiment(trainX, trainy, testX, testy, repeats=50):
     # repeat experiment
 
     all_scores = list()
